@@ -1,0 +1,10 @@
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\bin\Debug\Cliente_Proyevto.exe.config
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\bin\Debug\Cliente_Proyevto.exe
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\bin\Debug\Cliente_Proyevto.pdb
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.csproj.AssemblyReference.cache
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.Form1.resources
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.Properties.Resources.resources
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.csproj.GenerateResource.cache
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.csproj.CoreCompileInputs.cache
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.exe
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Proyevto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.pdb
