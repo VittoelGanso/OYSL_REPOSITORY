@@ -47,6 +47,8 @@ namespace Cliente_Proyevto
                 if (mensaje == "Ok")
                 {
                     MessageBox.Show("Se ha iniciado sesión correctamente");
+                    panel2.Visible = true; //Hcemos que aparezca el panel de las consultas
+                    panel1.Visible = false; //Hacemos que se vaya el panel con el inicio de sesión y el registro
                 }
                 else
                 {
@@ -172,6 +174,19 @@ namespace Cliente_Proyevto
                 return;
 
             }
+        }
+
+        private void ListaConectados_button_Click(object sender, EventArgs e)
+        {
+            string mensaje = "6/"; //Codigo para ver la lista de conectados
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+
+            byte[] msg2 = new byte[80]; 
+            server.Receive(msg2);
+            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+
+            //Se deberá usar un DataGridView para ver la lista de conectados
         }
     }
 }

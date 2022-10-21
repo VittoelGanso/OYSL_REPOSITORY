@@ -31,6 +31,7 @@ namespace Cliente_Proyevto
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.Correo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -41,15 +42,15 @@ namespace Cliente_Proyevto
             this.label1 = new System.Windows.Forms.Label();
             this.Usuario = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Nombre = new System.Windows.Forms.TextBox();
             this.Query3 = new System.Windows.Forms.RadioButton();
             this.Query2 = new System.Windows.Forms.RadioButton();
             this.Query1 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.Nombre = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.ListaConectados_button = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -70,6 +71,16 @@ namespace Cliente_Proyevto
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(153, 426);
             this.panel1.TabIndex = 0;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(26, 366);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(96, 43);
+            this.button5.TabIndex = 2;
+            this.button5.Text = "Connectar";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button2
             // 
@@ -150,6 +161,7 @@ namespace Cliente_Proyevto
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.ListaConectados_button);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.label6);
@@ -160,8 +172,45 @@ namespace Cliente_Proyevto
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(525, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(198, 332);
+            this.panel2.Size = new System.Drawing.Size(198, 367);
             this.panel2.TabIndex = 1;
+            this.panel2.Visible = false;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(48, 268);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(97, 39);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Desconectar";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(48, 216);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(97, 38);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Enviar";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(23, 63);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(155, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Introduce el usuario del jugador";
+            // 
+            // Nombre
+            // 
+            this.Nombre.Location = new System.Drawing.Point(48, 91);
+            this.Nombre.Name = "Nombre";
+            this.Nombre.Size = new System.Drawing.Size(110, 20);
+            this.Nombre.TabIndex = 4;
             // 
             // Query3
             // 
@@ -206,51 +255,15 @@ namespace Cliente_Proyevto
             this.label3.TabIndex = 0;
             this.label3.Text = "Consultas";
             // 
-            // Nombre
+            // ListaConectados_button
             // 
-            this.Nombre.Location = new System.Drawing.Point(48, 91);
-            this.Nombre.Name = "Nombre";
-            this.Nombre.Size = new System.Drawing.Size(110, 20);
-            this.Nombre.TabIndex = 4;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(23, 63);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(155, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Introduce el usuario del jugador";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(48, 216);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(97, 38);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Enviar";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(48, 268);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(97, 39);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Desconectar";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(26, 366);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(96, 43);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "Connectar";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.ListaConectados_button.Location = new System.Drawing.Point(48, 323);
+            this.ListaConectados_button.Name = "ListaConectados_button";
+            this.ListaConectados_button.Size = new System.Drawing.Size(97, 41);
+            this.ListaConectados_button.TabIndex = 8;
+            this.ListaConectados_button.Text = "Ver lista de usuarios conectados";
+            this.ListaConectados_button.UseVisualStyleBackColor = true;
+            this.ListaConectados_button.Click += new System.EventHandler(this.ListaConectados_button_Click);
             // 
             // Form1
             // 
@@ -292,6 +305,7 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox Nombre;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button ListaConectados_button;
     }
 }
 
