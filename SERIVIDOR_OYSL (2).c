@@ -306,7 +306,7 @@ int main(int argc, char *argv[])
 		printf("Error en el Listen");
 	
 	contador =0;
-	
+	int sockets[100];
 	pthread_t thread;
 	i=0;
 	for (;;){
@@ -316,7 +316,8 @@ int main(int argc, char *argv[])
 		sock_conn = accept(sock_listen, NULL, NULL);
 		printf ("He recibido conexion\n");
 		// Crear thead y decirle lo que tiene que hacer
-		pthread_create (&thread, NULL, AtenderCliente,&sock_conn);
+		sockets[i] = sock_conn;
+		pthread_create (&thread, NULL, AtenderCliente,&sockets[i]);
 		i=i+1;
 		
 	}
