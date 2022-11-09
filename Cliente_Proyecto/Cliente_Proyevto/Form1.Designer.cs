@@ -32,16 +32,17 @@ namespace Cliente_Proyevto
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.button5 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Registrarse = new System.Windows.Forms.Button();
             this.Correo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.IniciarSesion = new System.Windows.Forms.Button();
             this.Password = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Usuario = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.ListaConectados_button = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,19 +51,20 @@ namespace Cliente_Proyevto
             this.Query2 = new System.Windows.Forms.RadioButton();
             this.Query1 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.ListaConectados_button = new System.Windows.Forms.Button();
+            this.ListaConectados = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.button5);
-            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.Registrarse);
             this.panel1.Controls.Add(this.Correo);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.IniciarSesion);
             this.panel1.Controls.Add(this.Password);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -71,26 +73,17 @@ namespace Cliente_Proyevto
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(153, 426);
             this.panel1.TabIndex = 0;
+
             // 
-            // button5
+            // Registrarse
             // 
-            this.button5.Location = new System.Drawing.Point(26, 366);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(96, 43);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "Connectar";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(26, 308);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 38);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Registrarse";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.Registrarse.Location = new System.Drawing.Point(26, 308);
+            this.Registrarse.Name = "Registrarse";
+            this.Registrarse.Size = new System.Drawing.Size(98, 38);
+            this.Registrarse.TabIndex = 1;
+            this.Registrarse.Text = "Registrarse";
+            this.Registrarse.UseVisualStyleBackColor = true;
+            this.Registrarse.Click += new System.EventHandler(this.Registrarse_Click);
             // 
             // Correo
             // 
@@ -117,15 +110,15 @@ namespace Cliente_Proyevto
             this.label4.TabIndex = 1;
             this.label4.Text = "Create una cuenta";
             // 
-            // button1
+            // IniciarSesion
             // 
-            this.button1.Location = new System.Drawing.Point(35, 163);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 38);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Iniciar sesión";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.IniciarSesion.Location = new System.Drawing.Point(35, 163);
+            this.IniciarSesion.Name = "IniciarSesion";
+            this.IniciarSesion.Size = new System.Drawing.Size(76, 38);
+            this.IniciarSesion.TabIndex = 1;
+            this.IniciarSesion.Text = "Iniciar sesión";
+            this.IniciarSesion.UseVisualStyleBackColor = true;
+            this.IniciarSesion.Click += new System.EventHandler(this.IniciarSesion_Click);
             // 
             // Password
             // 
@@ -175,6 +168,16 @@ namespace Cliente_Proyevto
             this.panel2.Size = new System.Drawing.Size(198, 367);
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
+            // 
+            // ListaConectados_button
+            // 
+            this.ListaConectados_button.Location = new System.Drawing.Point(48, 323);
+            this.ListaConectados_button.Name = "ListaConectados_button";
+            this.ListaConectados_button.Size = new System.Drawing.Size(97, 41);
+            this.ListaConectados_button.TabIndex = 8;
+            this.ListaConectados_button.Text = "Ver lista de usuarios conectados";
+            this.ListaConectados_button.UseVisualStyleBackColor = true;
+            this.ListaConectados_button.Click += new System.EventHandler(this.ListaConectados_button_Click);
             // 
             // button4
             // 
@@ -255,15 +258,14 @@ namespace Cliente_Proyevto
             this.label3.TabIndex = 0;
             this.label3.Text = "Consultas";
             // 
-            // ListaConectados_button
+            // ListaConectados
             // 
-            this.ListaConectados_button.Location = new System.Drawing.Point(48, 323);
-            this.ListaConectados_button.Name = "ListaConectados_button";
-            this.ListaConectados_button.Size = new System.Drawing.Size(97, 41);
-            this.ListaConectados_button.TabIndex = 8;
-            this.ListaConectados_button.Text = "Ver lista de usuarios conectados";
-            this.ListaConectados_button.UseVisualStyleBackColor = true;
-            this.ListaConectados_button.Click += new System.EventHandler(this.ListaConectados_button_Click);
+            this.ListaConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ListaConectados.Location = new System.Drawing.Point(238, 12);
+            this.ListaConectados.Name = "ListaConectados";
+            this.ListaConectados.Size = new System.Drawing.Size(240, 307);
+            this.ListaConectados.TabIndex = 2;
+            this.ListaConectados.Visible = false;
             // 
             // Form1
             // 
@@ -271,6 +273,7 @@ namespace Cliente_Proyevto
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(735, 450);
+            this.Controls.Add(this.ListaConectados);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -279,6 +282,7 @@ namespace Cliente_Proyevto
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -286,12 +290,12 @@ namespace Cliente_Proyevto
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button IniciarSesion;
         private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Usuario;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Registrarse;
         private System.Windows.Forms.TextBox Correo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -306,6 +310,7 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.TextBox Nombre;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button ListaConectados_button;
+        private System.Windows.Forms.DataGridView ListaConectados;
     }
 }
 

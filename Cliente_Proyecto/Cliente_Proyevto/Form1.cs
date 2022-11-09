@@ -21,10 +21,30 @@ namespace Cliente_Proyevto
             InitializeComponent();
         }
         Socket server;
+        int conectado = 0;  //Estamos desconectados
 
-        private void button1_Click(object sender, EventArgs e)
+        private void IniciarSesion_Click(object sender, EventArgs e)
         {
+            if (conectado == 0)
+            {
 
+                try
+                {
+                    IPAddress direc = IPAddress.Parse("192.168.56.101");
+                    IPEndPoint ipep = new IPEndPoint(direc, 9080);
+
+                    //Creamos el socket
+                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); ;
+                    server.Connect(ipep); //Nos connectamos con el servidor
+                }
+                catch (SocketException)
+                {
+                    MessageBox.Show("No se ha podido connectar con el servidor");
+                    return;
+
+                }
+                conectado = 1;
+            }
 
             try
             {
@@ -63,10 +83,31 @@ namespace Cliente_Proyevto
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Registrarse_Click(object sender, EventArgs e)
         {
+            if (conectado == 0)
+            {
+                try
+                {
+                    IPAddress direc = IPAddress.Parse("192.168.56.101");
+                    IPEndPoint ipep = new IPEndPoint(direc, 9080);
+
+                    //Creamos el socket
+                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); ;
+                    server.Connect(ipep); //Nos connectamos con el servidor
+                }
+                catch (SocketException)
+                {
+                    MessageBox.Show("No se ha podido connectar con el servidor");
+                    return;
+
+                }
+                conectado = 1;
+            }
+            //Ahora nos registramos
             try
             {
+
                 //Creamos el mensaje que enviaremos al servidor que tendrá la forma 2/Usuario/Contraseña/Correo
                 string mensaje = "2/" + Usuario.Text + "/" + Password.Text + "/" + Correo.Text;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
@@ -157,24 +198,7 @@ namespace Cliente_Proyevto
             server.Close();
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                IPAddress direc = IPAddress.Parse("192.168.56.101");
-                IPEndPoint ipep = new IPEndPoint(direc, 9080);
-
-                //Creamos el socket
-                server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); ;
-                server.Connect(ipep); //Nos connectamos con el servidor
-            }
-            catch (SocketException)
-            {
-                MessageBox.Show("No se ha podido connectar con el servidor");
-                return;
-
-            }
-        }
+        
 
         private void ListaConectados_button_Click(object sender, EventArgs e)
         {
@@ -187,6 +211,17 @@ namespace Cliente_Proyevto
             mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
 
             //Se deberá usar un DataGridView para ver la lista de conectados
+            ListaConectados.Visible = true;
+            string[] jugadores = mensaje.Split(','); //Dividimos el mensaje por las comas
+            ListaConectados.RowCount = Convert.ToInt32(jugadores[0]); //El primer número del mensaje nos indica cuántos jugadores hay en la lista
+            ListaConectados.ColumnCount = 2;
+            ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
+            ListaConectados.Columns[1].HeaderText = "Socket";
+            for (int i =1; i<mensaje.Length; i++)
+            {
+                ListaConectados.Rows[i].Cells[0].Value = jugadores[i];
+                ListaConectados.Rows[i].Cells[1].Value = jugadores[i + 1];
+            }
         }
     }
 }

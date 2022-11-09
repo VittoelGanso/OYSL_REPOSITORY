@@ -1,0 +1,10 @@
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.csproj.AssemblyReference.cache
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.Grafico_Juego.resources
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.Properties.Resources.resources
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.csproj.GenerateResource.cache
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.csproj.CoreCompileInputs.cache
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\bin\Debug\Graficos_juego_OYSL.exe.config
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\bin\Debug\Graficos_juego_OYSL.exe
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\bin\Debug\Graficos_juego_OYSL.pdb
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.exe
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.pdb

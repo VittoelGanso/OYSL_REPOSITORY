@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Baraja_Cartas.cs" />
     <Compile Include="Grafico_Juego.cs">
       <SubType>Form</SubType>
     </Compile>
