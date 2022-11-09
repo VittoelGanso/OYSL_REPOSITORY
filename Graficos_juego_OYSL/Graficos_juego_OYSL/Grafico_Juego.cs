@@ -177,6 +177,7 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
+        
         //En el mazo para robar las cartas deben estar boca a bajo
         private void MuestraReverso (PictureBox picturebox)
         {
@@ -199,18 +200,18 @@ namespace Graficos_juego_OYSL
 
             if (Señor_oscuro.Checked)
             {
-                label2.Visible = true;
-                label2.Text = "Señor oscuro";
+                Señor_Oscuro form = new Señor_Oscuro();
+                form.ShowDialog();
             }
             else if (Lacayo_1.Checked)
             {
-                label2.Visible = true;
-                label2.Text = "Lacayo 1";
+                Lacayo_1 form = new Lacayo_1();
+                form.ShowDialog();
             }
             else
             {
-                label2.Visible = true;
-                label2.Text = "Lacayo 2";
+                Lacayo_2 form = new Lacayo_2();
+                form.ShowDialog();
             }
         }
 

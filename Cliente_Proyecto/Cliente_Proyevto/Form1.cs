@@ -39,7 +39,7 @@ namespace Cliente_Proyevto
                 }
                 catch (SocketException)
                 {
-                    MessageBox.Show("No se ha podido connectar con el servidor");
+                    MessageBox.Show("No se ha podido conectar con el servidor");
                     return;
 
                 }
@@ -60,15 +60,31 @@ namespace Cliente_Proyevto
                 byte[] msg2 = new byte[80];
                 server.Receive(msg2);
                 mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                Console.WriteLine(mensaje);
                 //Ahora si la respuesta es sí o 0 podrá entrar en el juego (nuevo formulario)
+                string[] respuesta = mensaje.Split('/');
 
                 //Si el nombre de usuario o la contraseña no son correctos el usuario no podrá entrar en el juego
                 //Desde el servidor se nos dice si los datos son correctos o no con el mensaje
-                if (mensaje == "Ok")
+                Console.WriteLine(respuesta[1]);
+                if (respuesta[0] == "Si")
                 {
                     MessageBox.Show("Se ha iniciado sesión correctamente");
                     panel2.Visible = true; //Hcemos que aparezca el panel de las consultas
                     panel1.Visible = false; //Hacemos que se vaya el panel con el inicio de sesión y el registro
+                    ListaConectados.Visible = true;
+                    //ListaConectados.AutoSize = true;
+                    ListaConectados.RowCount = (respuesta.Length)-1; //El primer número del mensaje nos indica cuántos jugadores hay en la lista
+                    ListaConectados.ColumnCount = 1;
+                    ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
+                    int j = 0;
+
+                    for (int i = 1; i < respuesta.Length; i++)
+                    {
+                        ListaConectados.Rows[j].Cells[0].Value = respuesta[i];
+                        j = j + 1;
+
+                    }
                 }
                 else
                 {
@@ -98,7 +114,7 @@ namespace Cliente_Proyevto
                 }
                 catch (SocketException)
                 {
-                    MessageBox.Show("No se ha podido connectar con el servidor");
+                    MessageBox.Show("No se ha podido conectar con el servidor");
                     return;
 
                 }
@@ -120,8 +136,9 @@ namespace Cliente_Proyevto
 
                 if (mensaje == "Si")
                 {
-                    MessageBox.Show("Has sido registrado correctamente.");
-                    Close();
+                    MessageBox.Show("Has sido registrado correctamente. ¡Ya puedes iniciar sesión!");
+
+
                 }
                 else
                 {
@@ -178,7 +195,24 @@ namespace Cliente_Proyevto
                     server.Receive(msg2);
                     mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
 
-                    //Ahora debo saber que me va a devolver el servidor para luego poder mostrar la tabla con las puntuaciones
+                    //Haremos una tabla con el mensaje pasado por el servidor
+                    Puntuaciones.Visible = true;
+                    string[] puntuaciones = mensaje.Split(',');
+                    Puntuaciones.RowCount = puntuaciones.Length; //Suponiendo que al principio se nos dice cuantos jugadores hay
+                    Puntuaciones.ColumnCount = 2;
+                    Puntuaciones.Columns[0].HeaderText = "Nombre del jugador";
+                    Puntuaciones.Columns[1].HeaderText = "Partidas Ganadas";
+
+                    int i;
+                    int j = 0;
+                    for (i = 0; i< puntuaciones.Length; i++)
+                    {
+                        Puntuaciones.Rows[i].Cells[0].Value = puntuaciones[j];
+                        j = j + 1;
+                        Puntuaciones.Rows[i].Cells[1].Value = puntuaciones[j];
+                        j = j + 1;
+                    }
+                   
                 }
             }
             catch (FormatException)
@@ -213,14 +247,13 @@ namespace Cliente_Proyevto
             //Se deberá usar un DataGridView para ver la lista de conectados
             ListaConectados.Visible = true;
             string[] jugadores = mensaje.Split(','); //Dividimos el mensaje por las comas
-            ListaConectados.RowCount = Convert.ToInt32(jugadores[0]); //El primer número del mensaje nos indica cuántos jugadores hay en la lista
-            ListaConectados.ColumnCount = 2;
+            ListaConectados.RowCount = jugadores.Length; //El primer número del mensaje nos indica cuántos jugadores hay en la lista
+            ListaConectados.ColumnCount = 1;
             ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
-            ListaConectados.Columns[1].HeaderText = "Socket";
-            for (int i =1; i<mensaje.Length; i++)
+
+            for (int i =0; i<mensaje.Length; i++)
             {
                 ListaConectados.Rows[i].Cells[0].Value = jugadores[i];
-                ListaConectados.Rows[i].Cells[1].Value = jugadores[i + 1];
             }
         }
     }

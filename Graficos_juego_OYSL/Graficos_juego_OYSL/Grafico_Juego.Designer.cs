@@ -35,15 +35,15 @@ namespace Graficos_juego_OYSL
             this.Lacayo_1 = new System.Windows.Forms.CheckBox();
             this.Lacayo_2 = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ExcusasBox = new System.Windows.Forms.PictureBox();
+            this.AccionBox = new System.Windows.Forms.PictureBox();
             this.jugar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.AccionBox = new System.Windows.Forms.PictureBox();
-            this.ExcusasBox = new System.Windows.Forms.PictureBox();
             this.Jugador_derecha = new System.Windows.Forms.PictureBox();
             this.Jugador_izquierda = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AccionBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExcusasBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccionBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_derecha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_izquierda)).BeginInit();
             this.SuspendLayout();
@@ -93,8 +93,6 @@ namespace Graficos_juego_OYSL
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.ExcusasBox);
-            this.panel1.Controls.Add(this.AccionBox);
             this.panel1.Controls.Add(this.jugar);
             this.panel1.Controls.Add(this.Lacayo_2);
             this.panel1.Controls.Add(this.Lacayo_1);
@@ -104,6 +102,24 @@ namespace Graficos_juego_OYSL
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(239, 231);
             this.panel1.TabIndex = 0;
+            // 
+            // ExcusasBox
+            // 
+            this.ExcusasBox.Location = new System.Drawing.Point(623, 109);
+            this.ExcusasBox.Name = "ExcusasBox";
+            this.ExcusasBox.Size = new System.Drawing.Size(96, 162);
+            this.ExcusasBox.TabIndex = 2;
+            this.ExcusasBox.TabStop = false;
+            this.ExcusasBox.Visible = false;
+            // 
+            // AccionBox
+            // 
+            this.AccionBox.Location = new System.Drawing.Point(365, 154);
+            this.AccionBox.Name = "AccionBox";
+            this.AccionBox.Size = new System.Drawing.Size(95, 162);
+            this.AccionBox.TabIndex = 2;
+            this.AccionBox.TabStop = false;
+            this.AccionBox.Visible = false;
             // 
             // jugar
             // 
@@ -124,24 +140,6 @@ namespace Graficos_juego_OYSL
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 1;
             this.label2.Visible = false;
-            // 
-            // AccionBox
-            // 
-            this.AccionBox.Location = new System.Drawing.Point(0, 0);
-            this.AccionBox.Name = "AccionBox";
-            this.AccionBox.Size = new System.Drawing.Size(95, 162);
-            this.AccionBox.TabIndex = 2;
-            this.AccionBox.TabStop = false;
-            this.AccionBox.Visible = false;
-            // 
-            // ExcusasBox
-            // 
-            this.ExcusasBox.Location = new System.Drawing.Point(143, 0);
-            this.ExcusasBox.Name = "ExcusasBox";
-            this.ExcusasBox.Size = new System.Drawing.Size(96, 162);
-            this.ExcusasBox.TabIndex = 2;
-            this.ExcusasBox.TabStop = false;
-            this.ExcusasBox.Visible = false;
             // 
             // Jugador_derecha
             // 
@@ -167,6 +165,8 @@ namespace Graficos_juego_OYSL
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1015, 419);
+            this.Controls.Add(this.AccionBox);
+            this.Controls.Add(this.ExcusasBox);
             this.Controls.Add(this.Jugador_izquierda);
             this.Controls.Add(this.Jugador_derecha);
             this.Controls.Add(this.label2);
@@ -175,8 +175,8 @@ namespace Graficos_juego_OYSL
             this.Text = "Grafico_Juego";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AccionBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ExcusasBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AccionBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_derecha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_izquierda)).EndInit();
             this.ResumeLayout(false);

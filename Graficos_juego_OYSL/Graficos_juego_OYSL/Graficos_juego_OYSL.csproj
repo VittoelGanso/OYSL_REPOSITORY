@@ -46,6 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarajaAccion.cs" />
+    <Compile Include="Lacayo_1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lacayo_1.Designer.cs">
+      <DependentUpon>Lacayo_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lacayo_2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lacayo_2.Designer.cs">
+      <DependentUpon>Lacayo_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Señor_Oscuro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Señor_Oscuro.Designer.cs">
+      <DependentUpon>Señor_Oscuro.cs</DependentUpon>
+    </Compile>
     <Compile Include="Grafico_Juego.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +77,12 @@
     <EmbeddedResource Include="Grafico_Juego.resx">
       <DependentUpon>Grafico_Juego.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Lacayo_1.resx">
+      <DependentUpon>Lacayo_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lacayo_2.resx">
+      <DependentUpon>Lacayo_2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -67,6 +92,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Señor_Oscuro.resx">
+      <DependentUpon>Señor_Oscuro.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

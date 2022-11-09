@@ -31,7 +31,6 @@ namespace Cliente_Proyevto
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button5 = new System.Windows.Forms.Button();
             this.Registrarse = new System.Windows.Forms.Button();
             this.Correo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -52,14 +51,15 @@ namespace Cliente_Proyevto
             this.Query1 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.ListaConectados = new System.Windows.Forms.DataGridView();
+            this.Puntuaciones = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button5);
             this.panel1.Controls.Add(this.Registrarse);
             this.panel1.Controls.Add(this.Correo);
             this.panel1.Controls.Add(this.label5);
@@ -69,11 +69,10 @@ namespace Cliente_Proyevto
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.Usuario);
-            this.panel1.Location = new System.Drawing.Point(25, 12);
+            this.panel1.Location = new System.Drawing.Point(23, 30);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(153, 426);
+            this.panel1.Size = new System.Drawing.Size(153, 367);
             this.panel1.TabIndex = 0;
-
             // 
             // Registrarse
             // 
@@ -165,7 +164,7 @@ namespace Cliente_Proyevto
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(525, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(198, 367);
+            this.panel2.Size = new System.Drawing.Size(198, 385);
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
             // 
@@ -220,10 +219,10 @@ namespace Cliente_Proyevto
             this.Query3.AutoSize = true;
             this.Query3.Location = new System.Drawing.Point(15, 184);
             this.Query3.Name = "Query3";
-            this.Query3.Size = new System.Drawing.Size(179, 17);
+            this.Query3.Size = new System.Drawing.Size(110, 17);
             this.Query3.TabIndex = 3;
             this.Query3.TabStop = true;
-            this.Query3.Text = "Mostrar la tabla de puntuaciones";
+            this.Query3.Text = "El mejor mentiroso";
             this.Query3.UseVisualStyleBackColor = true;
             // 
             // Query2
@@ -261,11 +260,20 @@ namespace Cliente_Proyevto
             // ListaConectados
             // 
             this.ListaConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ListaConectados.Location = new System.Drawing.Point(238, 12);
+            this.ListaConectados.Location = new System.Drawing.Point(23, 3);
             this.ListaConectados.Name = "ListaConectados";
-            this.ListaConectados.Size = new System.Drawing.Size(240, 307);
+            this.ListaConectados.Size = new System.Drawing.Size(169, 145);
             this.ListaConectados.TabIndex = 2;
             this.ListaConectados.Visible = false;
+            // 
+            // Puntuaciones
+            // 
+            this.Puntuaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Puntuaciones.Location = new System.Drawing.Point(235, 39);
+            this.Puntuaciones.Name = "Puntuaciones";
+            this.Puntuaciones.Size = new System.Drawing.Size(240, 307);
+            this.Puntuaciones.TabIndex = 3;
+            this.Puntuaciones.Visible = false;
             // 
             // Form1
             // 
@@ -273,6 +281,7 @@ namespace Cliente_Proyevto
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(735, 450);
+            this.Controls.Add(this.Puntuaciones);
             this.Controls.Add(this.ListaConectados);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -283,6 +292,7 @@ namespace Cliente_Proyevto
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -308,9 +318,9 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox Nombre;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button ListaConectados_button;
         private System.Windows.Forms.DataGridView ListaConectados;
+        private System.Windows.Forms.DataGridView Puntuaciones;
     }
 }
 
