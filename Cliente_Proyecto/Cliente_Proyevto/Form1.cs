@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+
 
 namespace Cliente_Proyevto
 {
@@ -23,6 +25,91 @@ namespace Cliente_Proyevto
         Socket server;
         int conectado = 0;  //Estamos desconectados
 
+        private void AtenderServidor()
+        {
+            while (true)
+            {
+                byte[] msg2 = new byte[80];
+                server.Receive(msg2);
+                string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
+                int codigo = Convert.ToInt32(trozos[0]);
+                string mensaje = trozos[1].Split('\0')[0];
+                int i, j;
+                switch (codigo)
+                {
+                    case 1:
+                        string[] respuesta = mensaje.Split('/');
+                        if (respuesta[1] == "Si")
+                        {
+                            MessageBox.Show("Se ha iniciado sesión correctamente");
+                            panel2.Visible = true; //Hcemos que aparezca el panel de las consultas
+                            panel1.Visible = false; //Hacemos que se vaya el panel con el inicio de sesión y el registro
+                            ListaConectados.Visible = true;
+                            ListaConectados.AutoSize = true;
+                            ListaConectados.RowCount = (respuesta.Length) - 1; //El primer número del mensaje nos indica cuántos jugadores hay en la lista
+                            ListaConectados.ColumnCount = 1;
+                            ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
+                            ListaConectados.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.Fill);
+                            j = 0;
+
+                            for (i = 1; i < respuesta.Length; i++)
+                            {
+                                ListaConectados.Rows[j].Cells[0].Value = respuesta[i];
+                                j = j + 1;
+
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(mensaje);
+                        }
+                        break;
+                    case 2:
+                        if (mensaje == "Si")
+                        {
+                            MessageBox.Show("Has sido registrado correctamente. ¡Ya puedes iniciar sesión!");
+
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se ha podido registrar correctamente");
+                        }
+                        break;
+                    case 3:
+                        MessageBox.Show("El jugador " + Nombre.Text + " ha jugado " + mensaje + " partidas.");
+                        break;
+                    case 4:
+                        MessageBox.Show(mensaje);
+                        break;
+                    case 5:
+                        //Haremos una tabla con el mensaje pasado por el servidor
+                        Puntuaciones.Visible = true;
+                        string[] puntuaciones = mensaje.Split(',');
+                        Puntuaciones.RowCount = (puntuaciones.Length)-1; //Suponiendo que al principio se nos dice cuantos jugadores hay
+                        Puntuaciones.ColumnCount = 2;
+                        Puntuaciones.Columns[0].HeaderText = "Nombre del jugador";
+                        Puntuaciones.Columns[1].HeaderText = "Partidas Ganadas";
+
+                        j = 0;
+                        for (i = 0; i < puntuaciones.Length; i++)
+                        {
+                            Puntuaciones.Rows[i].Cells[0].Value = puntuaciones[j];
+                            j = j + 1;
+                            Puntuaciones.Rows[i].Cells[1].Value = puntuaciones[j];
+                            j = j + 1;
+                        }
+                        break;
+
+
+
+
+
+
+                }
+            }
+        }
+
         private void IniciarSesion_Click(object sender, EventArgs e)
         {
             if (conectado == 0)
@@ -34,7 +121,7 @@ namespace Cliente_Proyevto
                     IPEndPoint ipep = new IPEndPoint(direc, 9080);
 
                     //Creamos el socket
-                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); ;
+                    server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); 
                     server.Connect(ipep); //Nos connectamos con el servidor
                 }
                 catch (SocketException)
@@ -56,40 +143,41 @@ namespace Cliente_Proyevto
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
-                //Ahora recibe la respuesta de que el usuario se encuentra en la base de datos y entonces puede entrar al juego
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-                Console.WriteLine(mensaje);
-                //Ahora si la respuesta es sí o 0 podrá entrar en el juego (nuevo formulario)
-                string[] respuesta = mensaje.Split('/');
+                ////Ahora recibe la respuesta de que el usuario se encuentra en la base de datos y entonces puede entrar al juego
+                //byte[] msg2 = new byte[80];
+                //server.Receive(msg2);
+                //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                //Console.WriteLine(mensaje);
+                ////Ahora si la respuesta es sí o 0 podrá entrar en el juego (nuevo formulario)
+                //string[] respuesta = mensaje.Split('/');
 
-                //Si el nombre de usuario o la contraseña no son correctos el usuario no podrá entrar en el juego
-                //Desde el servidor se nos dice si los datos son correctos o no con el mensaje
-                Console.WriteLine(respuesta[1]);
-                if (respuesta[0] == "Si")
-                {
-                    MessageBox.Show("Se ha iniciado sesión correctamente");
-                    panel2.Visible = true; //Hcemos que aparezca el panel de las consultas
-                    panel1.Visible = false; //Hacemos que se vaya el panel con el inicio de sesión y el registro
-                    ListaConectados.Visible = true;
-                    //ListaConectados.AutoSize = true;
-                    ListaConectados.RowCount = (respuesta.Length)-1; //El primer número del mensaje nos indica cuántos jugadores hay en la lista
-                    ListaConectados.ColumnCount = 1;
-                    ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
-                    int j = 0;
+                ////Si el nombre de usuario o la contraseña no son correctos el usuario no podrá entrar en el juego
+                ////Desde el servidor se nos dice si los datos son correctos o no con el mensaje
+                //Console.WriteLine(respuesta.Length);
+                //if (respuesta[0] == "Si")
+                //{
+                //    MessageBox.Show("Se ha iniciado sesión correctamente");
+                //    panel2.Visible = true; //Hcemos que aparezca el panel de las consultas
+                //    panel1.Visible = false; //Hacemos que se vaya el panel con el inicio de sesión y el registro
+                //    ListaConectados.Visible = true;
+                //    //ListaConectados.AutoSize = true;
+                //    ListaConectados.RowCount = (respuesta.Length)-1; //El primer número del mensaje nos indica cuántos jugadores hay en la lista
+                //    ListaConectados.ColumnCount = 1;
+                //    ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
+                //    ListaConectados.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.Fill);
+                //    int j = 0;
 
-                    for (int i = 1; i < respuesta.Length; i++)
-                    {
-                        ListaConectados.Rows[j].Cells[0].Value = respuesta[i];
-                        j = j + 1;
+                //    for (int i = 1; i < respuesta.Length; i++)
+                //    {
+                //        ListaConectados.Rows[j].Cells[0].Value = respuesta[i];
+                //        j = j + 1;
 
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(mensaje);
-                }
+                //    }
+                //}
+                //else
+                //{
+                //    MessageBox.Show(mensaje);
+                //}
 
             }
             catch (FormatException)
@@ -129,21 +217,21 @@ namespace Cliente_Proyevto
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
 
-                //Una vez recibimos el mensaje
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                mensaje = Encoding.ASCII.GetString(msg2);
+                ////Una vez recibimos el mensaje
+                //byte[] msg2 = new byte[80];
+                //server.Receive(msg2);
+                //mensaje = Encoding.ASCII.GetString(msg2);
 
-                if (mensaje == "Si")
-                {
-                    MessageBox.Show("Has sido registrado correctamente. ¡Ya puedes iniciar sesión!");
+                //if (mensaje == "Si")
+                //{
+                //    MessageBox.Show("Has sido registrado correctamente. ¡Ya puedes iniciar sesión!");
 
 
-                }
-                else
-                {
-                    MessageBox.Show("No se ha podido registrar correctamente");
-                }
+                //}
+                //else
+                //{
+                //    MessageBox.Show("No se ha podido registrar correctamente");
+                //}
             }
             catch (FormatException)
             {
@@ -164,11 +252,11 @@ namespace Cliente_Proyevto
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
-                    byte[] msg2 = new byte[80];
-                    server.Receive(msg2);
-                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    //byte[] msg2 = new byte[80];
+                    //server.Receive(msg2);
+                    //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
 
-                    MessageBox.Show("El jugador " + Nombre.Text + " ha jugado " + mensaje + " partidas.");
+                    //MessageBox.Show("El jugador " + Nombre.Text + " ha jugado " + mensaje + " partidas.");
                 }
                 else if (Query2.Checked)
                 {
@@ -178,40 +266,40 @@ namespace Cliente_Proyevto
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
-                    byte[] msg2 = new byte[80];
-                    server.Receive(msg2);
-                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    //byte[] msg2 = new byte[80];
+                    //server.Receive(msg2);
+                    //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
 
-                    MessageBox.Show(mensaje);
+                    //MessageBox.Show(mensaje);
                 }
                 else
                 {
-                    //Finalmente queremos que nos aparezca la tabla con el nombre del jugador y su puntuación
+                    //Finalmente queremos que nos aparezca la tabla con el nombre del jugador y las partidas ganadas
                     string mensaje = "5/";
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
-                    byte[] msg2 = new byte[80];
-                    server.Receive(msg2);
-                    mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                    //byte[] msg2 = new byte[80];
+                    //server.Receive(msg2);
+                    //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
 
-                    //Haremos una tabla con el mensaje pasado por el servidor
-                    Puntuaciones.Visible = true;
-                    string[] puntuaciones = mensaje.Split(',');
-                    Puntuaciones.RowCount = puntuaciones.Length; //Suponiendo que al principio se nos dice cuantos jugadores hay
-                    Puntuaciones.ColumnCount = 2;
-                    Puntuaciones.Columns[0].HeaderText = "Nombre del jugador";
-                    Puntuaciones.Columns[1].HeaderText = "Partidas Ganadas";
+                    ////Haremos una tabla con el mensaje pasado por el servidor
+                    //Puntuaciones.Visible = true;
+                    //string[] puntuaciones = mensaje.Split(',');
+                    //Puntuaciones.RowCount = puntuaciones.Length; //Suponiendo que al principio se nos dice cuantos jugadores hay
+                    //Puntuaciones.ColumnCount = 2;
+                    //Puntuaciones.Columns[0].HeaderText = "Nombre del jugador";
+                    //Puntuaciones.Columns[1].HeaderText = "Partidas Ganadas";
 
-                    int i;
-                    int j = 0;
-                    for (i = 0; i< puntuaciones.Length; i++)
-                    {
-                        Puntuaciones.Rows[i].Cells[0].Value = puntuaciones[j];
-                        j = j + 1;
-                        Puntuaciones.Rows[i].Cells[1].Value = puntuaciones[j];
-                        j = j + 1;
-                    }
+                    //int i;
+                    //int j = 0;
+                    //for (i = 0; i< puntuaciones.Length; i++)
+                    //{
+                    //    Puntuaciones.Rows[i].Cells[0].Value = puntuaciones[j];
+                    //    j = j + 1;
+                    //    Puntuaciones.Rows[i].Cells[1].Value = puntuaciones[j];
+                    //    j = j + 1;
+                    //}
                    
                 }
             }
