@@ -181,7 +181,7 @@ namespace Graficos_juego_OYSL
         //En el mazo para robar las cartas deben estar boca a bajo
         private void MuestraReverso (PictureBox picturebox)
         {
-            picturebox.ImageLocation = "Pondremos el nombre de la foro";
+            picturebox.ImageLocation = "reverso.png";
             picturebox.SizeMode = PictureBoxSizeMode.AutoSize;
         }
 
