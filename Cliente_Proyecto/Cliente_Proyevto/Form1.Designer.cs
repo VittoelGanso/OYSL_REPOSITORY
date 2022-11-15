@@ -176,7 +176,6 @@ namespace Cliente_Proyevto
             this.ListaConectados_button.TabIndex = 8;
             this.ListaConectados_button.Text = "Ver lista de usuarios conectados";
             this.ListaConectados_button.UseVisualStyleBackColor = true;
-            this.ListaConectados_button.Click += new System.EventHandler(this.ListaConectados_button_Click);
             // 
             // button4
             // 

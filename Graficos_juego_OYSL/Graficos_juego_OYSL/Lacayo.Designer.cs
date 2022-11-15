@@ -1,7 +1,7 @@
 ﻿
 namespace Graficos_juego_OYSL
 {
-    partial class Lacayo_1
+    partial class Lacayo
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace Graficos_juego_OYSL
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Lacayo_1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Lacayo));
             this.Excusas = new System.Windows.Forms.PictureBox();
             this.Accion = new System.Windows.Forms.PictureBox();
             this.Jugador_1 = new System.Windows.Forms.PictureBox();
@@ -40,6 +40,7 @@ namespace Graficos_juego_OYSL
             this.Accion1 = new System.Windows.Forms.PictureBox();
             this.Accion2 = new System.Windows.Forms.PictureBox();
             this.Accion3 = new System.Windows.Forms.PictureBox();
+            this.info = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Excusas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_1)).BeginInit();
@@ -132,12 +133,21 @@ namespace Graficos_juego_OYSL
             this.Accion3.TabIndex = 9;
             this.Accion3.TabStop = false;
             // 
-            // Lacayo_1
+            // info
+            // 
+            this.info.AutoSize = true;
+            this.info.Location = new System.Drawing.Point(12, 9);
+            this.info.Name = "info";
+            this.info.Size = new System.Drawing.Size(0, 13);
+            this.info.TabIndex = 10;
+            // 
+            // Lacayo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.info);
             this.Controls.Add(this.Accion3);
             this.Controls.Add(this.Accion2);
             this.Controls.Add(this.Accion1);
@@ -148,8 +158,9 @@ namespace Graficos_juego_OYSL
             this.Controls.Add(this.Jugador_1);
             this.Controls.Add(this.Accion);
             this.Controls.Add(this.Excusas);
-            this.Name = "Lacayo_1";
-            this.Text = "Lacayo_1";
+            this.Name = "Lacayo";
+            this.Text = "Lacayo";
+            this.Load += new System.EventHandler(this.Lacayo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Excusas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_1)).EndInit();
@@ -161,6 +172,7 @@ namespace Graficos_juego_OYSL
             ((System.ComponentModel.ISupportInitialize)(this.Accion2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion3)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -176,5 +188,6 @@ namespace Graficos_juego_OYSL
         private System.Windows.Forms.PictureBox Accion1;
         private System.Windows.Forms.PictureBox Accion2;
         private System.Windows.Forms.PictureBox Accion3;
+        private System.Windows.Forms.Label info;
     }
 }

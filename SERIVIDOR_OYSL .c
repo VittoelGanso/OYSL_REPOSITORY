@@ -10,6 +10,13 @@
 
 //ESTRUCTURAS USUARIOS Y LISTA DE LOS MISMOS
 
+//Estructura necesaria para acceso excluyente
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+//vector de threads para tener generar concurrencia.
+pthread_t thread;
+
+
 //Estructura para la lista de conectados, en la cual se 
 //almacenaran los nombres y los sockets de los usuarios.
 typedef struct{
@@ -115,7 +122,7 @@ int DeletefromList (ListOnlineUsers *List, char username[20]){
 		position ++;
 	}
 	//eliminamos la ultima posicion de la lista.
-	List->num -- ;
+	List->num = List->num -1;
 	return 0;
 }
 
@@ -154,20 +161,20 @@ int LogIn(char username[25], char password[25], char answer[100], MYSQL *conn, i
 		
 		if(row == NULL){
 			
-			sprintf(answer,"%s","No");
+			sprintf(answer,"1/%s","No");
 			return 1;
 		}
 		else {
 			int res = AddtoList(&List, username,sock_conn);
 			
 			if (res == 0 ){// todo ha salido a pedir de milhouse.
-			sprintf(answer,"%s","Si");
+			sprintf(answer,"1/%s","Si");
 			row = mysql_fetch_row(result);
 			return 0;
 			}
 			
 			if (res == -1){ // ya hay alguien registrado con ese nombre.
-				sprintf(answer, "1/Name in use, try anotherone");
+				sprintf(answer, "1/Name in use, try another one");
 				return 1;
 			}
 			if (res = -2){
@@ -221,11 +228,11 @@ int GamesPlayed(char name[25], char answer[100], MYSQL *conn, int sock_conn){
 		result = mysql_store_result(conn);
 		row = mysql_fetch_row(result);
 		if ( row == NULL ){
-			sprintf(answer,"this username is not registered yet");
+			sprintf(answer,"3/this username is not registered yet");
 		}
 		else {
 			printf("Ha jugado %s partidas.", row[0]);
-			sprintf(answer,"%s",row[0]);
+			sprintf(answer,"3/%s",row[0]);
 		}
 	}	
 }
@@ -249,7 +256,7 @@ int GamesWon(char name[25],char answer[100],MYSQL *conn){
 			row = mysql_fetch_row(result);
 		if ( row == NULL ){
 			printf(" hasta aquí funciona\n");
-			sprintf(answer,"3/ this username is not registered yet");
+			sprintf(answer,"4/ this username is not registered yet");
 		}
 		else {
 			printf("The winner is %s.\n",row[0]);
@@ -307,11 +314,11 @@ int Chart(MYSQL *conn, char answer[512]){
 		while( row != NULL){
 			
 			printf("The player is: %s with games winned: %d\n", row[0],row[1]);
-			sprintf(answer,"4/ %s %s \n", row[0],row[1]);
+			sprintf(answer,"5/ %s %s \n", row[0],row[1]);
 			
 		}
 		if( row == NULL){
-			sprintf(answer,"4/There's nobody registered yet");
+			sprintf(answer,"5/There's nobody registered yet");
 		}	
 	}
 }
@@ -375,6 +382,8 @@ void *AtenderCliente (void *socket)
 		//Cuando el codigo es 0, se trata de una peticion de desconexion.
 		if (code== 0){
 			
+			//DeletefromList(&List, username);
+			
 			finish = 1;
 		}
 		//CODIGO 1
@@ -391,6 +400,7 @@ void *AtenderCliente (void *socket)
 			
 			finish = LogIn(username,password,Answer,conn,sock_conn);
 			printf("finish: %d\n",finish);
+
 		
 			}
 	
@@ -411,6 +421,7 @@ void *AtenderCliente (void *socket)
 			strcpy(email,p);
 			finish = SignIn(username,password,email,Answer,conn,sock_conn);
 			printf("finish: %d\n",finish);
+
 			
 			}
 		//CODIGO 3
@@ -437,8 +448,12 @@ void *AtenderCliente (void *socket)
 			GamesWon(username,Answer,conn);
 			
 		}
+		else if(code ==5){
+			sprintf(Answer, "5/Aun no esta disponible"); //Para tenerlo de referencia
+			printf("No está disponible \n");
+		}
 		
-		if((code == 2) || (code == 3)|| (code == 4))
+		if((code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))
 		{
 			printf("Answer:%s\n",Answer);
 			// la respuesta
@@ -446,18 +461,24 @@ void *AtenderCliente (void *socket)
 		}
 		if ((code == 0) || (code == 1)){
 			
+			pthread_mutex_lock(&mutex);
+			
 			char users[512];
-			char Message[512];
 			
 			GivemeOnlineusers(&List,users);
 			printf("users: %s\n ",users);
-			//Notificar los usuarios conectados.
-			sprintf(Message,"%s/%s", Answer, users);
+			pthread_mutex_unlock(&mutex);
 			
-			printf("%s\n", Message);
-			for (int u=0; u < List.num;u++){
+			//Notificar los usuarios conectados.
+			users[strlen(users)-1] = '\0';
+			char notificacion[512];
+			sprintf(notificacion, "6/%s", users);
+			
+			//Se tiene que enviar a todos los clientes conectados
+		
+			for (int u=0; u < List.num ;u++){
 				
-				write(List.online[u].socket,Message,strlen(Message));
+				write(List.online[u].socket,notificacion,strlen(notificacion));
 			}
 
 		}
@@ -472,11 +493,7 @@ void *AtenderCliente (void *socket)
 }
 
 
-//Estructura necesaria para acceso excluyente
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-//vector de threads para tener generar concurrencia.
-pthread_t thread;
 
 int main(int argc, char *argv[]){
 	
@@ -516,11 +533,11 @@ int main(int argc, char *argv[]){
 		
 		if(List.num < 100){
 			
-		//le atribuimos un socket a cada uno de los usuarios.
-		List.online[List.num].socket = sock_conn;
-		// Crear thead y decirle lo que tiene que hacer
-		pthread_create (&thread, NULL, AtenderCliente,&List.online[List.num].socket);
-		List.num++;
+			//le atribuimos un socket a cada uno de los usuarios.
+			List.online[List.num].socket = sock_conn;
+			// Crear thead y decirle lo que tiene que hacer
+			pthread_create (&thread, NULL, AtenderCliente,&List.online[List.num].socket);
+			List.num++;
 		}
 		else 
 			printf("There no more available sockets");

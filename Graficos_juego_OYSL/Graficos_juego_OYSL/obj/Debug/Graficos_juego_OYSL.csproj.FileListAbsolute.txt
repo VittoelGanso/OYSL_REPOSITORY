@@ -8,3 +8,5 @@ C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Gra
 C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\bin\Debug\Graficos_juego_OYSL.pdb
 C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.exe
 C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.pdb
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.Lacayo.resources
+C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Graficos_juego_OYSL\Graficos_juego_OYSL\obj\Debug\Graficos_juego_OYSL.Señor_Oscuro.resources
