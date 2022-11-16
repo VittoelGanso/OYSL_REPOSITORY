@@ -40,8 +40,10 @@ namespace Cliente_Proyevto
                 string mensaje = trozos[0].Split('\0')[0]; //Declaramos el mensaje recibido por el servidor
                 Console.WriteLine(mensaje);
                 int codigo = Convert.ToInt32(mensaje); //Donde tenemos el codigo del mensaje
+
                 int i, j;
                 string respuesta;
+
                 switch (codigo)
                 {
                     case 1: //Inicio de sesión
@@ -53,7 +55,7 @@ namespace Cliente_Proyevto
                             panel2.Visible = true; //Hcemos que aparezca el panel de las consultas
                             panel1.Visible = false; //Hacemos que se vaya el panel con el inicio de sesión y el registro
                             ListaConectados.Visible = true;
-                            ListaConectados.AutoSize = true;
+                            //ListaConectados.AutoSize = true;
                             ListaConectados.RowCount = (trozos.Length) - 1; //El primer número del mensaje nos indica cuántos jugadores hay en la lista
                             ListaConectados.ColumnCount = 1;
                             ListaConectados.Columns[0].HeaderText = "Nombre del jugador";
@@ -68,8 +70,6 @@ namespace Cliente_Proyevto
                         if (respuesta == "Si")
                         {
                             MessageBox.Show("Has sido registrado correctamente. ¡Ya puedes iniciar sesión!");
-
-
                         }
                         else
                         {
@@ -78,7 +78,7 @@ namespace Cliente_Proyevto
                         break;
                     case 3: //Partidas jugadas por un jugador
                         respuesta = trozos[1].Split('\0')[0];
-                        MessageBox.Show("El jugador " + Nombre.Text + " ha jugado " + respuesta + " partidas.");
+                        MessageBox.Show("Ha jugado " + respuesta + " partidas.");
                         break;
                     case 4: //Partidas ganadas por un jugador
                         respuesta = trozos[1].Split('\0')[0];
@@ -118,8 +118,7 @@ namespace Cliente_Proyevto
                             j = j + 1;
 
                         }
-                        MessageBox.Show(trozos[1]);
-
+                        MessageBox.Show("Bienvenido");
                         break;
                 }
             }
@@ -150,8 +149,6 @@ namespace Cliente_Proyevto
 
                 }
                 conectado = 1;
-
-                //Ponemos en marcha el thread que atenderá al servidor
 
             }
 
@@ -184,6 +181,7 @@ namespace Cliente_Proyevto
                     //Creamos el socket
                     server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); ;
                     server.Connect(ipep); //Nos connectamos con el servidor
+
                     //Ponemos en marcha el thread que atenderá al servidor
                     ThreadStart ts = delegate { AtenderServidor(); };
                     atender = new Thread(ts);
@@ -246,28 +244,7 @@ namespace Cliente_Proyevto
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
 
-                    //byte[] msg2 = new byte[80];
-                    //server.Receive(msg2);
-                    //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-
-                    ////Haremos una tabla con el mensaje pasado por el servidor
-                    //Puntuaciones.Visible = true;
-                    //string[] puntuaciones = mensaje.Split(',');
-                    //Puntuaciones.RowCount = puntuaciones.Length; //Suponiendo que al principio se nos dice cuantos jugadores hay
-                    //Puntuaciones.ColumnCount = 2;
-                    //Puntuaciones.Columns[0].HeaderText = "Nombre del jugador";
-                    //Puntuaciones.Columns[1].HeaderText = "Partidas Ganadas";
-
-                    //int i;
-                    //int j = 0;
-                    //for (i = 0; i< puntuaciones.Length; i++)
-                    //{
-                    //    Puntuaciones.Rows[i].Cells[0].Value = puntuaciones[j];
-                    //    j = j + 1;
-                    //    Puntuaciones.Rows[i].Cells[1].Value = puntuaciones[j];
-                    //    j = j + 1;
-                    //}
-                   
+                       
                 }
             }
             catch (FormatException)
