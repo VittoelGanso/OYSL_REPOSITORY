@@ -195,7 +195,7 @@ int SignIn(char username[25], char password[25],char email[40],char answer[100],
 	
 	char Query[100];
 		
-	sprintf(Query,"INSERT INTO userDB(username,password,email,wins) VALUES ('%s','%s','%s',0);",username,password,email);
+	sprintf(Query,"INSERT INTO userDB(username,password,email,wins, played) VALUES('%s','%s','%s',1, 0);",username,password,email);
 	int err=mysql_query(conn,Query);
 	if(err!=0){
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
@@ -223,6 +223,7 @@ int GamesPlayed(char name[25], char answer[100], MYSQL *conn, int sock_conn){
 	if (err != 0)
 	{
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
+		return 1;
 	}
 	else{ //Recogemos el resultado de la consulta 
 		result = mysql_store_result(conn);
@@ -234,6 +235,7 @@ int GamesPlayed(char name[25], char answer[100], MYSQL *conn, int sock_conn){
 			printf("Ha jugado %s partidas.", row[0]);
 			sprintf(answer,"3/%s",row[0]);
 		}
+		return 0;
 	}	
 }
 
@@ -250,6 +252,7 @@ int GamesWon(char name[25],char answer[100],MYSQL *conn){
 	if (err!= 0)
 	{
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
+		return -1;
 	}
 	else{ //Recogemos el resultado de la consulta 
 			result = mysql_store_result(conn);
@@ -262,6 +265,7 @@ int GamesWon(char name[25],char answer[100],MYSQL *conn){
 			printf("The winner is %s.\n",row[0]);
 			sprintf(answer,"4/s",row[0]);
 		}
+		return 0;
 	}	
 }
 
@@ -275,19 +279,30 @@ int chart(MYSQL *conn, char answer[512]){
 	
 	
 	char Query[200];
-	sprintf(answer,"SELECT userDB.username,userDB.wins FROM userDB ORDER BY wins DESC");
+	sprintf(answer,"SELECT userDB.username,userDB.wins FROM (userDB) ORDER BY wins DESC");
 	int err = mysql_query(conn,Query);
 	
 	if(err!=0){
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
+		return -1;
 	}
 	else{ //Recogemos el resultado de la consulta
 		 
 		result = mysql_store_result(conn);
 		row = mysql_fetch_row(result);
 		
-		while( row != NULL){
-			sprintf(answer, "5/ %d %s"); 
+		if (row == NULL){
+			printf("No se han obtenido datos");
+			strcpy(answer, "No se han obtenido datos");
+			return 0;
+		}
+		else{
+			
+			while( row != NULL){
+				sprintf(answer, "5/%s/%s/%s",answer,row[0], row[1] ); 
+				row=mysql_fetch_row(result);
+			}
+			return 0;
 		}
 	}
 }
@@ -342,6 +357,7 @@ void *AtenderCliente (void *socket)
 	char *username[25];
 	char *password[25];
 	char *email[25];
+	int error;
 	
 	int ret; // parametro que almaecena la informacion de los datos enviados por el usuario.
 	
@@ -398,7 +414,7 @@ void *AtenderCliente (void *socket)
 			//obtenemos la password	
 			strcpy(password,p);
 			
-			finish = LogIn(username,password,Answer,conn,sock_conn);
+			error = LogIn(username,password,Answer,conn,sock_conn);
 			printf("finish: %d\n",finish);
 
 		
@@ -419,7 +435,8 @@ void *AtenderCliente (void *socket)
 			p= strtok(NULL,"/");
 			//obtenemos el correo electronico
 			strcpy(email,p);
-			finish = SignIn(username,password,email,Answer,conn,sock_conn);
+
+			error = SignIn(username,password,email,Answer,conn,sock_conn);
 			printf("finish: %d\n",finish);
 
 			
@@ -433,7 +450,7 @@ void *AtenderCliente (void *socket)
 			//obtenemos el nombre que deseamos buscar en la base de datos 
 			strcpy(username,p);
 			//llamamos a la funcion
-			GamesPlayed(username,Answer,conn, sock_conn);
+			error = GamesPlayed(username,Answer,conn, sock_conn);
 			
 		}
 		//CODIGO 4
@@ -445,11 +462,13 @@ void *AtenderCliente (void *socket)
 			//obtenemos el nombre que deseamos buscar en la base de datos 
 			strcpy(username,p);
 			//llamamos a la funcion
-			GamesWon(username,Answer,conn);
+			error = GamesWon(username,Answer,conn);
 			
 		}
 		else if(code ==5){
-			sprintf(Answer, "5/Aun no esta disponible"); //Para tenerlo de referencia
+			
+			error = chart(sock_conn, Answer);
+			
 			printf("No está disponible \n");
 		}
 		
@@ -465,7 +484,7 @@ void *AtenderCliente (void *socket)
 			
 			char users[512];
 			
-			GivemeOnlineusers(&List,users);
+			error = GivemeOnlineusers(&List,users);
 			printf("users: %s\n ",users);
 			pthread_mutex_unlock(&mutex);
 			
@@ -499,7 +518,7 @@ int main(int argc, char *argv[]){
 	
 	int sock_conn, sock_listen;
 	struct sockaddr_in serv_adr;
-	int gate = 9080;
+	int gate = 9090;
 
 	// INICIALITZACIONS
 	// Abrimos el socket
@@ -516,7 +535,7 @@ int main(int argc, char *argv[]){
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	
 	// establecemos el puerto de escucha
-	serv_adr.sin_port = htons(9080);
+	serv_adr.sin_port = htons(gate);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		
 		printf ("Error al bind");
