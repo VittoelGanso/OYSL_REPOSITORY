@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <mysql.h>
+#include <my_global.h>
 
 //ESTRUCTURAS USUARIOS Y LISTA DE LOS MISMOS
 
@@ -131,8 +132,9 @@ int DeletefromList (ListOnlineUsers *List, char username[20]){
 int GivemeOnlineusers( ListOnlineUsers *List, char Ousers[512]){
 	
 	int i;
-	for( i=0; i < List->num; i++){
-		sprintf(Ousers,"%s%s/",Ousers,List->online[i].username);
+	strcpy(Ousers, List->online[0].username);
+	for( i=1; i < List->num; i++){
+		sprintf(Ousers,"%s/%s",Ousers,List->online[i].username);
 	}
 }
 
@@ -359,7 +361,7 @@ void *AtenderCliente (void *socket)
 		exit (1);
 	}
 	
-	conn = mysql_real_connect(conn, "localhost", "root", "mysql", "OYSL_DB", 0, NULL, 0);
+	conn = mysql_real_connect(conn, "shiva2.upc.es", "root", "mysql", "MG1OYSL_DB", 0, NULL, 0);
 	
 	if(conn==NULL){
 		printf("Error al inicializar la conexion %u %s\n", mysql_errno(conn), mysql_error(conn));
@@ -388,7 +390,7 @@ void *AtenderCliente (void *socket)
 		//Cuando el codigo es 0, se trata de una peticion de desconexion.
 		if (code== 0){
 			
-			//DeletefromList(&List, username);
+			DeletefromList(&List, username);
 			finish = 1;
 		}
 		//CODIGO 1
@@ -474,9 +476,10 @@ void *AtenderCliente (void *socket)
 			pthread_mutex_unlock(&mutex);
 			
 			//Notificar los usuarios conectados.
-			users[strlen(users)-1] = '\0';
+			/*users[strlen(users)-1] = '\0';*/
 			char notificacion[512];
 			sprintf(notificacion, "6/%s", users);
+			printf("%s \n", notificacion);
 			
 			//Se tiene que enviar a todos los clientes conectados
 		
@@ -503,7 +506,7 @@ int main(int argc, char *argv[]){
 	
 	int sock_conn, sock_listen;
 	struct sockaddr_in serv_adr;
-	int gate = 9090;
+	int gate = 50004;
 
 	// INICIALITZACIONS
 	// Abrimos el socket
@@ -520,7 +523,7 @@ int main(int argc, char *argv[]){
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	
 	// establecemos el puerto de escucha
-	serv_adr.sin_port = htons(9090);
+	serv_adr.sin_port = htons(50004);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		
 		printf ("Error al bind");

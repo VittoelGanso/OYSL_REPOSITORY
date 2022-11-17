@@ -128,8 +128,8 @@ namespace Cliente_Proyevto
         {
             if (conectado == 0)
             {
-                IPAddress direc = IPAddress.Parse("192.168.56.101");
-                IPEndPoint ipep = new IPEndPoint(direc, 9090);
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50004);
 
                 try
                 {
@@ -168,14 +168,18 @@ namespace Cliente_Proyevto
                 MessageBox.Show("Los datos introducidos no son correctos");
                 return;
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Introduce datos");
+            }
         }
 
         private void Registrarse_Click(object sender, EventArgs e)
         {
             if (conectado == 0)
             {
-                IPAddress direc = IPAddress.Parse("192.168.56.101");
-                IPEndPoint ipep = new IPEndPoint(direc, 9090);
+                IPAddress direc = IPAddress.Parse("147.83.117.22");
+                IPEndPoint ipep = new IPEndPoint(direc, 50004);
                 try
                 {
                     //Creamos el socket
@@ -211,6 +215,10 @@ namespace Cliente_Proyevto
             {
                 MessageBox.Show("Los datos introducidos no son correctos");
                 return;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Introduce datos");
             }
         }
 
