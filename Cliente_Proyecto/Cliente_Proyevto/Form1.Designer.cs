@@ -41,7 +41,6 @@ namespace Cliente_Proyevto
             this.label1 = new System.Windows.Forms.Label();
             this.Usuario = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.ListaConectados_button = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -52,6 +51,13 @@ namespace Cliente_Proyevto
             this.label3 = new System.Windows.Forms.Label();
             this.ListaConectados = new System.Windows.Forms.DataGridView();
             this.Puntuaciones = new System.Windows.Forms.DataGridView();
+            this.jugador1 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.jugador2 = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.Invitacion = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
@@ -153,7 +159,13 @@ namespace Cliente_Proyevto
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.ListaConectados_button);
+            this.panel2.Controls.Add(this.label10);
+            this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.Invitacion);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.jugador2);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.jugador1);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.label6);
@@ -164,22 +176,13 @@ namespace Cliente_Proyevto
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(525, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(198, 385);
+            this.panel2.Size = new System.Drawing.Size(198, 439);
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
             // 
-            // ListaConectados_button
-            // 
-            this.ListaConectados_button.Location = new System.Drawing.Point(48, 323);
-            this.ListaConectados_button.Name = "ListaConectados_button";
-            this.ListaConectados_button.Size = new System.Drawing.Size(97, 41);
-            this.ListaConectados_button.TabIndex = 8;
-            this.ListaConectados_button.Text = "Ver lista de usuarios conectados";
-            this.ListaConectados_button.UseVisualStyleBackColor = true;
-            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(48, 268);
+            this.button4.Location = new System.Drawing.Point(48, 397);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(97, 39);
             this.button4.TabIndex = 7;
@@ -189,7 +192,7 @@ namespace Cliente_Proyevto
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(48, 216);
+            this.button3.Location = new System.Drawing.Point(48, 221);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(97, 38);
             this.button3.TabIndex = 6;
@@ -274,6 +277,67 @@ namespace Cliente_Proyevto
             this.Puntuaciones.TabIndex = 3;
             this.Puntuaciones.Visible = false;
             // 
+            // jugador1
+            // 
+            this.jugador1.Location = new System.Drawing.Point(94, 300);
+            this.jugador1.Name = "jugador1";
+            this.jugador1.Size = new System.Drawing.Size(100, 20);
+            this.jugador1.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 307);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(54, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Jugador 1";
+            // 
+            // jugador2
+            // 
+            this.jugador2.Location = new System.Drawing.Point(94, 326);
+            this.jugador2.Name = "jugador2";
+            this.jugador2.Size = new System.Drawing.Size(100, 20);
+            this.jugador2.TabIndex = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 329);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(54, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Jugador 2";
+            // 
+            // Invitacion
+            // 
+            this.Invitacion.Location = new System.Drawing.Point(48, 356);
+            this.Invitacion.Name = "Invitacion";
+            this.Invitacion.Size = new System.Drawing.Size(97, 35);
+            this.Invitacion.TabIndex = 12;
+            this.Invitacion.Text = "Invitar";
+            this.Invitacion.UseVisualStyleBackColor = true;
+            this.Invitacion.Click += new System.EventHandler(this.Invitacion_Click);
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(10, 271);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(180, 13);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "Introduce el usuario de los jugadores";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(25, 284);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(153, 13);
+            this.label10.TabIndex = 14;
+            this.label10.Text = "a los que quieres invitar a jugar";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -317,9 +381,15 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox Nombre;
-        private System.Windows.Forms.Button ListaConectados_button;
         private System.Windows.Forms.DataGridView ListaConectados;
         private System.Windows.Forms.DataGridView Puntuaciones;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button Invitacion;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox jugador2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox jugador1;
+        private System.Windows.Forms.Label label10;
     }
 }
 

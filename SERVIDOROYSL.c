@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <mysql.h>
-#include <my_global.h>
+
 
 //ESTRUCTURAS USUARIOS Y LISTA DE LOS MISMOS
 
@@ -31,6 +31,12 @@ typedef struct{
 } ListOnlineUsers;
 
 //ESTRUCTURA DE PARTIDA 
+typedef struct{
+	OnlineUser user[3];
+	int numjugadores;
+	int ocupado;
+	int id;
+}; Partida;
 
 //Estructura para la tabla de partidas, en el cual se alamacenaran 
 //los nombres y los sockets de los usuarios.
@@ -51,7 +57,25 @@ typedef struct{
 //FUNCIONES PARA LA LISTA DE USUARIOS CONECTADOS
  
 ListOnlineUsers List; //creamos una lista de usuarios conectados.
+Partida listaPartidas[20]; //Creamos la lista de las partidas
+
+int AddtoPartida(listaPartidas *Partida, char username[20]){
+	int indx=0;
+	//Primero buscamos una partida que no este ocupada
+	while (Partida[indx].ocupado ==1){
+		indx=indx+1; //Encontramos la partida que no está ocupada
+	}
 	
+	//Como tenemos el campo de número de jugadores sabemos cuantos hay
+	int pos = Partida[indx].numjugadores; //En que posicion debemos añadir al nuevo jugador
+	strcpy(Partida[indx].users[pos], users);
+	Partida[indx].numjugadores++;
+	if(Partida[indx].numjugadores == 3){
+		ocupado ==1; //La partida estará ocupada
+	}
+	return 0;
+}
+
 //FUNCION : AñadiraLista funcion que añade un usuario a la lista de conectados.
 //CODIGOS : 0 si el usuario ha sido añadido, -1 si el usuario ya estaba en la lista y -2 si no hay espacio en la lista.
 
@@ -137,6 +161,7 @@ int GivemeOnlineusers( ListOnlineUsers *List, char Ousers[512]){
 		sprintf(Ousers,"%s/%s",Ousers,List->online[i].username);
 	}
 }
+
 
 //FUNCIONES DE LA BASE DE DATOS  
 
@@ -226,7 +251,7 @@ int GamesPlayed(char name[25], char answer[100], MYSQL *conn, int sock_conn){
 	MYSQL_ROW row;
 
 	char Query[500];
-	sprintf(Query,"SELECT played FROM userDB WHERE userDB.username = '%s'",name);
+	sprintf(Query,"SELECT COUNT(Games.ID_G) FROM(userDB, Games) WHERE userDB.username = '%s' AND userDB.ID=Games.ID_U",name);
 	int err = mysql_query(conn,Query);
 	if (err != 0)
 	{
@@ -295,7 +320,8 @@ int chart(MYSQL *conn, char answer[512]){
 		row = mysql_fetch_row(result);
 		
 		while( row != NULL){
-			sprintf(answer, "5/ %d %s"); 
+			sprintf(answer, "5/%s/%s%s");
+			row = mysql_fetch_row(result);
 		}
 	}
 }
@@ -361,7 +387,7 @@ void *AtenderCliente (void *socket)
 		exit (1);
 	}
 	
-	conn = mysql_real_connect(conn, "shiva2.upc.es", "root", "mysql", "MG1OYSL_DB", 0, NULL, 0);
+	conn = mysql_real_connect(conn, "localhost", "root", "mysql", "MG1OYSL_DB", 0, NULL, 0);
 	
 	if(conn==NULL){
 		printf("Error al inicializar la conexion %u %s\n", mysql_errno(conn), mysql_error(conn));
@@ -506,7 +532,7 @@ int main(int argc, char *argv[]){
 	
 	int sock_conn, sock_listen;
 	struct sockaddr_in serv_adr;
-	int gate = 50004;
+
 
 	// INICIALITZACIONS
 	// Abrimos el socket
@@ -523,7 +549,7 @@ int main(int argc, char *argv[]){
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	
 	// establecemos el puerto de escucha
-	serv_adr.sin_port = htons(50004);
+	serv_adr.sin_port = htons(9070);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		
 		printf ("Error al bind");
