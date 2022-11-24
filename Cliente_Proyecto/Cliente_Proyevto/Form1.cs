@@ -83,7 +83,7 @@ namespace Cliente_Proyevto
                 //Partimos por la barra para saber que servicio es
                 string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
                 string mensaje = trozos[0].Split('\0')[0]; //Declaramos el mensaje recibido por el servidor
-                //Console.WriteLine(mensaje);
+                Console.WriteLine(mensaje);
                 int codigo = Convert.ToInt32(mensaje); //Donde tenemos el codigo del mensaje
 
                 int i, j;
@@ -180,22 +180,41 @@ namespace Cliente_Proyevto
 
                         break;
                     case 7: //Nos llega la notificacion del cliente para que podamos aceptar la partida
-                        string invitacion = "¿Quieres unirte a mi partida?";
-                        string caption = "Ha habido un error";
-                        var result = MessageBox.Show(invitacion, caption, MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        respuesta = trozos[1].Split('\0')[0];
+                        if(respuesta=="No estan conectados")
                         {
-                            //El cliente ha aceptado la invitacion
-                            mensaje = "7/Si"; //El cliente envia el mensaje diciendo que ha aceptado la invitacion
-                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                            server.Send(msg); //Enviamos la respuesta
-                            //En este punto se abre el formulario para escoger personaje
+                            MessageBox.Show(respuesta);
                         }
                         else
                         {
-                            mensaje = "7/No"; //El cliente no ha aceptado la invitación y no se quiere unir
-                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                            server.Send(msg); //Enviamos la respuesta
+                            string invitacion = "¿Quieres unirte a mi partida?";
+                            string caption = "Invitación";
+                            var result = MessageBox.Show(invitacion, caption, MessageBoxButtons.YesNo);
+                            string contesta;
+                            if (result == DialogResult.Yes)
+                            {
+                                contesta = "Si";
+
+                            }
+                            else
+                            {
+                                contesta = "No";
+                            }
+                            ThreadStart t = delegate { Invitar(contesta, respuesta); };
+                            Thread ts = new Thread(t);
+                            ts.Start();
+                        }
+                        
+                        break;
+                    case 8: //Nos dice si se une
+                        respuesta = trozos[1].Split('\0')[0];
+                        if (respuesta == "Se juega la partida")
+                        {
+                            MessageBox.Show(respuesta);
+                        }
+                        else
+                        {
+                            MessageBox.Show(respuesta);
                         }
                         break;
                 }
@@ -360,6 +379,22 @@ namespace Cliente_Proyevto
             string mensaje = "6/" + jugador1.Text + "/" + jugador2.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+        }
+
+        public void Invitar(string respuesta, string nombre)
+        {
+            if(respuesta == "Si")
+            {
+                string mensaje = "7/Si/" + nombre;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+            }
+            else
+            {
+                string mensaje = "7/No/" + nombre;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+            }
         }
     }
 }

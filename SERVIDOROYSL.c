@@ -36,7 +36,7 @@ typedef struct{
 	int numjugadores;
 	int ocupado;
 	int id;
-}; Partida;
+} Partida;
 
 //Estructura para la tabla de partidas, en el cual se alamacenaran 
 //los nombres y los sockets de los usuarios.
@@ -59,21 +59,46 @@ typedef struct{
 ListOnlineUsers List; //creamos una lista de usuarios conectados.
 Partida listaPartidas[20]; //Creamos la lista de las partidas
 
-int AddtoPartida(listaPartidas *Partida, char username[20]){
-	int indx=0;
-	//Primero buscamos una partida que no este ocupada
-	while (Partida[indx].ocupado ==1){
-		indx=indx+1; //Encontramos la partida que no está ocupada
+
+//Antes de añadir un jugador a una partida, debemos buscar una partida que no esté llena para añadirlo
+int PartidaLibre(Partida listaPartida[20]){
+	int encontrado = 0;
+	int j = 0;
+	while ((j<20)&&(encontrado==0)){
+		if(listaPartida[j].ocupado ==0){
+			encontrado = 1;
+		}
+		else{
+			j=j+1;
+		}
+	}
+	if (encontrado == 1){
+		return j; //Que será la posición en la que haya una partida libre
+	}
+	else{
+		return -1; //Ha habido un error
+	}
+}
+
+//Cuando la partida acabe se debe eliminiar
+void EliminaPartida(Partida listaPartida[20], int id){
+	listaPartida[id].numjugadores=0; //Ponemos a 0 el número de jugadores
+	for(int i=0; i<3; i++){
+		listaPartida[id].user[i].socket=-1;
+		strcpy(listaPartida[id].user[i].username, "");
+	}
+}
+void AddtoPartida(Partida listaPartida[20], char username[20], int id){
+	
+	if(listaPartida[id].ocupado==0){
+		EliminaPartida(listaPartida, id); //Eliminamos la partida por si ya habia alguien
+		listaPartida[id].ocupado=1; //Ponemos que la partida ahora está ocupada
 	}
 	
-	//Como tenemos el campo de número de jugadores sabemos cuantos hay
-	int pos = Partida[indx].numjugadores; //En que posicion debemos añadir al nuevo jugador
-	strcpy(Partida[indx].users[pos], users);
-	Partida[indx].numjugadores++;
-	if(Partida[indx].numjugadores == 3){
-		ocupado ==1; //La partida estará ocupada
-	}
-	return 0;
+	int socket = DameSocket(&List, username);
+	listaPartida[id].user[listaPartida[id].numjugadores].socket = socket;
+	strcpy(listaPartida[id].user[listaPartida[id].numjugadores].username, username);
+	listaPartida[id].numjugadores = listaPartida[id].numjugadores +1;
 }
 
 //FUNCION : AñadiraLista funcion que añade un usuario a la lista de conectados.
@@ -119,7 +144,7 @@ int GivemePosition (ListOnlineUsers *List, char username[20]){
 	int position = 0;
 	int found = 0;
 	
-	while ( position < List-> num){
+	while ( (position < List-> num)&&(found==0)){
 		//comparamos el nombre pasado por parametro con los que hay en la lista.
 		if( strcmp( List->online[position].username, username) == 0)
 			found = 1;
@@ -149,6 +174,26 @@ int DeletefromList (ListOnlineUsers *List, char username[20]){
 	//eliminamos la ultima posicion de la lista.
 	List->num = List->num -1;
 	return 0;
+}
+
+//FUNCION: Nos da el socket de un usuario que se encuentra en la lista de conectados
+int DameSocket (ListOnlineUsers *List, char username[20]){
+	int j=0;
+	int encontrado=0;
+	while((j<List->num)&&(encontrado==0)){
+		if(strcmp(List->online[j].username, username)==0){
+			encontrado=1;
+		}
+		else{
+			j=j+1;
+		}
+	}
+	if (encontrado==1){
+		return List->online[j].socket;
+	}
+	else{
+		return -1;
+	}
 }
 
 //FUNCION : Genera una string con todos los usuarios conectados.
@@ -357,6 +402,8 @@ int Chart(MYSQL *conn, char answer[512]){
 	}
 }
 
+
+
 //Usando las funciones creadas, buscamos atender al cliente.
 void *AtenderCliente (void *socket)
 {
@@ -369,13 +416,17 @@ void *AtenderCliente (void *socket)
 	//int socket_conn = * (int *) socket;
 	int finish =0;
 	int code;
+	int idp; //El id de la partida
+	int jugadores=0;
 	
 	char Request[512];
 	char Answer[512];
+	char Nombre[20];
 	
 	char *username[25];
 	char *password[25];
 	char *email[25];
+	char notificacion[512];
 	
 	int ret; // parametro que almaecena la informacion de los datos enviados por el usuario.
 	
@@ -432,6 +483,7 @@ void *AtenderCliente (void *socket)
 			strcpy(password,p);
 			
 			finish = LogIn(username,password,Answer,conn,sock_conn);
+			strcpy(Nombre,username);
 			printf("finish: %d\n",finish);
 
 		
@@ -485,7 +537,85 @@ void *AtenderCliente (void *socket)
 			sprintf(Answer, "5/Aun no esta disponible"); //Para tenerlo de referencia
 			printf("No está disponible \n");
 		}
-		
+		else if (code==6){ //Llega el mensaje con los nombres para invitar
+			idp = PartidaLibre(listaPartidas); //Buscamos una partida libre
+			pthread_mutex_lock(&mutex);
+			AddtoPartida(listaPartidas, Nombre, idp); //Añadimos a la partida al cliente que está invitando
+			pthread_mutex_unlock(&mutex);
+			//Realizamos la invitacion
+
+			p=strtok(NULL, "/");
+			while (p!=NULL){
+				strcpy(username, p);
+				printf("%s\n", username);
+				int pos = GivemePosition(&List, username); //Obtenemos la posición en la lista del primer usuario1
+				printf("%d", pos);
+				if(pos==-1){
+					sprintf(notificacion, "7/No estan conectados");
+					write(sock_conn, notificacion, strlen(notificacion));
+					break;
+				}
+				else{
+	
+					sprintf(notificacion, "7/%s", username); //Mensaje que enviaremos al cliente por si quiere aceptar la invitacion
+					printf("Notificacion: %s\n", notificacion);
+
+					write(List.online[pos].socket,notificacion,strlen(notificacion));
+
+				}
+
+				p=strtok(NULL, "/"); //Ahora cogemos al siguiente usuario y hacemos lo mismo
+			}
+	
+		}
+		else if (code == 7){ //La decision de los clientes. Si quieren unirse o no
+			for(int u=0; u<2; u++){
+				char decision[512];
+				p = strtok(NULL, "/");
+				strcpy(decision, p);
+				printf("Decision: %s\n", decision);
+				char usuario[512];
+				p=strtok(NULL, "/");
+				strcpy(usuario, p);
+				printf("Usuario: %s\n", usuario);
+				if (strcmp(decision, "Si")==0){
+					pthread_mutex_lock(&mutex);
+					AddtoPartida(listaPartidas, usuario, idp);
+					jugadores = jugadores+1;
+					pthread_mutex_unlock(&mutex);
+				}
+				else{
+					pthread_mutex_lock(&mutex);
+					jugadores = jugadores;
+					pthread_mutex_unlock(&mutex);
+				}
+			}
+			printf("Jugadores: %d\n", jugadores);
+			if (listaPartidas[idp].numjugadores>1){
+				if(jugadores==2){
+					sprintf(notificacion, "8/Se juega la partida");
+					printf("Notificacion: %s\n", notificacion);
+					for (int u=0; u<3; u++){
+						write(listaPartidas[idp].user[u].socket, notificacion, strlen(notificacion));
+					}
+				}
+				else{
+					if(listaPartidas[idp].numjugadores==3){
+						sprintf(notificacion, "8/No se juega la partida");
+						printf("Notificacion: %s\n", notificacion);
+						for (int u=0; u<3; u++){
+							write(listaPartidas[idp].user[u].socket, notificacion, strlen(notificacion));
+						}
+					}
+					else{
+						printf("Esperamos a que acepten los demas jugadores. \n");
+					}
+				}
+			}
+
+			
+		}
+
 		if((code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))
 		{
 			printf("Answer:%s\n",Answer);
@@ -503,7 +633,7 @@ void *AtenderCliente (void *socket)
 			
 			//Notificar los usuarios conectados.
 			/*users[strlen(users)-1] = '\0';*/
-			char notificacion[512];
+
 			sprintf(notificacion, "6/%s", users);
 			printf("%s \n", notificacion);
 			
@@ -515,6 +645,7 @@ void *AtenderCliente (void *socket)
 			}
 
 		}
+
 			
 			
 			
