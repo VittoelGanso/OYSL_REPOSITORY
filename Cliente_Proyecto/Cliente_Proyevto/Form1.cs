@@ -25,8 +25,8 @@ namespace Cliente_Proyevto
 
         Socket server;
         int conectado = 0;  //Estamos desconectados
-        string address = "192.168.56.101";
-        int gate = 9070;
+        string address = "147.83.117.22";
+        int gate = 50004;
         Thread atender;
         delegate void DelegadoParaEscribir(string mensaje, int pos1, int pos2, DataGridView datagrid);
         delegate void DelegadoParaVisualizar(bool visible, Panel p);
