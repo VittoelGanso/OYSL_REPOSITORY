@@ -9,6 +9,7 @@
 #include <mysql.h>
 
 
+
 //ESTRUCTURAS USUARIOS Y LISTA DE LOS MISMOS
 
 //Estructura necesaria para acceso excluyente
@@ -38,6 +39,8 @@ typedef struct{
 	int id;
 } Partida;
 
+
+
 //Estructura para la tabla de partidas, en el cual se alamacenaran 
 //los nombres y los sockets de los usuarios.
 typedef struct{
@@ -57,15 +60,16 @@ typedef struct{
 //FUNCIONES PARA LA LISTA DE USUARIOS CONECTADOS
  
 ListOnlineUsers List; //creamos una lista de usuarios conectados.
-Partida listaPartidas[20]; //Creamos la lista de las partidas
+typedef Partida TPartidas [20]; //Creamos la lista de las partidas
+TPartidas miTabla;
 
 
 //Antes de añadir un jugador a una partida, debemos buscar una partida que no esté llena para añadirlo
-int PartidaLibre(Partida listaPartida[20]){
+int PartidaLibre(TPartidas tabla){
 	int encontrado = 0;
 	int j = 0;
 	while ((j<20)&&(encontrado==0)){
-		if(listaPartida[j].ocupado ==0){
+		if(tabla[j].ocupado ==0){
 			encontrado = 1;
 		}
 		else{
@@ -81,24 +85,27 @@ int PartidaLibre(Partida listaPartida[20]){
 }
 
 //Cuando la partida acabe se debe eliminiar
-void EliminaPartida(Partida listaPartida[20], int id){
-	listaPartida[id].numjugadores=0; //Ponemos a 0 el número de jugadores
+void EliminaPartida(TPartidas tabla, int id){
+	tabla[id].numjugadores=0; //Ponemos a 0 el número de jugadores
 	for(int i=0; i<3; i++){
-		listaPartida[id].user[i].socket=-1;
-		strcpy(listaPartida[id].user[i].username, "");
+		tabla[id].user[i].socket=-1;
+		strcpy(tabla[id].user[i].username, "");
 	}
 }
-void AddtoPartida(Partida listaPartida[20], char username[20], int id){
+void AddtoPartida(TPartidas tabla, char username[20], int id){
 	
-	if(listaPartida[id].ocupado==0){
-		EliminaPartida(listaPartida, id); //Eliminamos la partida por si ya habia alguien
-		listaPartida[id].ocupado=1; //Ponemos que la partida ahora está ocupada
+	if(tabla[id].ocupado==0){
+		EliminaPartida(tabla, id); //Eliminamos la partida por si ya habia alguien
+		tabla[id].ocupado=1; //Ponemos que la partida ahora está ocupada
 	}
 	
 	int socket = DameSocket(&List, username);
-	listaPartida[id].user[listaPartida[id].numjugadores].socket = socket;
-	strcpy(listaPartida[id].user[listaPartida[id].numjugadores].username, username);
-	listaPartida[id].numjugadores = listaPartida[id].numjugadores +1;
+	printf("Socket: %d \n", socket);
+	tabla[id].user[tabla[id].numjugadores].socket = socket;
+	strcpy(tabla[id].user[tabla[id].numjugadores].username, username);
+	printf("Usuario: %s \n", tabla[id].user[tabla[id].numjugadores].username);
+	tabla[id].numjugadores = tabla[id].numjugadores +1;
+	printf("Numero: %d \n", tabla[id].numjugadores);
 }
 
 //FUNCION : AñadiraLista funcion que añade un usuario a la lista de conectados.
@@ -179,16 +186,16 @@ int DeletefromList (ListOnlineUsers *List, char username[20]){
 //FUNCION: Nos da el socket de un usuario que se encuentra en la lista de conectados
 int DameSocket (ListOnlineUsers *List, char username[20]){
 	int j=0;
-	int encontrado=0;
-	while((j<List->num)&&(encontrado==0)){
+	int found=0;
+	while((j<List->num)&&(found==0)){
 		if(strcmp(List->online[j].username, username)==0){
-			encontrado=1;
+			found=1;
 		}
 		else{
 			j=j+1;
 		}
 	}
-	if (encontrado==1){
+	if (found==1){
 		return List->online[j].socket;
 	}
 	else{
@@ -538,18 +545,19 @@ void *AtenderCliente (void *socket)
 			printf("No está disponible \n");
 		}
 		else if (code==6){ //Llega el mensaje con los nombres para invitar
-			idp = PartidaLibre(listaPartidas); //Buscamos una partida libre
+			idp = PartidaLibre(miTabla); //Buscamos una partida libre
+			printf("ID Partida: %d \n", idp);
 			pthread_mutex_lock(&mutex);
-			AddtoPartida(listaPartidas, Nombre, idp); //Añadimos a la partida al cliente que está invitando
+			AddtoPartida(miTabla, Nombre, idp); //Añadimos a la partida al cliente que está invitando
 			pthread_mutex_unlock(&mutex);
 			//Realizamos la invitacion
 
 			p=strtok(NULL, "/");
 			while (p!=NULL){
 				strcpy(username, p);
-				printf("%s\n", username);
+				printf("Usuario: %s\n", username);
 				int pos = GivemePosition(&List, username); //Obtenemos la posición en la lista del primer usuario1
-				printf("%d", pos);
+				printf("Posicion: %d \n", pos);
 				if(pos==-1){
 					sprintf(notificacion, "7/No estan conectados");
 					write(sock_conn, notificacion, strlen(notificacion));
@@ -569,52 +577,47 @@ void *AtenderCliente (void *socket)
 	
 		}
 		else if (code == 7){ //La decision de los clientes. Si quieren unirse o no
-			for(int u=0; u<2; u++){
-				char decision[512];
-				p = strtok(NULL, "/");
-				strcpy(decision, p);
-				printf("Decision: %s\n", decision);
-				char usuario[512];
-				p=strtok(NULL, "/");
-				strcpy(usuario, p);
-				printf("Usuario: %s\n", usuario);
-				if (strcmp(decision, "Si")==0){
-					pthread_mutex_lock(&mutex);
-					AddtoPartida(listaPartidas, usuario, idp);
-					jugadores = jugadores+1;
-					pthread_mutex_unlock(&mutex);
-				}
-				else{
-					pthread_mutex_lock(&mutex);
-					jugadores = jugadores;
-					pthread_mutex_unlock(&mutex);
+
+			char decision[512];
+			p = strtok(NULL, "/");
+			strcpy(decision, p);
+			printf("Decision: %s\n", decision);
+			char usuario[512];
+			p=strtok(NULL, "/");
+			strcpy(usuario, p);
+			printf("Usuario: %s\n", usuario);
+			if (strcmp(decision,"Si")==0){
+				pthread_mutex_lock(&mutex);
+				AddtoPartida(miTabla, usuario, idp);
+				pthread_mutex_unlock(&mutex);
+			}
+			pthread_mutex_lock(&mutex);
+			jugadores=jugadores+1;
+			pthread_mutex_unlock(&mutex);
+			printf("Jugadores: %d\n", jugadores);
+			if (miTabla[idp].numjugadores==3){
+				sprintf(notificacion, "8/Se juega la partida");
+				printf("Notificacion: %s\n", notificacion);
+				for (int u=0; u<3; u++){
+					write(miTabla[idp].user[u].socket, notificacion, strlen(notificacion));
 				}
 			}
-			printf("Jugadores: %d\n", jugadores);
-			if (listaPartidas[idp].numjugadores>1){
-				if(jugadores==2){
-					sprintf(notificacion, "8/Se juega la partida");
+			else{
+				if((miTabla[idp].numjugadores>1)&&(jugadores==2)){
+					sprintf(notificacion, "8/No se juega la partida");
 					printf("Notificacion: %s\n", notificacion);
 					for (int u=0; u<3; u++){
-						write(listaPartidas[idp].user[u].socket, notificacion, strlen(notificacion));
+						write(miTabla[idp].user[u].socket, notificacion, strlen(notificacion));
 					}
 				}
 				else{
-					if(listaPartidas[idp].numjugadores==3){
-						sprintf(notificacion, "8/No se juega la partida");
-						printf("Notificacion: %s\n", notificacion);
-						for (int u=0; u<3; u++){
-							write(listaPartidas[idp].user[u].socket, notificacion, strlen(notificacion));
-						}
-					}
-					else{
-						printf("Esperamos a que acepten los demas jugadores. \n");
-					}
+					printf("Esperamos a que acepten los demas jugadores. \n");
 				}
 			}
+		}
 
 			
-		}
+	
 
 		if((code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))
 		{
