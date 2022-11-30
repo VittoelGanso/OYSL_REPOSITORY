@@ -40,7 +40,15 @@ namespace Cliente_Proyevto
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Usuario = new System.Windows.Forms.TextBox();
+            this.Chat = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.Invitacion = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.jugador2 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.jugador1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -51,17 +59,14 @@ namespace Cliente_Proyevto
             this.label3 = new System.Windows.Forms.Label();
             this.ListaConectados = new System.Windows.Forms.DataGridView();
             this.Puntuaciones = new System.Windows.Forms.DataGridView();
-            this.jugador1 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.jugador2 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.Invitacion = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.message = new System.Windows.Forms.TextBox();
+            this.Enviar = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).BeginInit();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -157,6 +162,14 @@ namespace Cliente_Proyevto
             this.Usuario.Size = new System.Drawing.Size(100, 20);
             this.Usuario.TabIndex = 1;
             // 
+            // Chat
+            // 
+            this.Chat.FormattingEnabled = true;
+            this.Chat.Location = new System.Drawing.Point(0, 0);
+            this.Chat.Name = "Chat";
+            this.Chat.Size = new System.Drawing.Size(153, 264);
+            this.Chat.TabIndex = 4;
+            // 
             // panel2
             // 
             this.panel2.Controls.Add(this.label10);
@@ -179,6 +192,67 @@ namespace Cliente_Proyevto
             this.panel2.Size = new System.Drawing.Size(198, 439);
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(25, 284);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(153, 13);
+            this.label10.TabIndex = 14;
+            this.label10.Text = "a los que quieres invitar a jugar";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(10, 271);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(180, 13);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "Introduce el usuario de los jugadores";
+            // 
+            // Invitacion
+            // 
+            this.Invitacion.Location = new System.Drawing.Point(48, 356);
+            this.Invitacion.Name = "Invitacion";
+            this.Invitacion.Size = new System.Drawing.Size(97, 35);
+            this.Invitacion.TabIndex = 12;
+            this.Invitacion.Text = "Invitar";
+            this.Invitacion.UseVisualStyleBackColor = true;
+            this.Invitacion.Click += new System.EventHandler(this.Invitacion_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 329);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(54, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Jugador 2";
+            // 
+            // jugador2
+            // 
+            this.jugador2.Location = new System.Drawing.Point(94, 326);
+            this.jugador2.Name = "jugador2";
+            this.jugador2.Size = new System.Drawing.Size(100, 20);
+            this.jugador2.TabIndex = 10;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 307);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(54, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Jugador 1";
+            // 
+            // jugador1
+            // 
+            this.jugador1.Location = new System.Drawing.Point(94, 300);
+            this.jugador1.Name = "jugador1";
+            this.jugador1.Size = new System.Drawing.Size(100, 20);
+            this.jugador1.TabIndex = 8;
             // 
             // button4
             // 
@@ -262,8 +336,9 @@ namespace Cliente_Proyevto
             // ListaConectados
             // 
             this.ListaConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ListaConectados.Location = new System.Drawing.Point(23, 3);
+            this.ListaConectados.Location = new System.Drawing.Point(350, 304);
             this.ListaConectados.Name = "ListaConectados";
+            this.ListaConectados.RowHeadersWidth = 51;
             this.ListaConectados.Size = new System.Drawing.Size(169, 145);
             this.ListaConectados.TabIndex = 2;
             this.ListaConectados.Visible = false;
@@ -271,72 +346,38 @@ namespace Cliente_Proyevto
             // Puntuaciones
             // 
             this.Puntuaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Puntuaciones.Location = new System.Drawing.Point(235, 39);
+            this.Puntuaciones.Location = new System.Drawing.Point(12, 30);
             this.Puntuaciones.Name = "Puntuaciones";
+            this.Puntuaciones.RowHeadersWidth = 51;
             this.Puntuaciones.Size = new System.Drawing.Size(240, 307);
             this.Puntuaciones.TabIndex = 3;
             this.Puntuaciones.Visible = false;
             // 
-            // jugador1
+            // message
             // 
-            this.jugador1.Location = new System.Drawing.Point(94, 300);
-            this.jugador1.Name = "jugador1";
-            this.jugador1.Size = new System.Drawing.Size(100, 20);
-            this.jugador1.TabIndex = 8;
+            this.message.Location = new System.Drawing.Point(0, 244);
+            this.message.Name = "message";
+            this.message.Size = new System.Drawing.Size(150, 20);
+            this.message.TabIndex = 5;
             // 
-            // label7
+            // Enviar
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 307);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "Jugador 1";
+            this.Enviar.Location = new System.Drawing.Point(391, 281);
+            this.Enviar.Name = "Enviar";
+            this.Enviar.Size = new System.Drawing.Size(59, 23);
+            this.Enviar.TabIndex = 6;
+            this.Enviar.Text = "envio";
+            this.Enviar.UseVisualStyleBackColor = true;
+            this.Enviar.Click += new System.EventHandler(this.Enviar_Click);
             // 
-            // jugador2
+            // panel3
             // 
-            this.jugador2.Location = new System.Drawing.Point(94, 326);
-            this.jugador2.Name = "jugador2";
-            this.jugador2.Size = new System.Drawing.Size(100, 20);
-            this.jugador2.TabIndex = 10;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 329);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(54, 13);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Jugador 2";
-            // 
-            // Invitacion
-            // 
-            this.Invitacion.Location = new System.Drawing.Point(48, 356);
-            this.Invitacion.Name = "Invitacion";
-            this.Invitacion.Size = new System.Drawing.Size(97, 35);
-            this.Invitacion.TabIndex = 12;
-            this.Invitacion.Text = "Invitar";
-            this.Invitacion.UseVisualStyleBackColor = true;
-            this.Invitacion.Click += new System.EventHandler(this.Invitacion_Click);
-            // 
-            // label9
-            // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(10, 271);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(180, 13);
-            this.label9.TabIndex = 13;
-            this.label9.Text = "Introduce el usuario de los jugadores";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(25, 284);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(153, 13);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "a los que quieres invitar a jugar";
+            this.panel3.Controls.Add(this.message);
+            this.panel3.Controls.Add(this.Chat);
+            this.panel3.Location = new System.Drawing.Point(235, 39);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(153, 264);
+            this.panel3.TabIndex = 7;
             // 
             // Form1
             // 
@@ -344,18 +385,23 @@ namespace Cliente_Proyevto
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(735, 450);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.Enviar);
             this.Controls.Add(this.Puntuaciones);
             this.Controls.Add(this.ListaConectados);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = " ";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -390,6 +436,10 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox jugador1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ListBox Chat;
+        private System.Windows.Forms.TextBox message;
+        private System.Windows.Forms.Button Enviar;
+        private System.Windows.Forms.Panel panel3;
     }
 }
 
