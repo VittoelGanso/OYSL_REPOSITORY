@@ -149,13 +149,23 @@ namespace Graficos_juego_OYSL
 
         private void MuestraReverso(PictureBox picturebox)
         {
-            picturebox.ImageLocation = "Pondremos el nombre de la foro";
+            picturebox.ImageLocation = "Pondremos el nombre de la foto";
             picturebox.SizeMode = PictureBoxSizeMode.AutoSize;
         }
 
         private void Lacayo_Load(object sender, EventArgs e)
         {
             info.Text = "lacayo " + lacayo;
+        }
+
+        private void Jugador_2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Jugador_1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

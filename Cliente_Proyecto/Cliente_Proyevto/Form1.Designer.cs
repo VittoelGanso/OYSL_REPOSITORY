@@ -167,7 +167,7 @@ namespace Cliente_Proyevto
             this.Chat.FormattingEnabled = true;
             this.Chat.Location = new System.Drawing.Point(0, 0);
             this.Chat.Name = "Chat";
-            this.Chat.Size = new System.Drawing.Size(153, 264);
+            this.Chat.Size = new System.Drawing.Size(153, 238);
             this.Chat.TabIndex = 4;
             // 
             // panel2
@@ -336,9 +336,8 @@ namespace Cliente_Proyevto
             // ListaConectados
             // 
             this.ListaConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ListaConectados.Location = new System.Drawing.Point(350, 304);
+            this.ListaConectados.Location = new System.Drawing.Point(23, 3);
             this.ListaConectados.Name = "ListaConectados";
-            this.ListaConectados.RowHeadersWidth = 51;
             this.ListaConectados.Size = new System.Drawing.Size(169, 145);
             this.ListaConectados.TabIndex = 2;
             this.ListaConectados.Visible = false;
@@ -346,34 +345,34 @@ namespace Cliente_Proyevto
             // Puntuaciones
             // 
             this.Puntuaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Puntuaciones.Location = new System.Drawing.Point(12, 30);
+            this.Puntuaciones.Location = new System.Drawing.Point(235, 39);
             this.Puntuaciones.Name = "Puntuaciones";
-            this.Puntuaciones.RowHeadersWidth = 51;
             this.Puntuaciones.Size = new System.Drawing.Size(240, 307);
             this.Puntuaciones.TabIndex = 3;
             this.Puntuaciones.Visible = false;
             // 
             // message
             // 
-            this.message.Location = new System.Drawing.Point(0, 244);
+            this.message.Location = new System.Drawing.Point(0, 241);
             this.message.Name = "message";
             this.message.Size = new System.Drawing.Size(150, 20);
             this.message.TabIndex = 5;
             // 
             // Enviar
             // 
-            this.Enviar.Location = new System.Drawing.Point(391, 281);
+            this.Enviar.Location = new System.Drawing.Point(394, 280);
             this.Enviar.Name = "Enviar";
             this.Enviar.Size = new System.Drawing.Size(59, 23);
             this.Enviar.TabIndex = 6;
             this.Enviar.Text = "envio";
             this.Enviar.UseVisualStyleBackColor = true;
+            this.Enviar.Visible = false;
             this.Enviar.Click += new System.EventHandler(this.Enviar_Click);
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.message);
             this.panel3.Controls.Add(this.Chat);
+            this.panel3.Controls.Add(this.message);
             this.panel3.Location = new System.Drawing.Point(235, 39);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(153, 264);
@@ -385,14 +384,14 @@ namespace Cliente_Proyevto
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(735, 450);
-            this.Controls.Add(this.panel3);
             this.Controls.Add(this.Enviar);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.Puntuaciones);
             this.Controls.Add(this.ListaConectados);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = " ";
+            this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

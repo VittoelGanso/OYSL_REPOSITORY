@@ -55,98 +55,111 @@ namespace Graficos_juego_OYSL
             // 
             // Excusas
             // 
-            this.Excusas.Location = new System.Drawing.Point(303, 124);
+            this.Excusas.Location = new System.Drawing.Point(541, 95);
+            this.Excusas.Margin = new System.Windows.Forms.Padding(4);
             this.Excusas.Name = "Excusas";
-            this.Excusas.Size = new System.Drawing.Size(91, 136);
+            this.Excusas.Size = new System.Drawing.Size(121, 167);
             this.Excusas.TabIndex = 0;
             this.Excusas.TabStop = false;
             // 
             // Accion
             // 
-            this.Accion.Location = new System.Drawing.Point(184, 124);
+            this.Accion.Location = new System.Drawing.Point(382, 95);
+            this.Accion.Margin = new System.Windows.Forms.Padding(4);
             this.Accion.Name = "Accion";
-            this.Accion.Size = new System.Drawing.Size(92, 136);
+            this.Accion.Size = new System.Drawing.Size(123, 167);
             this.Accion.TabIndex = 1;
             this.Accion.TabStop = false;
             // 
             // Jugador_1
             // 
-            this.Jugador_1.Location = new System.Drawing.Point(429, 156);
+            this.Jugador_1.Location = new System.Drawing.Point(709, 134);
+            this.Jugador_1.Margin = new System.Windows.Forms.Padding(4);
             this.Jugador_1.Name = "Jugador_1";
-            this.Jugador_1.Size = new System.Drawing.Size(132, 77);
+            this.Jugador_1.Size = new System.Drawing.Size(176, 95);
             this.Jugador_1.TabIndex = 2;
             this.Jugador_1.TabStop = false;
+            this.Jugador_1.Click += new System.EventHandler(this.Jugador_1_Click);
             // 
             // Jugador_2
             // 
-            this.Jugador_2.Location = new System.Drawing.Point(-3, 156);
+            this.Jugador_2.Location = new System.Drawing.Point(133, 134);
+            this.Jugador_2.Margin = new System.Windows.Forms.Padding(4);
             this.Jugador_2.Name = "Jugador_2";
-            this.Jugador_2.Size = new System.Drawing.Size(152, 77);
+            this.Jugador_2.Size = new System.Drawing.Size(203, 95);
             this.Jugador_2.TabIndex = 3;
             this.Jugador_2.TabStop = false;
+            this.Jugador_2.Click += new System.EventHandler(this.Jugador_2_Click);
             // 
             // Excusa1
             // 
-            this.Excusa1.Location = new System.Drawing.Point(445, 290);
+            this.Excusa1.Location = new System.Drawing.Point(730, 299);
+            this.Excusa1.Margin = new System.Windows.Forms.Padding(4);
             this.Excusa1.Name = "Excusa1";
-            this.Excusa1.Size = new System.Drawing.Size(99, 158);
+            this.Excusa1.Size = new System.Drawing.Size(132, 194);
             this.Excusa1.TabIndex = 4;
             this.Excusa1.TabStop = false;
             // 
             // Excusa2
             // 
-            this.Excusa2.Location = new System.Drawing.Point(363, 290);
+            this.Excusa2.Location = new System.Drawing.Point(621, 299);
+            this.Excusa2.Margin = new System.Windows.Forms.Padding(4);
             this.Excusa2.Name = "Excusa2";
-            this.Excusa2.Size = new System.Drawing.Size(91, 158);
+            this.Excusa2.Size = new System.Drawing.Size(121, 194);
             this.Excusa2.TabIndex = 5;
             this.Excusa2.TabStop = false;
             // 
             // Excusa3
             // 
-            this.Excusa3.Location = new System.Drawing.Point(282, 290);
+            this.Excusa3.Location = new System.Drawing.Point(513, 299);
+            this.Excusa3.Margin = new System.Windows.Forms.Padding(4);
             this.Excusa3.Name = "Excusa3";
-            this.Excusa3.Size = new System.Drawing.Size(90, 158);
+            this.Excusa3.Size = new System.Drawing.Size(120, 194);
             this.Excusa3.TabIndex = 6;
             this.Excusa3.TabStop = false;
             // 
             // Accion1
             // 
-            this.Accion1.Location = new System.Drawing.Point(206, 290);
+            this.Accion1.Location = new System.Drawing.Point(412, 299);
+            this.Accion1.Margin = new System.Windows.Forms.Padding(4);
             this.Accion1.Name = "Accion1";
-            this.Accion1.Size = new System.Drawing.Size(85, 158);
+            this.Accion1.Size = new System.Drawing.Size(113, 194);
             this.Accion1.TabIndex = 7;
             this.Accion1.TabStop = false;
             // 
             // Accion2
             // 
-            this.Accion2.Location = new System.Drawing.Point(125, 290);
+            this.Accion2.Location = new System.Drawing.Point(304, 299);
+            this.Accion2.Margin = new System.Windows.Forms.Padding(4);
             this.Accion2.Name = "Accion2";
-            this.Accion2.Size = new System.Drawing.Size(95, 158);
+            this.Accion2.Size = new System.Drawing.Size(127, 194);
             this.Accion2.TabIndex = 8;
             this.Accion2.TabStop = false;
             // 
             // Accion3
             // 
-            this.Accion3.Location = new System.Drawing.Point(40, 290);
+            this.Accion3.Location = new System.Drawing.Point(190, 299);
+            this.Accion3.Margin = new System.Windows.Forms.Padding(4);
             this.Accion3.Name = "Accion3";
-            this.Accion3.Size = new System.Drawing.Size(89, 158);
+            this.Accion3.Size = new System.Drawing.Size(119, 194);
             this.Accion3.TabIndex = 9;
             this.Accion3.TabStop = false;
             // 
             // info
             // 
             this.info.AutoSize = true;
-            this.info.Location = new System.Drawing.Point(12, 9);
+            this.info.Location = new System.Drawing.Point(16, 11);
+            this.info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.info.Name = "info";
-            this.info.Size = new System.Drawing.Size(0, 13);
+            this.info.Size = new System.Drawing.Size(0, 17);
             this.info.TabIndex = 10;
             // 
             // Lacayo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.info);
             this.Controls.Add(this.Accion3);
             this.Controls.Add(this.Accion2);
@@ -158,6 +171,7 @@ namespace Graficos_juego_OYSL
             this.Controls.Add(this.Jugador_1);
             this.Controls.Add(this.Accion);
             this.Controls.Add(this.Excusas);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Lacayo";
             this.Text = "Lacayo";
             this.Load += new System.EventHandler(this.Lacayo_Load);
