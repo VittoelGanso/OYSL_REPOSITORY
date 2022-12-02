@@ -10,6 +10,7 @@
 
 
 
+
 //ESTRUCTURAS USUARIOS Y LISTA DE LOS MISMOS
 
 //Estructura necesaria para acceso excluyente
@@ -391,37 +392,28 @@ int chart(MYSQL *conn, char answer[512]){
 	
 	
 	char Query[200];
-	sprintf(Query,"SELECT userDB.username,userDB.wins FROM (userDB) ORDER BY wins DESC");
-
+	sprintf(answer,"SELECT userDB.username,userDB.wins FROM (userDB) ORDER BY wins DESC");
 	int err = mysql_query(conn,Query);
-
 	
 	if(err!=0){
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
 	}
 	else{ //Recogemos el resultado de la consulta
-		 
+		
 		result = mysql_store_result(conn);
 		row = mysql_fetch_row(result);
-		printf("%s \n", row[0]);
-		if (row == NULL){
-			printf("No se han obtenido datos de la consulta \n");
-			sprintf(answer, "5/No se han obtenido datos de la consulta");
-			return 1;
-
+		if(row ==NULL){
+			sprintf(answer, "5/No se han obtenido datos");
 		}
 		else{
 			sprintf(answer, "5/%s/%s", row[0], row[1]);
-			printf("%s \n", answer);
-			row=mysql_fetch_row(result);
-			while(row!=NULL){
-				printf("%s/%s \n", row[0], row[1]);
-				sprintf(answer, "%s/%s/%s", answer, row[0], row[1]);
+			row = mysql_fetch_row(result);
+			while( row != NULL){
+				sprintf(answer, "/%s/%s", row[0], row[1]);
 				row = mysql_fetch_row(result);
 			}
-			return 0;
-
 		}
+		
 	}
 }
 
@@ -471,6 +463,7 @@ void *AtenderCliente (void *socket)
 	int code;
 	int idp; //El id de la partida
 	int jugadores=0;
+	int numForm;
 	
 	char Request[512];
 	char Answer[512];
@@ -491,7 +484,7 @@ void *AtenderCliente (void *socket)
 		exit (1);
 	}
 	
-	conn = mysql_real_connect(conn, "localhost", "root", "mysql", "OYSL_DB", 0, NULL, 0);
+	conn = mysql_real_connect(conn, "localhost", "root", "mysql", "MG1OYSL_DB", 0, NULL, 0);
 	
 	if(conn==NULL){
 		printf("Error al inicializar la conexion %u %s\n", mysql_errno(conn), mysql_error(conn));
@@ -521,8 +514,7 @@ void *AtenderCliente (void *socket)
 		if (code== 0){
 			
 			DeletefromList(&List, username);
-			sprintf(Answer, "0/a");
-			printf("Desconectado \n");
+			sprintf(Answer, "0/");
 			finish = 1;
 		}
 		//CODIGO 1
@@ -589,7 +581,8 @@ void *AtenderCliente (void *socket)
 			
 		}
 		else if(code ==5){
-			int c = chart(conn, Answer);
+			chart(sock_conn, Answer);
+
 		}
 		else if (code==6){ //Llega el mensaje con los nombres para invitar
 			idp = FreeGame(Table); //Buscamos una partida libre
@@ -667,12 +660,13 @@ void *AtenderCliente (void *socket)
 		//Se recibe 8/mensaje.
 		else if (code == 8)
 		{
+			p=strtok(NULL, "/");
+			numForm=atoi(p);
 			char mensaje[512];
 			p = strtok(NULL, "/");
 
 			strcpy(mensaje, p);
-			sprintf(notificacion, "9/%s", mensaje);
-			printf("%s", mensaje);
+			sprintf(notificacion, "9/%d/%s", numForm, mensaje);
 
 			for (int u = 0; u < 3; u++) {
 				write(Table[idp].user[u].socket, notificacion, strlen(notificacion));
@@ -682,7 +676,7 @@ void *AtenderCliente (void *socket)
 			
 	
 
-		if((code==0) || (code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))
+		if((code==0)||(code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))
 		{
 			printf("Answer:%s\n",Answer);
 			// la respuesta

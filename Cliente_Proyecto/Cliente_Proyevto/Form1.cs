@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Graficos_juego_OYSL;
+
 
 
 namespace Cliente_Proyevto
@@ -24,18 +26,22 @@ namespace Cliente_Proyevto
         }
 
         Socket server;
-        int conectado = 0;  //Estamos desconectados
-        string address = "147.83.117.22";
-        int gate = 50004;
-        Thread atender;
         string nombreuser;
+        int conectado = 0;  //Estamos desconectados
+        string address = "192.168.56.101";
+        int gate = 9070;
+        Thread atender;
+        int numForm;
+
+        List<GraficoOYSL> formulario = new List<GraficoOYSL>();
+
+
         delegate void DelegadoParaEscribir(string mensaje, int pos1, int pos2, DataGridView datagrid);
         delegate void DelegadoParaVisualizar(bool visible, Panel p);
         delegate void GridVisible(bool visible, DataGridView datagrid);
         delegate void TamañoDataGrid(int num, string lugar, DataGridView datagrid);
         delegate void Titulo(string titulo, int pos, DataGridView datagrid);
-        delegate void MensajeChat(string mensaje);
-        delegate void HazVisible(bool visible);
+
 
         //Intentar hacer las funciones globales, que sirvan para todos los paneles o datagrids
         public void AñadirFila(string nombre, int pos1, int pos2, DataGridView datagrid)
@@ -70,38 +76,45 @@ namespace Cliente_Proyevto
             }
  
         }
+
         public void ListaHeader(string titulo, int pos, DataGridView datagrid)
         {
             datagrid.Columns[pos].HeaderText = titulo;
         }
 
-        public void PonMensaje(string mensaje)
+
+
+        private void PonerEnMarchaFormulario()
         {
-            Chat.Items.Add(mensaje);
+            int cont = formulario.Count;
+            string nombreuser = this.Usuario.Text;
+            GraficoOYSL f = new GraficoOYSL(cont, server, nombreuser);
+            formulario.Add(f);
+            f.ShowDialog();
         }
 
-        public void EnviarVisible(bool visible)
-        {
-            Enviar.Visible = visible;
-        }
-
-        
+        //
+        //COMPLEJO DE FUNCIONES PARA ATENDER LAS PETICIONES QUE LLEGAN DEL SERVIDOR.
+        //
 
         private void AtenderServidor()
         {
-            while (true) //bucle infinito
+            int terminar = 0;
+            while (terminar == 0) //bucle infinito
             {
                 //Recibimos el mensaje del servidor
-                byte[] msg2 = new byte[80];
+                byte[] msg2 = new byte[96];
                 server.Receive(msg2);
 
                 //Partimos por la barra para saber que servicio es
                 string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
+                Console.WriteLine("Numero de trozos: " + Convert.ToString(trozos.Length));
                 string mensaje = trozos[0].Split('\0')[0]; //Declaramos el mensaje recibido por el servidor
                 Console.WriteLine(mensaje);
                 int codigo = Convert.ToInt32(mensaje); //Donde tenemos el codigo del mensaje
 
                 int i, j;
+                
                 string respuesta;
                 DelegadoParaVisualizar delegado = new DelegadoParaVisualizar(PanelVisible);
                 GridVisible listacon = new GridVisible(ListaConectadosVisible);
@@ -109,7 +122,6 @@ namespace Cliente_Proyevto
                 TamañoDataGrid tamaño = new TamañoDataGrid(ListaConectadosRow);
                 Titulo titulo = new Titulo(ListaHeader);
                 DelegadoParaEscribir añadir = new DelegadoParaEscribir(AñadirFila);
-
 
 
                 switch (codigo)
@@ -121,19 +133,19 @@ namespace Cliente_Proyevto
                         atender.Abort();
                         server.Shutdown(SocketShutdown.Both);
                         server.Close();
-                        break;
 
+                        terminar = 1;
+                        break;
                     case 1: //Inicio de sesión
                         respuesta = trozos[1].Split('\0')[0];
 
                         if (respuesta == "Si")
                         {
+                            
                             MessageBox.Show("Has iniciado sesión correctamente");
-                            nombreuser = Usuario.Text;
 
                             panel1.Invoke(delegado, new object[] { false, panel1 }); //Dejamos de ver el panel 1
                             panel2.Invoke(delegado, new object[] { true, panel2 }); //Visualizamos las querys
-
                             ListaConectados.Invoke(listacon, new object[] { true, ListaConectados }); //Vemos el datagrid de la lista
 
                             ListaConectados.Invoke(autosize, new object[] { true, ListaConectados }); //Ponemos el método de autosize
@@ -170,22 +182,24 @@ namespace Cliente_Proyevto
                     case 5: //Tabla de jugadores con sus partidas ganadas
 
                         Puntuaciones.Invoke(listacon, new object[] { true, Puntuaciones }); //Se hace visible
-                        ListaConectados.Invoke(autosize, new object[] { true, ListaConectados }); //Ponemos el AutoSize
-                        ListaConectados.Invoke(tamaño, new object[] { trozos.Length - 1, "r", ListaConectados }); //Número de filas
-                        ListaConectados.Invoke(tamaño, new object[] { 2, "c", ListaConectados }); //Número de columnas
-                        ListaConectados.Invoke(titulo, new object[] { "Nombre del jugador", 0, ListaConectados }); //Título de la columna
-                        ListaConectados.Invoke(titulo, new object[] { "Partidas ganadas", 1, ListaConectados }); //Título de la segunda columna
+                        Puntuaciones.Invoke(autosize, new object[] { true, Puntuaciones}); //Ponemos el AutoSize
+                        Puntuaciones.Invoke(tamaño, new object[] { (trozos.Length)/2, "r", Puntuaciones }); //Número de filas
+                        Puntuaciones.Invoke(tamaño, new object[] { 2, "c", Puntuaciones }); //Número de columnas
+                        Puntuaciones.Invoke(titulo, new object[] { "Nombre del jugador", 0, Puntuaciones }); //Título de la columna
+                        Puntuaciones.Invoke(titulo, new object[] { "Partidas ganadas", 1, Puntuaciones }); //Título de la segunda columna
 
-                        j = 0;
-                        for (i = 1; i < trozos.Length; i++)
+                        j = 1;
+                        for (i = 0; i < (trozos.Length)/2 ; i++)
                         {
                             //Nombre:
                             respuesta = trozos[j].Split('\0')[0];
+                            Console.WriteLine(respuesta);
                             Puntuaciones.Invoke(añadir, new object[] { respuesta, i, 0, Puntuaciones });
 
                             j = j + 1;
                             //Partidas ganadas:
                             respuesta = trozos[j].Split('\0')[0];
+                            Console.WriteLine(respuesta);
                             Puntuaciones.Invoke(añadir, new object[] { respuesta, i, 1, Puntuaciones });
                             j = j + 1;
                         }
@@ -238,10 +252,9 @@ namespace Cliente_Proyevto
                         if (respuesta == "Se juega la partida")
                         {
                             MessageBox.Show(respuesta);
-                            DelegadoParaVisualizar d = new DelegadoParaVisualizar(PanelVisible);
-                            panel3.Invoke(d, new object [] { true , panel3 });
-                            HazVisible h = new HazVisible(EnviarVisible);
-                            Enviar.Invoke(h, new object[] { true });
+                            ThreadStart ts = delegate { PonerEnMarchaFormulario(); };
+                            Thread T = new Thread(ts);
+                            T.Start();
                         }
                         else
                         {
@@ -249,9 +262,11 @@ namespace Cliente_Proyevto
                         }
                         break;
                     case 9:
-                        respuesta = trozos[1].Split('\0')[0];
-                        MensajeChat chat = new MensajeChat(PonMensaje);
-                        Chat.Invoke(chat, new object[] { respuesta }); //Escribimos el mensaje en el chat
+                        numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
+                        Console.WriteLine(Convert.ToString(numForm));
+                        respuesta = trozos[2].Split('\0')[0];
+                        formulario[numForm].TomaRespuesta(respuesta);
+                        //Enviamos el mensaje al formulario
                         break;
 
                 }
@@ -288,13 +303,15 @@ namespace Cliente_Proyevto
 
             try
             {
-
+                nombreuser = Usuario.Text;
 
                 //En este caso el mensaje será 1/Nombre de usuario/Contraseña
                 //Así es como el cliente enviará los datos al servidor para que los procese
                 string mensaje = "1/" + Usuario.Text + "/" + Password.Text + "/";
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
+                Usuario.Text = "";
+                Password.Text = "";
 
             }
             catch (FormatException)
@@ -401,6 +418,7 @@ namespace Cliente_Proyevto
             string mensaje = "0/";
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+            conectado= 0;
         }
 
         private void Invitacion_Click(object sender, EventArgs e)
@@ -428,20 +446,19 @@ namespace Cliente_Proyevto
             }
         }
 
-        //Enviamos el mensaje del chat
-        private void Enviar_Click(object sender, EventArgs e)
-        {
-            string mensaje = "8/" + nombreuser + ":"+ message.Text;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
-        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            HazVisible h = new HazVisible(EnviarVisible);
-            Enviar.Invoke(h, new object[] { false });
-            DelegadoParaVisualizar d = new DelegadoParaVisualizar(PanelVisible);
-            panel3.Invoke(d, new object[] { false, panel3 });
+            
+            GridVisible gr = new GridVisible(ListaConectadosVisible);
+            Puntuaciones.Invoke(gr, new object[] { false, Puntuaciones });
         }
+
+        public string GetUser (string nombreuser)
+        {
+            return nombreuser;
+        }
+
     }
 }

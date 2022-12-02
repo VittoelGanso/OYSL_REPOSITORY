@@ -40,7 +40,6 @@ namespace Cliente_Proyevto
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Usuario = new System.Windows.Forms.TextBox();
-            this.Chat = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -59,18 +58,15 @@ namespace Cliente_Proyevto
             this.label3 = new System.Windows.Forms.Label();
             this.ListaConectados = new System.Windows.Forms.DataGridView();
             this.Puntuaciones = new System.Windows.Forms.DataGridView();
-            this.message = new System.Windows.Forms.TextBox();
-            this.Enviar = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).BeginInit();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.Puntuaciones);
             this.panel1.Controls.Add(this.Registrarse);
             this.panel1.Controls.Add(this.Correo);
             this.panel1.Controls.Add(this.label5);
@@ -134,6 +130,7 @@ namespace Cliente_Proyevto
             // 
             this.Password.Location = new System.Drawing.Point(18, 124);
             this.Password.Name = "Password";
+            this.Password.PasswordChar = '*';
             this.Password.Size = new System.Drawing.Size(100, 20);
             this.Password.TabIndex = 1;
             // 
@@ -161,14 +158,6 @@ namespace Cliente_Proyevto
             this.Usuario.Name = "Usuario";
             this.Usuario.Size = new System.Drawing.Size(100, 20);
             this.Usuario.TabIndex = 1;
-            // 
-            // Chat
-            // 
-            this.Chat.FormattingEnabled = true;
-            this.Chat.Location = new System.Drawing.Point(0, 0);
-            this.Chat.Name = "Chat";
-            this.Chat.Size = new System.Drawing.Size(153, 238);
-            this.Chat.TabIndex = 4;
             // 
             // panel2
             // 
@@ -336,8 +325,9 @@ namespace Cliente_Proyevto
             // ListaConectados
             // 
             this.ListaConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ListaConectados.Location = new System.Drawing.Point(23, 3);
+            this.ListaConectados.Location = new System.Drawing.Point(350, 304);
             this.ListaConectados.Name = "ListaConectados";
+            this.ListaConectados.RowHeadersWidth = 51;
             this.ListaConectados.Size = new System.Drawing.Size(169, 145);
             this.ListaConectados.TabIndex = 2;
             this.ListaConectados.Visible = false;
@@ -345,38 +335,12 @@ namespace Cliente_Proyevto
             // Puntuaciones
             // 
             this.Puntuaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Puntuaciones.Location = new System.Drawing.Point(235, 39);
+            this.Puntuaciones.Location = new System.Drawing.Point(-11, -5);
             this.Puntuaciones.Name = "Puntuaciones";
+            this.Puntuaciones.RowHeadersWidth = 51;
             this.Puntuaciones.Size = new System.Drawing.Size(240, 307);
             this.Puntuaciones.TabIndex = 3;
             this.Puntuaciones.Visible = false;
-            // 
-            // message
-            // 
-            this.message.Location = new System.Drawing.Point(0, 241);
-            this.message.Name = "message";
-            this.message.Size = new System.Drawing.Size(150, 20);
-            this.message.TabIndex = 5;
-            // 
-            // Enviar
-            // 
-            this.Enviar.Location = new System.Drawing.Point(394, 280);
-            this.Enviar.Name = "Enviar";
-            this.Enviar.Size = new System.Drawing.Size(59, 23);
-            this.Enviar.TabIndex = 6;
-            this.Enviar.Text = "envio";
-            this.Enviar.UseVisualStyleBackColor = true;
-            this.Enviar.Visible = false;
-            this.Enviar.Click += new System.EventHandler(this.Enviar_Click);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.Chat);
-            this.panel3.Controls.Add(this.message);
-            this.panel3.Location = new System.Drawing.Point(235, 39);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(153, 264);
-            this.panel3.TabIndex = 7;
             // 
             // Form1
             // 
@@ -384,14 +348,11 @@ namespace Cliente_Proyevto
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(735, 450);
-            this.Controls.Add(this.Enviar);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.Puntuaciones);
             this.Controls.Add(this.ListaConectados);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = " ";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -399,8 +360,6 @@ namespace Cliente_Proyevto
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -435,10 +394,6 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox jugador1;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ListBox Chat;
-        private System.Windows.Forms.TextBox message;
-        private System.Windows.Forms.Button Enviar;
-        private System.Windows.Forms.Panel panel3;
     }
 }
 

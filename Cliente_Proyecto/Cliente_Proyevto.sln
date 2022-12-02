@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cliente_Proyevto", "Cliente_Proyevto\Cliente_Proyevto.csproj", "{1972121C-EF00-4D7E-97D1-A6DB981E2F3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graficos", "Graficos_juego_OYSL\Graficos_juego_OYSL\Graficos.csproj", "{70688D5F-9C5D-4AD4-B09E-D8630B8F98DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1972121C-EF00-4D7E-97D1-A6DB981E2F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1972121C-EF00-4D7E-97D1-A6DB981E2F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1972121C-EF00-4D7E-97D1-A6DB981E2F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70688D5F-9C5D-4AD4-B09E-D8630B8F98DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70688D5F-9C5D-4AD4-B09E-D8630B8F98DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70688D5F-9C5D-4AD4-B09E-D8630B8F98DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70688D5F-9C5D-4AD4-B09E-D8630B8F98DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
