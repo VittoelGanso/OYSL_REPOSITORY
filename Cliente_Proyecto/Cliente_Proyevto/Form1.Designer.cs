@@ -31,6 +31,7 @@ namespace Cliente_Proyevto
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Puntuaciones = new System.Windows.Forms.DataGridView();
             this.Registrarse = new System.Windows.Forms.Button();
             this.Correo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -57,11 +58,10 @@ namespace Cliente_Proyevto
             this.Query1 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.ListaConectados = new System.Windows.Forms.DataGridView();
-            this.Puntuaciones = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -80,6 +80,16 @@ namespace Cliente_Proyevto
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(153, 367);
             this.panel1.TabIndex = 0;
+            // 
+            // Puntuaciones
+            // 
+            this.Puntuaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Puntuaciones.Location = new System.Drawing.Point(-11, -5);
+            this.Puntuaciones.Name = "Puntuaciones";
+            this.Puntuaciones.RowHeadersWidth = 51;
+            this.Puntuaciones.Size = new System.Drawing.Size(240, 307);
+            this.Puntuaciones.TabIndex = 3;
+            this.Puntuaciones.Visible = false;
             // 
             // Registrarse
             // 
@@ -332,16 +342,6 @@ namespace Cliente_Proyevto
             this.ListaConectados.TabIndex = 2;
             this.ListaConectados.Visible = false;
             // 
-            // Puntuaciones
-            // 
-            this.Puntuaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Puntuaciones.Location = new System.Drawing.Point(-11, -5);
-            this.Puntuaciones.Name = "Puntuaciones";
-            this.Puntuaciones.RowHeadersWidth = 51;
-            this.Puntuaciones.Size = new System.Drawing.Size(240, 307);
-            this.Puntuaciones.TabIndex = 3;
-            this.Puntuaciones.Visible = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -353,13 +353,14 @@ namespace Cliente_Proyevto
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = " ";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ListaConectados)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Puntuaciones)).EndInit();
             this.ResumeLayout(false);
 
         }

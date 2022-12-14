@@ -512,9 +512,11 @@ void *AtenderCliente (void *socket)
 		//CODIGO 0
 		//Cuando el codigo es 0, se trata de una peticion de desconexion.
 		if (code== 0){
-			
+			p=strtok(NULL, "/");
+			strcpy(username, p);
 			DeletefromList(&List, username);
 			sprintf(Answer, "0/");
+			printf("Answer: %s \n", Answer);
 			finish = 1;
 		}
 		//CODIGO 1

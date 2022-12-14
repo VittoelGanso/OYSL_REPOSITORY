@@ -20,6 +20,8 @@ namespace Graficos_juego_OYSL
         Socket server;
         string nombreuser;
 
+
+
         public GraficoOYSL(int nForm, Socket server, string nombreuser)
         {
             InitializeComponent();
@@ -202,12 +204,12 @@ namespace Graficos_juego_OYSL
             }
             else if (Lacayo_1.Checked)
             {
-                Lacayo form = new Lacayo(1);
+                Lacayos form = new Lacayos(1);
                 form.ShowDialog();
             }
             else 
             {
-                Lacayo form = new Lacayo(2);
+                Lacayos form = new Lacayos(2);
                 form.ShowDialog();
             }
 
@@ -242,5 +244,9 @@ namespace Graficos_juego_OYSL
         {
             chat.Items.Add(mensaje);
         }
+
+
+
+
     }
 }

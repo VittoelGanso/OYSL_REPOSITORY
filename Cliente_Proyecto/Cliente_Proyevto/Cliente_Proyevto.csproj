@@ -59,19 +59,19 @@
     <Compile Include="GraficoOYSL.Designer.cs">
       <DependentUpon>GraficoOYSL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Lacayo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lacayo.Designer.cs">
-      <DependentUpon>Lacayo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Señor_Oscuro.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Señor_Oscuro.Designer.cs">
       <DependentUpon>Señor_Oscuro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Lacayos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lacayos.Designer.cs">
+      <DependentUpon>Lacayos.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -79,8 +79,8 @@
     <EmbeddedResource Include="GraficoOYSL.resx">
       <DependentUpon>GraficoOYSL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Lacayo.resx">
-      <DependentUpon>Lacayo.cs</DependentUpon>
+    <EmbeddedResource Include="Señor_Oscuro.resx">
+      <DependentUpon>Señor_Oscuro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,8 +91,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Señor_Oscuro.resx">
-      <DependentUpon>Señor_Oscuro.cs</DependentUpon>
+    <EmbeddedResource Include="Lacayos.resx">
+      <DependentUpon>Lacayos.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

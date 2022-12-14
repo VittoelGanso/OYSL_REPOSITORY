@@ -38,8 +38,8 @@ namespace Graficos_juego_OYSL
             this.jugar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.chat = new System.Windows.Forms.ListBox();
             this.informacion = new System.Windows.Forms.TextBox();
+            this.chat = new System.Windows.Forms.ListBox();
             this.Envio = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -129,6 +129,13 @@ namespace Graficos_juego_OYSL
             this.panel2.Size = new System.Drawing.Size(196, 241);
             this.panel2.TabIndex = 2;
             // 
+            // informacion
+            // 
+            this.informacion.Location = new System.Drawing.Point(0, 221);
+            this.informacion.Name = "informacion";
+            this.informacion.Size = new System.Drawing.Size(196, 20);
+            this.informacion.TabIndex = 3;
+            // 
             // chat
             // 
             this.chat.FormattingEnabled = true;
@@ -136,13 +143,6 @@ namespace Graficos_juego_OYSL
             this.chat.Name = "chat";
             this.chat.Size = new System.Drawing.Size(196, 225);
             this.chat.TabIndex = 0;
-            // 
-            // informacion
-            // 
-            this.informacion.Location = new System.Drawing.Point(0, 221);
-            this.informacion.Name = "informacion";
-            this.informacion.Size = new System.Drawing.Size(196, 20);
-            this.informacion.TabIndex = 3;
             // 
             // Envio
             // 

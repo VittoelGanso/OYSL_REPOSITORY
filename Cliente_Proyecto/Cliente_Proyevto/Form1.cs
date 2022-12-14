@@ -84,10 +84,9 @@ namespace Cliente_Proyevto
 
 
 
-        private void PonerEnMarchaFormulario()
+        private void PonerEnMarchaFormulario(string nombreuser)
         {
             int cont = formulario.Count;
-            string nombreuser = this.Usuario.Text;
             GraficoOYSL f = new GraficoOYSL(cont, server, nombreuser);
             formulario.Add(f);
             f.ShowDialog();
@@ -127,9 +126,7 @@ namespace Cliente_Proyevto
                 switch (codigo)
                 {
                     case 0:
-                        panel1.Invoke(delegado, new object[] { true, panel1 }); //Vemos el panel 1
-                        panel2.Invoke(delegado, new object[] { false, panel2 }); //Dejamos de ver las 
-                        ListaConectados.Invoke(listacon, new object[] { false, ListaConectados }); //Dejamos de ver la lista
+                        
                         atender.Abort();
                         server.Shutdown(SocketShutdown.Both);
                         server.Close();
@@ -252,7 +249,7 @@ namespace Cliente_Proyevto
                         if (respuesta == "Se juega la partida")
                         {
                             MessageBox.Show(respuesta);
-                            ThreadStart ts = delegate { PonerEnMarchaFormulario(); };
+                            ThreadStart ts = delegate { PonerEnMarchaFormulario(nombreuser); };
                             Thread T = new Thread(ts);
                             T.Start();
                         }
@@ -262,6 +259,7 @@ namespace Cliente_Proyevto
                         }
                         break;
                     case 9:
+
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         Console.WriteLine(Convert.ToString(numForm));
                         respuesta = trozos[2].Split('\0')[0];
@@ -415,10 +413,15 @@ namespace Cliente_Proyevto
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string mensaje = "0/";
+            string mensaje = "0/" + nombreuser;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
             conectado= 0;
+            DelegadoParaVisualizar delegado = new DelegadoParaVisualizar(PanelVisible);
+            GridVisible listacon = new GridVisible(ListaConectadosVisible);
+            panel1.Invoke(delegado, new object[] { true, panel1 }); //Vemos el panel 1
+            panel2.Invoke(delegado, new object[] { false, panel2 }); //Dejamos de ver las 
+            ListaConectados.Invoke(listacon, new object[] { false, ListaConectados }); //Dejamos de ver la lista
         }
 
         private void Invitacion_Click(object sender, EventArgs e)
@@ -460,5 +463,12 @@ namespace Cliente_Proyevto
             return nombreuser;
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string mensaje = "0/" + nombreuser;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            conectado = 0;
+        }
     }
 }
