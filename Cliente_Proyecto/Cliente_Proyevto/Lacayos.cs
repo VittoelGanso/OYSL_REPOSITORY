@@ -17,18 +17,31 @@ namespace Graficos_juego_OYSL
         public string[] cartas_excusa =
         {
             "antiquismo_lugar",
+            "antorcha",
             "arbol_milenario",
             "artefacto_imposible",
             "barco_volador",
+            "bella_exotica",
+            "bola_de_cristal",
             "bosque_oscuro",
             "caballero_negro",
             "cachorrito",
+            "cadena_pesada",
+            "calavera",
             "camino",
+            "capa_del_archimago",
+            "cerveza_enana",
+            "ciudad_flotante",
             "cofre_cerrado",
             "comerciante_tramposo",
             "desolado_desierto",
+            "damisela_peligro",
             "dragon",
+            "elfa_siniestra",
+            "escalera",
             "escudo_redondo",
+            "espada_inteligente",
+            "espada_soluble_en_agua",
             "espantapajaros",
             "fantasma_aterrador",
             "gigante_de_piedra",
@@ -36,67 +49,50 @@ namespace Graficos_juego_OYSL
             "guardian_diminuto",
             "guerrero_sin_seso",
             "hechicero_este",
+            "hierba_del_sueño",
             "hombre_viejo_rapaz",
+            "isla_salvaje",
+            "llave",
             "lugar_equivocado",
+            "mansion_oscura",
             "mapa",
             "mar",
-            "mosntruo_gloton",
+            "mazmorra_oscura",
+            "millar_de_tentaculos",
+            "mina",
+            "momia",
+            "monstruo_gloton",
             "monstruo_mas_monstruo",
             "murcielago",
-            "muro_insuperable",
+            "nieve_caia",
+            "objetos_sorprendentes",
+            "oro",
             "otro_señor_oscuro",
             "pantano",
             "pergamino_indescifrable",
             "placido_rio",
+            "pocion_misteriosa",
             "pozo",
             "pueblo_feliz",
             "puente_sobre_rio",
+            "puerta",
+            "puntillas",
             "rayo",
+            "reina_momia",
             "sirviento_rastrero",
             "sol",
+            "taberna",
+            "templo_ruinas",
+            "torre_solitaria",
+            "tropa_perscindible",
             "talisman",
-            "templo_en_ruinas",
             "tomo_ululante",
             "viento",
+            "ventana_al_mundo",
             "yelmo_con_cuernos",
-            "antorcha",
-            "bella_exotica",
-            "bola_cristal",
-            "cadena_pesada",
-            "calavera",
-            "capa_archimago",
-            "cerveza_enana",
-            "ciudad_flotante",
-            "damisela_peligro",
-            "elfa_siniestra",
-            "escalera",
-            "espada_inteligente",
-            "espada_soluble_agua",
-            "hierba_sueño",
-            "isla_salvaje",
-            "llave",
-            "mansion_oscura",
-            "mazmorra_oscura",
-            "mina",
-            "momia",
-            "nieve_caia",
-            "pocion_misteriosa",
-            "puerta",
-            "reina_momia",
-            "taberna",
-            "torre_solitaria",
-            "tropa_prescindible",
-            "objetos_sorprendentes",
-            "perversos_sucubos",
-            "zapatos_moda",
-             "oro",
-            "puntillas",
-            "señor_1",
-            "señor_2",
-            "señor_3",
-            "millar_tentaculos",
-            "ventana_mundo",
-            "zombies"
+            "zapatos_de_moda",
+            "zombis"
+            
         };
 
         public string[] cartas_accion =
@@ -153,9 +149,9 @@ namespace Graficos_juego_OYSL
             string carta2 = cartas_excusa[random.Next(0, cartas_excusa.Length - 1)];
             value = 15;
             string carta3 = cartas_excusa[random.Next(0, cartas_excusa.Length - 1)];
-            Excusa1.ImageLocation = @"..\..\" + carta1 + ".png";
-            Excusa2.ImageLocation = @"..\..\" + carta2 + ".png";
-            Excusa3.ImageLocation = @"..\..\" + carta3 + ".png";
+            Excusa1.Image = Image.FromFile( carta1 + ".png");
+            Excusa2.Image = Image.FromFile( carta2 + ".png");
+            Excusa3.Image = Image.FromFile(carta3 + ".png");
             Excusa1.SizeMode = PictureBoxSizeMode.StretchImage;
             Excusa2.SizeMode = PictureBoxSizeMode.StretchImage;
             Excusa3.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -167,12 +163,18 @@ namespace Graficos_juego_OYSL
             value = random.Next(0, cartas_accion.Length - 1);
             carta3 = cartas_accion[value];
 
-            Accion1.ImageLocation = @"..\..\" + carta1 + ".png";
-            Accion2.ImageLocation = @"..\..\" + carta2 + ".png";
-            Accion3.ImageLocation = @"..\..\" + carta3 + ".png";
+            Accion1.Image = Image.FromFile(carta1 + ".png");
+            Accion2.Image = Image.FromFile(carta2 + ".png");
+            Accion3.Image =Image.FromFile(carta3 + ".png");
             Accion1.SizeMode = PictureBoxSizeMode.StretchImage;
             Accion2.SizeMode = PictureBoxSizeMode.StretchImage;
             Accion3.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            MuestraReverso(Jugador_2);
+            MuestraReverso(Jugador_1);
+            MuestraReverso(Accion);
+            MuestraReverso(Excusas);
+            
         }
         #region cartasMiradas
         List<Cartas> barajaMiradas = new List<Cartas>()
@@ -185,8 +187,8 @@ namespace Graficos_juego_OYSL
 
         private void MuestraReverso(PictureBox picturebox)
         {
-            picturebox.ImageLocation = "reverso.png";
-            picturebox.SizeMode = PictureBoxSizeMode.AutoSize;
+            picturebox.Image = Image.FromFile("reverso.png");
+            picturebox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
       
 
