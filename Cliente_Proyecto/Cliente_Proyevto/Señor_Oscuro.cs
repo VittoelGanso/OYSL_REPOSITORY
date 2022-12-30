@@ -7,17 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using Cliente_Proyevto;
 
 namespace Graficos_juego_OYSL
 {
     public partial class Señor_Oscuro : Form
     {
+        int nForm;
+        Socket server;
 
-
-        public Señor_Oscuro()
+        public Señor_Oscuro(int nForm, Socket server)
         {
 
             InitializeComponent();
+            this.nForm = nForm;
+            this.server = server;
         }
         #region cartasExcusa
 
@@ -147,14 +154,22 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
-        private void MuestraReverso(PictureBox picturebox)
+        private void MuestraImagen(PictureBox picturebox, string imagen)
         {
-            picturebox.ImageLocation = "Pondremos el nombre de la foro";
-            picturebox.SizeMode = PictureBoxSizeMode.AutoSize;
+            picturebox.Image = Image.FromFile(imagen);
+            picturebox.SizeMode = PictureBoxSizeMode.StretchImage;
+            picturebox.ImageLocation = imagen;
         }
 
         private void Señor_Oscuro_Load(object sender, EventArgs e)
         {
+            MuestraImagen(Mirada1, "señor_1.png");
+            MuestraImagen(Mirada2, "señor_2.png");
+            MuestraImagen(Mirada3, "seór_3.png");
+            MuestraImagen(Jugador_1, "reverso.png");
+            MuestraImagen(Jugador_2, "reverso.png");
+            MuestraImagen(Accion, "reverso.png");
+            MuestraImagen(Excusas, "reverso.png");
             
         }
 
