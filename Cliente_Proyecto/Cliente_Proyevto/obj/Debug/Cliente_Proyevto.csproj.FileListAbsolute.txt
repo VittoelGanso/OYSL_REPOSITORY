@@ -54,3 +54,16 @@ C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Junto_SO\Cliente_Proyecto\
 C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Junto_SO\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.exe
 C:\Users\Propietari\Desktop\Universitat\3A\SO\Cliente_Junto_SO\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.pdb
 C:\Users\Propietari\Desktop\Universitat\3A\SO\Repositorio_SO\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Graficos_juego_OYSL.Lacayos.resources
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\bin\Debug\Cliente_Proyevto.exe.config
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\bin\Debug\Cliente_Proyevto.exe
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\bin\Debug\Cliente_Proyevto.pdb
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.csproj.AssemblyReference.cache
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.Form1.resources
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Graficos_juego_OYSL.GraficoOYSL.resources
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Graficos_juego_OYSL.Señor_Oscuro.resources
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.Properties.Resources.resources
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Graficos_juego_OYSL.Lacayos.resources
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.csproj.GenerateResource.cache
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.csproj.CoreCompileInputs.cache
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.exe
+C:\Users\Júlia\OYSL_REPOSITORY\Cliente_Proyecto\Cliente_Proyevto\obj\Debug\Cliente_Proyevto.pdb

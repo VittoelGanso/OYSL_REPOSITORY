@@ -7,12 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.Remoting.Channels;
+using System.Net.Sockets;
+using Microsoft.VisualBasic;
 
 namespace Graficos_juego_OYSL
 {
     public partial class Señor_Oscuro : Form
     {
-
+        bool lanzar = false;
+        Socket server;
+        string nombreuser;
 
         public Señor_Oscuro()
         {
@@ -167,5 +172,38 @@ namespace Graficos_juego_OYSL
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            {
+                
+
+                if (lanzar)
+                {
+                    var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
+                                         "Confirma!!",
+                                         MessageBoxButtons.YesNo);
+                    if (confirmResult == DialogResult.Yes)
+                    {
+
+                        string input = Interaction.InputBox("Prompt", "Escriba el username del  Locayo que desea enviar las miradas", "Default", 0, 0);
+
+                        Socket server = this.server;
+                        string nombreuser = input;
+                        SocketFlags us;
+                        byte[] ar;
+
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ok, volvamos al juego");
+                    }
+                }
+            }
+        }
     }
+
+    
 }

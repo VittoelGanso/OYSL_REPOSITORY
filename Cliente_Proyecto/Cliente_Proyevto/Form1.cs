@@ -28,8 +28,8 @@ namespace Cliente_Proyevto
         Socket server;
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
-        string address = "192.168.56.101";
-        int gate = 9070;
+        string address = "192.168.56.102";
+        int gate = 9075;
         Thread atender;
         int numForm;
 

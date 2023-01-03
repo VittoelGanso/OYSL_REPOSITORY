@@ -209,7 +209,9 @@ namespace Graficos_juego_OYSL
 
         }
 
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
 
-
+        }
     }
 }
