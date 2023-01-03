@@ -7,22 +7,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+<<<<<<< HEAD
 using System.Runtime.Remoting.Channels;
 using System.Net.Sockets;
 using Microsoft.VisualBasic;
+=======
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using Cliente_Proyevto;
+>>>>>>> 72a1db1239df9df64f5e674e85a7a174b467073b
 
 namespace Graficos_juego_OYSL
 {
     public partial class Señor_Oscuro : Form
     {
+<<<<<<< HEAD
         bool lanzar = false;
         Socket server;
         string nombreuser;
 
         public Señor_Oscuro()
+=======
+        int nForm;
+        Socket server;
+
+        public Señor_Oscuro(int nForm, Socket server)
+>>>>>>> 72a1db1239df9df64f5e674e85a7a174b467073b
         {
 
             InitializeComponent();
+            this.nForm = nForm;
+            this.server = server;
         }
         #region cartasExcusa
 
@@ -152,14 +168,22 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
-        private void MuestraReverso(PictureBox picturebox)
+        private void MuestraImagen(PictureBox picturebox, string imagen)
         {
-            picturebox.ImageLocation = "Pondremos el nombre de la foro";
-            picturebox.SizeMode = PictureBoxSizeMode.AutoSize;
+            picturebox.Image = Image.FromFile(imagen);
+            picturebox.SizeMode = PictureBoxSizeMode.StretchImage;
+            picturebox.ImageLocation = imagen;
         }
 
         private void Señor_Oscuro_Load(object sender, EventArgs e)
         {
+            MuestraImagen(Mirada1, "señor_1.png");
+            MuestraImagen(Mirada2, "señor_2.png");
+            MuestraImagen(Mirada3, "seór_3.png");
+            MuestraImagen(Jugador_1, "reverso.png");
+            MuestraImagen(Jugador_2, "reverso.png");
+            MuestraImagen(Accion, "reverso.png");
+            MuestraImagen(Excusas, "reverso.png");
             
         }
 
