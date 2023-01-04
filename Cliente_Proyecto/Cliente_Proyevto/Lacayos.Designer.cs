@@ -46,6 +46,7 @@ namespace Graficos_juego_OYSL
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.miradas = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Accion3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion1)).BeginInit();
@@ -199,12 +200,21 @@ namespace Graficos_juego_OYSL
             this.label3.TabIndex = 25;
             this.label3.Text = "Cartas de Excusas";
             // 
+            // miradas
+            // 
+            this.miradas.AutoSize = true;
+            this.miradas.Location = new System.Drawing.Point(704, 297);
+            this.miradas.Name = "miradas";
+            this.miradas.Size = new System.Drawing.Size(0, 13);
+            this.miradas.TabIndex = 26;
+            // 
             // Lacayos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.miradas);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -258,5 +268,6 @@ namespace Graficos_juego_OYSL
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label miradas;
     }
 }

@@ -7,33 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-<<<<<<< HEAD
-using System.Runtime.Remoting.Channels;
-using System.Net.Sockets;
-using Microsoft.VisualBasic;
-=======
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Cliente_Proyevto;
->>>>>>> 72a1db1239df9df64f5e674e85a7a174b467073b
 
 namespace Graficos_juego_OYSL
 {
     public partial class Señor_Oscuro : Form
     {
-<<<<<<< HEAD
-        bool lanzar = false;
-        Socket server;
-        string nombreuser;
-
-        public Señor_Oscuro()
-=======
         int nForm;
         Socket server;
+        string nombreuser;
+        int miradas=0;
 
         public Señor_Oscuro(int nForm, Socket server)
->>>>>>> 72a1db1239df9df64f5e674e85a7a174b467073b
         {
 
             InitializeComponent();
@@ -168,6 +156,7 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
+
         private void MuestraImagen(PictureBox picturebox, string imagen)
         {
             picturebox.Image = Image.FromFile(imagen);
@@ -197,37 +186,53 @@ namespace Graficos_juego_OYSL
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Mirada_Click(object sender, EventArgs e)
         {
+            if (miradas==3)
             {
-                
-
-                if (lanzar)
+                var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
+                                     "Confirma!!",
+                                     MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
                 {
-                    var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
-                                         "Confirma!!",
-                                         MessageBoxButtons.YesNo);
-                    if (confirmResult == DialogResult.Yes)
-                    {
 
-                        string input = Interaction.InputBox("Prompt", "Escriba el username del  Locayo que desea enviar las miradas", "Default", 0, 0);
+                    string input = Interaction.InputBox("Prompt", "Escriba el username del  Locayo que desea enviar las miradas", "Default", 0, 0);
 
-                        Socket server = this.server;
-                        string nombreuser = input;
-                        SocketFlags us;
-                        byte[] ar;
+                    Socket server = this.server;
+                    string nombreuser = input;
+                    SocketFlags us;
+                    byte[] ar;
 
 
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ok, volvamos al juego");
-                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ok, volvamos al juego");
                 }
             }
+
+
+        }
+
+        private void Mirada1_Click(object sender, EventArgs e)
+        {
+            miradas = miradas + 1;
+        }
+
+        private void Mirada2_Click(object sender, EventArgs e)
+        {
+            miradas = miradas + 1;
+        }
+
+        private void Mirada3_Click(object sender, EventArgs e)
+        {
+            miradas = miradas + 1;
+        }
+
+        public void MostrarCambioTurno()
+        {
+            MessageBox.Show("Se ha cambiado el turno");
         }
     }
-
-    
 }

@@ -344,7 +344,27 @@ namespace Graficos_juego_OYSL
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
                 excusa = 0; //Volvemos a empezar
+
             }
+        }
+
+        delegate void MiradasLabel(string numero);
+
+        public void Miradas_Label(string numero)
+        {
+            miradas.Text = numero;
+        }
+
+        public void PonMiradas(string numero)
+        {
+            MiradasLabel label = new MiradasLabel(Miradas_Label);
+            miradas.Invoke(label, new object[] { numero });
+            MessageBox.Show("Te han enviado una mirada fulminante");
+        }
+
+        public void MostrarCambioTurno()
+        {
+            MessageBox.Show("Se ha cambiado el turno");
         }
     }
 }

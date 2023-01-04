@@ -19,11 +19,21 @@ namespace Graficos_juego_OYSL
         int nForm;
         Socket server;
         string nombreuser;
-        List<Lacayos> formulario = new List<Lacayos>();
-        List<Señor_Oscuro> f = new List<Señor_Oscuro>();
-
+        public List<Lacayos> formulario = new List<Lacayos>();
+        public List<Señor_Oscuro> f = new List<Señor_Oscuro>();
+        
+        
 
         public GraficoOYSL(int nForm, Socket server, string nombreuser)
+        {
+            InitializeComponent();
+            this.nForm = nForm;
+            this.server = server;
+            this.nombreuser = nombreuser;
+            
+        }
+
+        public GraficoOYSL(int nForm, Socket server, string nombreuser, Form1 parent)
         {
             InitializeComponent();
             this.nForm = nForm;
@@ -32,9 +42,9 @@ namespace Graficos_juego_OYSL
 
         }
 
-        
+
         //En el mazo para robar las cartas deben estar boca a bajo
- 
+
         private void jugar_Click(object sender, EventArgs e)
         {
 
@@ -76,6 +86,7 @@ namespace Graficos_juego_OYSL
         {
             
         }
+
         delegate void MensajeChat(string mensaje);
 
         public void TomaRespuesta(string mensaje)
@@ -95,6 +106,8 @@ namespace Graficos_juego_OYSL
             Lacayos f = new Lacayos(cont, server, num);
             formulario.Add(f);
             f.ShowDialog();
+            Form1 formprincipal = Owner as Form1;
+            formprincipal.formlacayo[cont] = f;
         }
 
         private void PonerEnMarchaSeñor()
@@ -103,6 +116,8 @@ namespace Graficos_juego_OYSL
             Señor_Oscuro formulario = new Señor_Oscuro(cont, server);
             f.Add(formulario);
             formulario.ShowDialog();
+            Form1 formprincipal = Owner as Form1;
+            formprincipal.formSeñor[cont] = formulario; 
         }
 
 

@@ -28,18 +28,14 @@ namespace Cliente_Proyevto
         Socket server;
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
-<<<<<<< HEAD
-        string address = "192.168.56.102";
-        int gate = 9075;
-=======
         string address = "192.168.56.101";
         int gate = 9080;
->>>>>>> 72a1db1239df9df64f5e674e85a7a174b467073b
         Thread atender;
         int numForm;
 
         List<GraficoOYSL> formulario = new List<GraficoOYSL>();
-
+        public List<Lacayos> formlacayo = new List<Lacayos>();
+        public List<Señor_Oscuro> formSeñor = new List<Señor_Oscuro>();
 
         delegate void DelegadoParaEscribir(string mensaje, int pos1, int pos2, DataGridView datagrid);
         delegate void DelegadoParaVisualizar(bool visible, Panel p);
@@ -93,9 +89,12 @@ namespace Cliente_Proyevto
         {
             int cont = formulario.Count;
             GraficoOYSL f = new GraficoOYSL(cont, server, nombreuser);
+            AddOwnedForm(f);
             formulario.Add(f);
             f.ShowDialog();
         }
+
+    
 
         //
         //COMPLEJO DE FUNCIONES PARA ATENDER LAS PETICIONES QUE LLEGAN DEL SERVIDOR.
@@ -271,6 +270,16 @@ namespace Cliente_Proyevto
                         formulario[numForm].TomaRespuesta(respuesta);
                         //Enviamos el mensaje al formulario
                         break;
+                    case 10: //se envia la mirada fulminante al cliente
+                        numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
+                        respuesta = trozos[2].Split('\0')[0];
+                        formlacayo[numForm].PonMiradas(respuesta);
+                        break;
+                    case 11:  //Cambio de turno
+                        numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
+
+                        break; 
+
 
                 }
             }
