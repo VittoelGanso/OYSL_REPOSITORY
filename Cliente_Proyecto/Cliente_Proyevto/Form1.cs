@@ -29,7 +29,7 @@ namespace Cliente_Proyevto
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
         string address = "192.168.56.101";
-        int gate = 9080;
+        int gate = 9070;
         Thread atender;
         int numForm;
 

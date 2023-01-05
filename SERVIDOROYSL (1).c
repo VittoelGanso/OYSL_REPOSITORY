@@ -38,6 +38,8 @@ typedef struct{
 	int playersnum;
 	int full;
 	int id;
+	int mf1;
+	int mf2;
 } Game;
 
 
@@ -417,6 +419,19 @@ int chart(MYSQL *conn, char answer[512]){
 	}
 }
 
+int CheckEndGame(TGames Table, username[25], num){
+	int j;
+	int k;
+	for(j = 0; j<20;j++){
+		for(k=0;k<2;k++){
+			if(Table[k].user[j].username = username){
+				Table[k].user[j].
+			}
+		
+		}	
+	}
+	
+}
 
 
 //Funcion que nos devuelve una string con las partidas ganadas de cada usuario que haya en la base de datos
@@ -639,6 +654,8 @@ void *AtenderCliente (void *socket)
 			printf("Jugadores: %d\n", jugadores);
 			if (Table[idp].playersnum==3){
 				sprintf(notificacion, "8/Se juega la partida");
+				Table[idp].mf1 = 0;
+				Table[idp].mf2 = 0;
 				printf("Notificacion: %s\n", notificacion);
 				for (int u=0; u<3; u++){
 					write(Table[idp].user[u].socket, notificacion, strlen(notificacion));
@@ -674,8 +691,38 @@ void *AtenderCliente (void *socket)
 				write(Table[idp].user[u].socket, notificacion, strlen(notificacion));
 			}
 		}
-
+		
+		else if (code == 9){
+			//MIRADA FULMINANTE Recibe: 9/num/lacayo
+			//					Envia: 10/num/lacayo
+			p = strtok(NULL, "/");
+			int num = atoi(p);
+			p = strtok(NULL,"/");
+			char lacayo[20];
+			strcpy(lacayo,p);
+			int socket = GivemeSocket(&List, lacayo);
 			
+			sprintf(Answer,"10/%d/%s",num,lacayo);
+			write(socket,Answer,strlen(Answer));
+			
+			if(num=>3){
+				sprintf(notificacion,"12/%s",lacayo);
+				for(int i = 0; i<3; i++){
+					write(Table[idp].user[i].socket,notificacion,strlen(notificacion));
+				}
+			}
+		}
+		
+		else if (code == 10){
+			//CAMBIAR TURNO Recibe: 10/?
+			//				Envia: 11/?
+			strcpy(notificacion, "11/"); //Mensaje que enviaremos al cliente por si quiere aceptar la invitacion
+			printf("Notificacion: %s\n", notificacion);
+			
+			for(int i = 0;i<3; i++){
+				write(miTabla[idp].user[i].socket, notificacion, strlen(notificacion));
+			}
+		}
 	
 
 		if((code==0)||(code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))

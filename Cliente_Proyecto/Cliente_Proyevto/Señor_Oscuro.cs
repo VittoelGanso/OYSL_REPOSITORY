@@ -218,21 +218,34 @@ namespace Graficos_juego_OYSL
         private void Mirada1_Click(object sender, EventArgs e)
         {
             miradas = miradas + 1;
+            EnviaFin(miradas);
         }
 
         private void Mirada2_Click(object sender, EventArgs e)
         {
             miradas = miradas + 1;
+            EnviaFin(miradas);
         }
 
         private void Mirada3_Click(object sender, EventArgs e)
         {
             miradas = miradas + 1;
+            EnviaFin(miradas);
         }
 
         public void MostrarCambioTurno()
         {
             MessageBox.Show("Se ha cambiado el turno");
+        }
+
+        private void EnviaFin(int miradas)
+        {
+            if (miradas == 3)
+            {
+                string mensaje = "11/";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+            }
         }
         public void FinalizaPartida()
         {
