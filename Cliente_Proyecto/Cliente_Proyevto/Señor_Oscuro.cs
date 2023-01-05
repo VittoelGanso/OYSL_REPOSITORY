@@ -234,5 +234,10 @@ namespace Graficos_juego_OYSL
         {
             MessageBox.Show("Se ha cambiado el turno");
         }
+        public void FinalizaPartida()
+        {
+            MessageBox.Show("Se ha acabado la partida");
+            Close();
+        }
     }
 }

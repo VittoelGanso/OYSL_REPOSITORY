@@ -50,18 +50,27 @@ namespace Graficos_juego_OYSL
 
             if (Señor_oscuro.Checked)
             {
+                string mensaje = "12/SO";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
                 ThreadStart ts = delegate { PonerEnMarchaSeñor(); };
                 Thread T = new Thread(ts);
                 T.Start();
             }
             else if (Lacayo_1.Checked)
             {
+                string mensaje = "12/lacayo";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
                 ThreadStart ts = delegate { PonerEnMarchaLacayos(1); };
                 Thread T = new Thread(ts);
                 T.Start();
             }
             else 
             {
+                string mensaje = "12/lacayo";
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
                 ThreadStart ts = delegate { PonerEnMarchaLacayos(2); };
                 Thread T = new Thread(ts);
                 T.Start();

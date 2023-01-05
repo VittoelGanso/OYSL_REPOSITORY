@@ -277,8 +277,28 @@ namespace Cliente_Proyevto
                         break;
                     case 11:  //Cambio de turno
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
-
-                        break; 
+                        respuesta = trozos[2].Split('\0')[0];
+                        if (respuesta == "SO")
+                        {
+                            formSeñor[numForm].MostrarCambioTurno();
+                        }
+                        else
+                        {
+                            formlacayo[numForm].MostrarCambioTurno();
+                        }
+                        break;
+                    case 12:
+                        numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
+                        respuesta = trozos[2].Split('\0')[0];
+                        if (respuesta == "SO")
+                        {
+                            formSeñor[numForm].FinalizaPartida();
+                        }
+                        else
+                        {
+                            formlacayo[numForm].FinalizarPartida();
+                        }
+                        break;
 
 
                 }
