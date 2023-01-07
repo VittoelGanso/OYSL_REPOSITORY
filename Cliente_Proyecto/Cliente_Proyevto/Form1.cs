@@ -287,7 +287,7 @@ namespace Cliente_Proyevto
                             formlacayo[numForm].MostrarCambioTurno();
                         }
                         break;
-                    case 12:
+                    case 12: //Acaba la partida
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         respuesta = trozos[2].Split('\0')[0];
                         if (respuesta == "SO")
@@ -297,6 +297,20 @@ namespace Cliente_Proyevto
                         else
                         {
                             formlacayo[numForm].FinalizarPartida();
+                        }
+                        break;
+                    case 13:
+                        numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
+                        respuesta = trozos[2].Split('\0')[0];
+                        if (respuesta == "SO")
+                        {
+                            respuesta = trozos[3].Split('\0')[0];
+                            formSeñor[numForm].PonCarta(respuesta);
+                        }
+                        else
+                        {
+                            respuesta = trozos[3].Split('\0')[0];
+                            formlacayo[numForm].PasaCarta(respuesta);
                         }
                         break;
 

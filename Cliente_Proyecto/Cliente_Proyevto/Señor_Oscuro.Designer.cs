@@ -38,7 +38,7 @@ namespace Graficos_juego_OYSL
             this.Mirada2 = new System.Windows.Forms.PictureBox();
             this.Mirada1 = new System.Windows.Forms.PictureBox();
             this.info = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.Monton = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,7 +51,7 @@ namespace Graficos_juego_OYSL
             ((System.ComponentModel.ISupportInitialize)(this.Mirada3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mirada2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mirada1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Monton)).BeginInit();
             this.SuspendLayout();
             // 
             // Excusas
@@ -123,13 +123,13 @@ namespace Graficos_juego_OYSL
             this.info.Size = new System.Drawing.Size(0, 13);
             this.info.TabIndex = 10;
             // 
-            // pictureBox1
+            // Monton
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(276, 124);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(97, 136);
-            this.pictureBox1.TabIndex = 11;
-            this.pictureBox1.TabStop = false;
+            this.Monton.Location = new System.Drawing.Point(276, 124);
+            this.Monton.Name = "Monton";
+            this.Monton.Size = new System.Drawing.Size(97, 136);
+            this.Monton.TabIndex = 11;
+            this.Monton.TabStop = false;
             // 
             // label1
             // 
@@ -188,7 +188,7 @@ namespace Graficos_juego_OYSL
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.Monton);
             this.Controls.Add(this.info);
             this.Controls.Add(this.Mirada1);
             this.Controls.Add(this.Mirada2);
@@ -207,7 +207,7 @@ namespace Graficos_juego_OYSL
             ((System.ComponentModel.ISupportInitialize)(this.Mirada3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mirada2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Mirada1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Monton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,7 +223,7 @@ namespace Graficos_juego_OYSL
         private System.Windows.Forms.PictureBox Mirada2;
         private System.Windows.Forms.PictureBox Mirada1;
         private System.Windows.Forms.Label info;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox Monton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

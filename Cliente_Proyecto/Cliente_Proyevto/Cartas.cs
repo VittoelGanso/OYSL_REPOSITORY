@@ -100,5 +100,6 @@ namespace Graficos_juego_OYSL
         //Properties to retrieve the cards
         public string Nombre { get; set; }
         public string Image { get; set; }
+        public int ID { get; set; }
     }
 }
