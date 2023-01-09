@@ -25,6 +25,7 @@ pthread_t thread;
 typedef struct{
 	char username[20];
 	int socket;
+	char rol[20];
 } OnlineUser;
 
 typedef struct{
@@ -75,17 +76,17 @@ TGames Table;
 //BUSCAMOS UNA PARTIDA QUE NO ESTE LLENA PARA GENERARLA.
 int FreeGame(TGames Table){
 	int found = 0;
-	int j = 0;
-	while ((j<20)&&(found==0)){
-		if(Table[j].full ==0){
+	int id = 0;
+	while ((id<20)&&(found==0)){
+		if(Table[id].full ==0){
 			found = 1;
 		}
 		else{
-			j=j+1;
+			id=id+1;
 		}
 	}
 	if (found == 1){
-		return j; //Que será la posición en la que haya una partida libre
+		return id; //Que será la posición en la que haya una partida libre
 	}
 	else{
 		return -1; //Ha habido un error
@@ -121,6 +122,15 @@ void AddtoGame(TGames Table, char username[20], int id){
 	Table[id].playersnum = Table[id].playersnum +1;
 	printf("Numero: %d \n", Table[id].playersnum);
 }
+
+void FinishGame(TGames Table,int idp, char loser[20], MYSQL *conn){
+	
+	MYSQL_ROW row;
+	MYSQL_RES *result;
+	char query[200];
+	char answer[100];
+}
+	
 
 
 //
@@ -419,21 +429,6 @@ int chart(MYSQL *conn, char answer[512]){
 	}
 }
 
-int CheckEndGame(TGames Table, username[25], num){
-	int j;
-	int k;
-	for(j = 0; j<20;j++){
-		for(k=0;k<2;k++){
-			if(Table[k].user[j].username = username){
-				Table[k].user[j].
-			}
-		
-		}	
-	}
-	
-}
-
-
 //Funcion que nos devuelve una string con las partidas ganadas de cada usuario que haya en la base de datos
 //junto a su nombre de usuario separados por una /.
 /*int Chart(MYSQL *conn, char answer[512]){*/
@@ -478,7 +473,7 @@ void *AtenderCliente (void *socket)
 	int code;
 	int idp; //El id de la partida
 	int jugadores=0;
-	int numForm;
+	int *numform;
 	
 	char Request[512];
 	char Answer[512];
@@ -521,6 +516,8 @@ void *AtenderCliente (void *socket)
 		// Miramos cual es la peticion 
 		char *p = strtok( Request, "/");
 		int code =  atoi (p);
+		printf("Codigo: %d \n", code);
+		
 		
 		// Una vez conocemos la peticion, operamos con la informacion recibida.
 		
@@ -603,12 +600,15 @@ void *AtenderCliente (void *socket)
 		}
 		else if (code==6){ //Llega el mensaje con los nombres para invitar
 			idp = FreeGame(Table); //Buscamos una partida libre
+			if (idp == -1)
+				break;
+			else{
 			printf("ID Partida: %d \n", idp);
 			pthread_mutex_lock(&mutex);
 			AddtoGame(Table, Nombre, idp); //Añadimos a la partida al cliente que está invitando
 			pthread_mutex_unlock(&mutex);
 			//Realizamos la invitacion
-
+			}
 			p=strtok(NULL, "/");
 			while (p!=NULL){
 				strcpy(username, p);
@@ -631,7 +631,7 @@ void *AtenderCliente (void *socket)
 
 				p=strtok(NULL, "/"); //Ahora cogemos al siguiente usuario y hacemos lo mismo
 			}
-	
+		  
 		}
 		else if (code == 7){ //La decision de los clientes. Si quieren unirse o no
 
@@ -680,12 +680,12 @@ void *AtenderCliente (void *socket)
 		else if (code == 8)
 		{
 			p=strtok(NULL, "/");
-			numForm=atoi(p);
+			numform=atoi(p);
 			char mensaje[512];
 			p = strtok(NULL, "/");
 
 			strcpy(mensaje, p);
-			sprintf(notificacion, "9/%d/%s", numForm, mensaje);
+			sprintf(notificacion, "9/%d/%s", numform, mensaje);
 
 			for (int u = 0; u < 3; u++) {
 				write(Table[idp].user[u].socket, notificacion, strlen(notificacion));
@@ -696,35 +696,63 @@ void *AtenderCliente (void *socket)
 			//MIRADA FULMINANTE Recibe: 9/num/lacayo
 			//					Envia: 10/num/lacayo
 			p = strtok(NULL, "/");
-			int num = atoi(p);
+			numform = atoi(p);
 			p = strtok(NULL,"/");
 			char lacayo[20];
 			strcpy(lacayo,p);
 			int socket = GivemeSocket(&List, lacayo);
 			
-			sprintf(Answer,"10/%d/%s",num,lacayo);
+			sprintf(Answer,"10/%d/%s",numform,lacayo);
 			write(socket,Answer,strlen(Answer));
 			
-			if(num=>3){
-				sprintf(notificacion,"12/%s",lacayo);
-				for(int i = 0; i<3; i++){
-					write(Table[idp].user[i].socket,notificacion,strlen(notificacion));
-				}
-			}
+/*			if(num>=3){*/
+/*				sprintf(notificacion,"12/%d/%s",numform, lacayo);*/
+/*				for(int i = 0; i<3; i++){*/
+/*					write(Table[idp].user[i].socket,notificacion,strlen(notificacion));*/
+/*				}*/
+/*			}*/
 		}
 		
 		else if (code == 10){
 			//CAMBIAR TURNO Recibe: 10/?
 			//				Envia: 11/?
-			strcpy(notificacion, "11/"); //Mensaje que enviaremos al cliente por si quiere aceptar la invitacion
+			p=strtok(NULL, "/");
+			int numform = atoi(p);
+			sprintf(notificacion, "11/%d", numform); //Mensaje que enviaremos al cliente por si quiere aceptar la invitacion
 			printf("Notificacion: %s\n", notificacion);
 			
 			for(int i = 0;i<3; i++){
-				write(miTabla[idp].user[i].socket, notificacion, strlen(notificacion));
+				sprintf(notificacion, "%s/%s", notificacion, Table[idp].user[i].rol);
+				write(Table[idp].user[i].socket, notificacion, strlen(notificacion));
 			}
 		}
+		
 	
-
+		else if (code == 12) //ROL DE CADA JUGADOR Recibe: 12/numform/rol/username
+		{			
+			p = strtok(NULL, "/");
+			numform = atoi(p);
+			printf("%d", numform);
+			p = strtok(NULL,"/");
+			char rol[20];
+			strcpy(rol,p);
+			printf("%s", rol);
+			p = strtok(NULL,"/");
+			char name[20];
+			strcpy(name,p);
+			printf("%s", name);
+			printf("NUmF: %d, Rol: %s, Nombre: %s", numform, rol, name);
+			
+			for(int i=0;i<3;i++){
+                if(strcmp(Table[idp].user[i].username,name == 0))
+				{
+                    Table[idp].user[i].rol == rol;
+					printf("Rol del usuario: %s\n", Table[idp].user[i].rol);
+                }
+            }
+		}
+		
+	
 		if((code==0)||(code==1)||(code == 2) || (code == 3)|| (code == 4) || (code==5))
 		{
 			printf("Answer:%s\n",Answer);
@@ -812,8 +840,9 @@ int main(int argc, char *argv[]){
 			pthread_create (&thread, NULL, AtenderCliente,&List.online[List.num].socket);
 			List.num++;
 		}
-		else 
+		else{ 
 			printf("There no more available sockets");
+		}
 	}
 	//Generamos un bucle de espera para que no finalize ningún thread hasta haber atendido al cliente
 
