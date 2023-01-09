@@ -89,9 +89,9 @@ namespace Cliente_Proyevto
         {
             int cont = formulario.Count;
             GraficoOYSL f = new GraficoOYSL(cont, server, nombreuser);
-            AddOwnedForm(f);
             formulario.Add(f);
             f.ShowDialog();
+            AddOwnedForm(f);
         }
 
     
@@ -248,7 +248,7 @@ namespace Cliente_Proyevto
                         }
                         
                         break;
-                    case 8: //Nos dice si se une
+                    case 8: //Nos dice si se une para abrir el nuevo formulario
                         respuesta = trozos[1].Split('\0')[0];
                         if (respuesta == "Se juega la partida")
                         {
@@ -262,13 +262,11 @@ namespace Cliente_Proyevto
                             MessageBox.Show(respuesta);
                         }
                         break;
-                    case 9:
-
+                    case 9: //Se envia el mensaje del chat
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         Console.WriteLine(Convert.ToString(numForm));
                         respuesta = trozos[2].Split('\0')[0];
                         formulario[numForm].TomaRespuesta(respuesta);
-                        //Enviamos el mensaje al formulario
                         break;
                     case 10: //se envia la mirada fulminante al cliente
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
@@ -299,7 +297,7 @@ namespace Cliente_Proyevto
                             formlacayo[numForm].FinalizarPartida();
                         }
                         break;
-                    case 13:
+                    case 13: //Para poner las cartas en los picturebox de todos los clientes
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         respuesta = trozos[2].Split('\0')[0];
                         if (respuesta == "SO")
@@ -518,5 +516,7 @@ namespace Cliente_Proyevto
             server.Send(msg);
             conectado = 0;
         }
+
+
     }
 }

@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using Cliente_Proyevto;
+using Microsoft.VisualBasic;
 
 namespace Graficos_juego_OYSL
 {
@@ -164,11 +165,12 @@ namespace Graficos_juego_OYSL
             picturebox.ImageLocation = imagen;
         }
 
+        //Se cargan las imagenes de las cartas que tendrá el jugador
         private void Señor_Oscuro_Load(object sender, EventArgs e)
         {
             MuestraImagen(Mirada1, "señor_1.png");
             MuestraImagen(Mirada2, "señor_2.png");
-            MuestraImagen(Mirada3, "seór_3.png");
+            MuestraImagen(Mirada3, "señor_3.png");
             MuestraImagen(Jugador_1, "reverso.png");
             MuestraImagen(Jugador_2, "reverso.png");
             MuestraImagen(Accion, "reverso.png");
@@ -186,51 +188,27 @@ namespace Graficos_juego_OYSL
 
         }
 
+        //Qué pasa al darle a una mirada
         private void Mirada_Click(object sender, EventArgs e)
         {
-            if (miradas==3)
-            {
-                var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
+            var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
                                      "Confirma!!",
                                      MessageBoxButtons.YesNo);
-                if (confirmResult == DialogResult.Yes)
-                {
-
-                    string input = Interaction.InputBox("Prompt", "Escriba el username del  Locayo que desea enviar las miradas", "Default", 0, 0);
-
-                    Socket server = this.server;
-                    string nombreuser = input;
-                    SocketFlags us;
-                    byte[] ar;
-
-
-
-                }
-                else
-                {
-                    MessageBox.Show("Ok, volvamos al juego");
-                }
+            if (confirmResult == DialogResult.Yes)
+            {
+                miradas = miradas + 1;
+                string input = Interaction.InputBox("Prompt", "Escriba el username del  Locayo que desea enviar las miradas", "Default", 0, 0);
+                string mens = "9/" + Convert.ToString(nForm)  + "/" + input;
+                byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mens);
+                server.Send(msg2);
+                EnviaFin(miradas);
+            }
+            else
+            {
+                MessageBox.Show("Ok, volvamos al juego");
             }
 
 
-        }
-
-        private void Mirada1_Click(object sender, EventArgs e)
-        {
-            miradas = miradas + 1;
-            EnviaFin(miradas);
-        }
-
-        private void Mirada2_Click(object sender, EventArgs e)
-        {
-            miradas = miradas + 1;
-            EnviaFin(miradas);
-        }
-
-        private void Mirada3_Click(object sender, EventArgs e)
-        {
-            miradas = miradas + 1;
-            EnviaFin(miradas);
         }
 
         public void MostrarCambioTurno()
@@ -242,7 +220,7 @@ namespace Graficos_juego_OYSL
         {
             if (miradas == 3)
             {
-                string mensaje = "11/";
+                string mensaje = "11/" + Convert.ToString(nForm);
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
             }

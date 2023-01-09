@@ -218,7 +218,7 @@ namespace Graficos_juego_OYSL
                 Baraja.Visible = true;
             }
             MuestraImagen(Baraja, picturebox.ImageLocation);
-            string mensaje = "13/" + picturebox.ImageLocation; //Enviamos el numero de la carta
+            string mensaje = "13/" + Convert.ToString(nForm)  + "/" + picturebox.ImageLocation; //Enviamos el numero de la carta
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
@@ -231,7 +231,7 @@ namespace Graficos_juego_OYSL
                 Baraja.Visible = true;
             }
             MuestraImagen(Baraja, picturebox.ImageLocation);
-            string mensaje = "13/" + picturebox.ImageLocation; //Enviamos el numero de la carta
+            string mensaje = "13/" + Convert.ToString(nForm)  + "/" + picturebox.ImageLocation; //Enviamos el numero de la carta
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
         }
@@ -352,7 +352,7 @@ namespace Graficos_juego_OYSL
         {
             if(excusa == 3) //Se cambiará el turno
             {
-                string mensaje = "10/"; //Enviamos al servidor el cambio de turno
+                string mensaje = "10/" + Convert.ToString(nForm); //Enviamos al servidor el cambio de turno
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
                 excusa = 0; //Volvemos a empezar

@@ -95,7 +95,6 @@ namespace Graficos_juego_OYSL
             this.Mirada3.Size = new System.Drawing.Size(90, 158);
             this.Mirada3.TabIndex = 6;
             this.Mirada3.TabStop = false;
-            this.Mirada3.Click += new System.EventHandler(this.Mirada3_Click);
             // 
             // Mirada2
             // 
@@ -104,7 +103,6 @@ namespace Graficos_juego_OYSL
             this.Mirada2.Size = new System.Drawing.Size(85, 158);
             this.Mirada2.TabIndex = 7;
             this.Mirada2.TabStop = false;
-            this.Mirada2.Click += new System.EventHandler(this.Mirada2_Click);
             // 
             // Mirada1
             // 
@@ -113,7 +111,6 @@ namespace Graficos_juego_OYSL
             this.Mirada1.Size = new System.Drawing.Size(95, 158);
             this.Mirada1.TabIndex = 8;
             this.Mirada1.TabStop = false;
-            this.Mirada1.Click += new System.EventHandler(this.Mirada1_Click);
             // 
             // info
             // 
