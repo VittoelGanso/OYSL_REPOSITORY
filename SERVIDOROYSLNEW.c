@@ -130,6 +130,25 @@ void FinishGame(TGames Table,int idp, char loser[20], MYSQL *conn){
 	char query[200];
 	char answer[100];
 }
+
+int GivemePositionTabla (TGames Table, char username[20], int idp){
+	
+	int position = 0;
+	int found = 0;
+	
+	while ( (position < 20)&&(found==0)){
+		//comparamos el nombre pasado por parametro con los que hay en la lista.
+		if( strcmp( Table[idp].user[position].username, username) == 0)
+			found = 1;
+		else 
+			position ++;
+	}
+	if ( found == 0 )
+		return -1;
+	else 
+		//Si todo ha salido bien la funcion nos retorna la posicion del usuario.
+		return position;
+}
 	
 
 
@@ -473,16 +492,18 @@ void *AtenderCliente (void *socket)
 	int code;
 	int idp; //El id de la partida
 	int jugadores=0;
-	int *numform;
+	int numform;
 	
 	char Request[512];
 	char Answer[512];
 	char Nombre[20];
 	
-	char *username[25];
-	char *password[25];
-	char *email[25];
+	char username[25];
+	char password[25];
+	char email[25];
 	char notificacion[512];
+	char rol[20];
+	
 	
 	int ret; // parametro que almaecena la informacion de los datos enviados por el usuario.
 	
@@ -515,16 +536,22 @@ void *AtenderCliente (void *socket)
 		
 		// Miramos cual es la peticion 
 		char *p = strtok( Request, "/");
+		printf("Request: %s \n", Request);
+		printf("%s\n", p);
 		int code =  atoi (p);
 		printf("Codigo: %d \n", code);
-		
+		p=strtok(NULL, "\0");
+		if(p!=NULL){
+			strcpy(Request, p);
+			printf("Request: %s\n", Request);
+		}
 		
 		// Una vez conocemos la peticion, operamos con la informacion recibida.
 		
 		//CODIGO 0
 		//Cuando el codigo es 0, se trata de una peticion de desconexion.
 		if (code== 0){
-			p=strtok(NULL, "/");
+			p=strtok(Request, "/");
 			strcpy(username, p);
 			DeletefromList(&List, username);
 			sprintf(Answer, "0/");
@@ -535,7 +562,7 @@ void *AtenderCliente (void *socket)
 		//Cuando el codigo es "1", se trata de una peticion de inicio de sesion.
 		else if (code ==1){ 
 			
-			p = strtok(NULL, "/");
+			p = strtok(Request, "/");
 			//obtenemos el nombre de usuario 
 			strcpy(username,p);
 			
@@ -554,7 +581,7 @@ void *AtenderCliente (void *socket)
 		//Cuando el codigo es "2", se trata de una peticion de registro.
 		else if (code ==2){
 			
-			p = strtok(NULL, "/");
+			p = strtok(Request, "/");
 			//obtenemos el nombre de usuario 
 			strcpy(username,p);
 			
@@ -575,7 +602,7 @@ void *AtenderCliente (void *socket)
 		//el jugador cuyo nombres se recibe como parametro.
 		else if (code == 3){
 			
-			p = strtok(NULL,"/");
+			p = strtok(Request,"/");
 			//obtenemos el nombre que deseamos buscar en la base de datos 
 			strcpy(username,p);
 			//llamamos a la funcion
@@ -587,7 +614,7 @@ void *AtenderCliente (void *socket)
 		//el jugador cuyo nombre se recibe como paramentro.
 		else if (code == 4){
 			
-			p = strtok(NULL,"/");
+			p = strtok(Request,"/");
 			//obtenemos el nombre que deseamos buscar en la base de datos 
 			strcpy(username,p);
 			//llamamos a la funcion
@@ -609,7 +636,7 @@ void *AtenderCliente (void *socket)
 			pthread_mutex_unlock(&mutex);
 			//Realizamos la invitacion
 			}
-			p=strtok(NULL, "/");
+			p=strtok(Request, "/");
 			while (p!=NULL){
 				strcpy(username, p);
 				printf("Usuario: %s\n", username);
@@ -636,7 +663,7 @@ void *AtenderCliente (void *socket)
 		else if (code == 7){ //La decision de los clientes. Si quieren unirse o no
 
 			char decision[512];
-			p = strtok(NULL, "/");
+			p = strtok(Request, "/");
 			strcpy(decision, p);
 			printf("Decision: %s\n", decision);
 			char usuario[512];
@@ -679,7 +706,7 @@ void *AtenderCliente (void *socket)
 		//Se recibe 8/mensaje.
 		else if (code == 8)
 		{
-			p=strtok(NULL, "/");
+			p=strtok(Request, "/");
 			numform=atoi(p);
 			char mensaje[512];
 			p = strtok(NULL, "/");
@@ -695,7 +722,7 @@ void *AtenderCliente (void *socket)
 		else if (code == 9){
 			//MIRADA FULMINANTE Recibe: 9/num/lacayo
 			//					Envia: 10/num/lacayo
-			p = strtok(NULL, "/");
+			p = strtok(Request, "/");
 			numform = atoi(p);
 			p = strtok(NULL,"/");
 			char lacayo[20];
@@ -716,7 +743,7 @@ void *AtenderCliente (void *socket)
 		else if (code == 10){
 			//CAMBIAR TURNO Recibe: 10/?
 			//				Envia: 11/?
-			p=strtok(NULL, "/");
+			p=strtok(Request, "/");
 			int numform = atoi(p);
 			sprintf(notificacion, "11/%d", numform); //Mensaje que enviaremos al cliente por si quiere aceptar la invitacion
 			printf("Notificacion: %s\n", notificacion);
@@ -728,28 +755,27 @@ void *AtenderCliente (void *socket)
 		}
 		
 	
+		
 		else if (code == 12) //ROL DE CADA JUGADOR Recibe: 12/numform/rol/username
-		{			
-			p = strtok(NULL, "/");
-			numform = atoi(p);
-			printf("%d", numform);
-			p = strtok(NULL,"/");
-			char rol[20];
-			strcpy(rol,p);
-			printf("%s", rol);
-			p = strtok(NULL,"/");
-			char name[20];
-			strcpy(name,p);
-			printf("%s", name);
-			printf("NUmF: %d, Rol: %s, Nombre: %s", numform, rol, name);
+		{
+			printf("He entrado\n");
+/*			p = strtok(NULL, "/");*/
+/*			numform = atoi(p);*/
+/*			printf("%d", numform);*/
+/*			p = strtok(NULL,"/");*/
+/*			printf("%s \n", p);*/
+/*			char *rol[20];*/
+			strcpy(rol,strtok(Request, "/"));
+			printf("%s\n", rol);
+/*			p = strtok(NULL,"/");*/
+/*			printf("%s\n", p);*/
+/*			char *name[20];*/
+			strcpy(username,strtok(NULL, "/"));
+			printf("%s\n", username);
 			
-			for(int i=0;i<3;i++){
-                if(strcmp(Table[idp].user[i].username,name == 0))
-				{
-                    Table[idp].user[i].rol == rol;
-					printf("Rol del usuario: %s\n", Table[idp].user[i].rol);
-                }
-            }
+			int posicion = GivemePositionTabla(Table, username, idp);
+			Table[idp].user[posicion].rol == rol;
+			printf("Rol del usuario: %s\n", Table[idp].user[posicion].rol);
 		}
 		
 	

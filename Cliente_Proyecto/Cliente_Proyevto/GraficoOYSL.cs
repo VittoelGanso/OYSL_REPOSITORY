@@ -53,16 +53,17 @@ namespace Graficos_juego_OYSL
                 ThreadStart ts = delegate { PonerEnMarchaSeñor(); };
                 Thread T = new Thread(ts);
                 T.Start();
-                string mensaje = "12/" + Convert.ToString(f.Count) + "/SO/" + nombreuser;
+                string mensaje = "12/" +  "SO/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
+                MessageBox.Show(mensaje);
             }
             else if (Lacayo_1.Checked)
             {
                 ThreadStart ts = delegate { PonerEnMarchaLacayos(1); };
                 Thread T = new Thread(ts);
                 T.Start();
-                string mensaje = "12/" + Convert.ToString(formulario.Count) + "/lacayo/" + nombreuser;
+                string mensaje = "12/"  + "lacayo/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
             }
@@ -71,7 +72,7 @@ namespace Graficos_juego_OYSL
                 ThreadStart ts = delegate { PonerEnMarchaLacayos(2); };
                 Thread T = new Thread(ts);
                 T.Start();
-                string mensaje = "12/" + Convert.ToString(formulario.Count) + "/lacayo/" + nombreuser;
+                string mensaje = "12/" + "lacayo/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
             }
