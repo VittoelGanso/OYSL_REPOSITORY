@@ -29,7 +29,7 @@ namespace Cliente_Proyevto
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
         string address = "192.168.56.101";
-        int gate = 9070;
+        int gate = 9075;
         Thread atender;
         int numForm;
 
@@ -90,11 +90,26 @@ namespace Cliente_Proyevto
             int cont = formulario.Count;
             GraficoOYSL f = new GraficoOYSL(cont, server, nombreuser);
             formulario.Add(f);
+            //f.pasado += new Graficos_juego_OYSL.pasarlacayo(ejecutarlacayo);
+            //f.pasa += new Graficos_juego_OYSL.pasarSeñor(ejecutarseñor);
+            //AddOwnedForm(f);
             f.ShowDialog();
-            AddOwnedForm(f);
+            
         }
 
-    
+        public void ejecutarlacayo(List<Lacayos> lacayo)
+        {
+            formlacayo = lacayo;
+        }
+
+        public void ejecutarseñor(List<Señor_Oscuro> señor)
+        {
+            formSeñor = señor;
+        }
+
+
+
+
 
         //
         //COMPLEJO DE FUNCIONES PARA ATENDER LAS PETICIONES QUE LLEGAN DEL SERVIDOR.
@@ -117,6 +132,7 @@ namespace Cliente_Proyevto
                 int codigo = Convert.ToInt32(mensaje); //Donde tenemos el codigo del mensaje
 
                 int i, j;
+                int numero;
                 
                 string respuesta;
                 DelegadoParaVisualizar delegado = new DelegadoParaVisualizar(PanelVisible);
@@ -264,52 +280,35 @@ namespace Cliente_Proyevto
                         break;
                     case 9: //Se envia el mensaje del chat
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
-                        Console.WriteLine(Convert.ToString(numForm));
+                        Console.WriteLine("En el chat numform: " + Convert.ToString(numForm));
                         respuesta = trozos[2].Split('\0')[0];
                         formulario[numForm].TomaRespuesta(respuesta);
                         break;
                     case 10: //se envia la mirada fulminante al cliente
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
-                        respuesta = trozos[2].Split('\0')[0];
-                        formlacayo[numForm].PonMiradas(respuesta);
+                        numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
+                        respuesta = trozos[3].Split('\0')[0];
+                        formulario[numForm].PonMiradas(numero, respuesta);
                         break;
                     case 11:  //Cambio de turno
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
-                        respuesta = trozos[2].Split('\0')[0];
-                        if (respuesta == "SO")
-                        {
-                            formSeñor[numForm].MostrarCambioTurno();
-                        }
-                        else
-                        {
-                            formlacayo[numForm].MostrarCambioTurno();
-                        }
+                        numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
+                        respuesta = trozos[3].Split('\0')[0];
+                        formulario[numForm].CambioTurno(numero, respuesta);
                         break;
                     case 12: //Acaba la partida
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
-                        respuesta = trozos[2].Split('\0')[0];
-                        if (respuesta == "SO")
-                        {
-                            formSeñor[numForm].FinalizaPartida();
-                        }
-                        else
-                        {
-                            formlacayo[numForm].FinalizarPartida();
-                        }
+                        numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
+                        respuesta = trozos[3].Split('\0')[0];
+                        formulario[numForm].CambioTurno(numero, respuesta);
                         break;
                     case 13: //Para poner las cartas en los picturebox de todos los clientes
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
-                        respuesta = trozos[2].Split('\0')[0];
-                        if (respuesta == "SO")
-                        {
-                            respuesta = trozos[3].Split('\0')[0];
-                            formSeñor[numForm].PonCarta(respuesta);
-                        }
-                        else
-                        {
-                            respuesta = trozos[3].Split('\0')[0];
-                            formlacayo[numForm].PasaCarta(respuesta);
-                        }
+                        Console.WriteLine("Numero de formulario: " + Convert.ToString(numForm));
+                        numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
+                        respuesta = trozos[3].Split('\0')[0];
+                        string carta = trozos[4].Split('\0')[0];
+                        formulario[numForm].PasaCarta(numero, respuesta, carta);
                         break;
 
 

@@ -20,6 +20,7 @@ namespace Graficos_juego_OYSL
         int nForm;
         Socket server;
         int excusa;
+        delegate void VisualizaBaraja(bool ver);
 
         #region cartasExcusa
 
@@ -30,8 +31,8 @@ namespace Graficos_juego_OYSL
             new Cartas() {Nombre = "Antorcha", Image = "antorcha.png", ID =2},
             new Cartas() {Nombre = "Arbol_Milenario", Image = "arbol_milenario.png", ID=3},
             new Cartas() {Nombre = "Artefacto_imposible", Image = "artefacto_imposible.png", ID=4},
-            new Cartas() {Nombre = "Barco_Volador", Image = "barco_volador", ID=5},
-            new Cartas() {Nombre = "Bella_exotica", Image = "bella_exotica", ID=6},
+            new Cartas() {Nombre = "Barco_Volador", Image = "barco_volador.png", ID=5},
+            new Cartas() {Nombre = "Bella_exotica", Image = "bella_exotica.png", ID=6},
             new Cartas() {Nombre = "Bola_de_Cristal", Image="bola_de_cristal.png", ID=7},
             new Cartas() {Nombre="Bosque_oscuro", Image="bosque_oscuro.png", ID=8},
             new Cartas() {Nombre = "Caballero_negro", Image="caballero_negro.png", ID=9},
@@ -213,11 +214,7 @@ namespace Graficos_juego_OYSL
 
         private void TirarAlMedio_Excusas(PictureBox picturebox)
         {
-            if (Baraja.Visible == false) //Si no se ha tirado ninguna carta primero se hace visible 
-            {
-                Baraja.Visible = true;
-            }
-            MuestraImagen(Baraja, picturebox.ImageLocation);
+
             string mensaje = "13/" + Convert.ToString(nForm)  + "/" + picturebox.ImageLocation; //Enviamos el numero de la carta
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -226,11 +223,6 @@ namespace Graficos_juego_OYSL
 
         private void TirarAlMedio_Accion(PictureBox picturebox)
         {
-            if (Baraja.Visible == false) //Si no se ha tirado ninguna carta primero se hace visible 
-            {
-                Baraja.Visible = true;
-            }
-            MuestraImagen(Baraja, picturebox.ImageLocation);
             string mensaje = "13/" + Convert.ToString(nForm)  + "/" + picturebox.ImageLocation; //Enviamos el numero de la carta
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -384,9 +376,22 @@ namespace Graficos_juego_OYSL
             MessageBox.Show("Se ha acabado la partida");
             Close();
         }
+        
+        
+        public void VerBaraja(bool ver)
+        {
+            Baraja.Visible = ver;
+        }
+
 
         public void PasaCarta(string Imagen)
         {
+            VisualizaBaraja vista = new VisualizaBaraja(VerBaraja);
+
+            if (Baraja.Visible==false)
+            {
+                Baraja.Invoke(vista, new object[] { true });
+            }
             MuestraImagen(Baraja, Imagen);
         }
     }

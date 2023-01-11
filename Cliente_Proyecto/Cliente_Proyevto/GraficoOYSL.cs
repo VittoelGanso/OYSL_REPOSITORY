@@ -21,8 +21,11 @@ namespace Graficos_juego_OYSL
         string nombreuser;
         public List<Lacayos> formulario = new List<Lacayos>();
         public List<Señor_Oscuro> f = new List<Señor_Oscuro>();
-        
-        
+
+        //public delegate void pasarlacayo(List<Lacayos> lacayos);
+        //public delegate void pasarSO(List<Señor_Oscuro> señor);
+        //public event pasarlacayo pasado;
+        //public event pasarSO pasa;
 
         public GraficoOYSL(int nForm, Socket server, string nombreuser)
         {
@@ -115,9 +118,12 @@ namespace Graficos_juego_OYSL
             int cont = formulario.Count;
             Lacayos f = new Lacayos(cont, server, num);
             formulario.Add(f);
+            ////pasado(formulario);
+            ////this.Dispose();
+            //Form1 formprincipal = Owner as Form1;
+            //formprincipal.formlacayo[cont] = f;
             f.ShowDialog();
-            Form1 formprincipal = Owner as Form1;
-            formprincipal.formlacayo[cont] = f;
+
         }
 
         private void PonerEnMarchaSeñor()
@@ -125,12 +131,54 @@ namespace Graficos_juego_OYSL
             int cont = f.Count;
             Señor_Oscuro formulario = new Señor_Oscuro(cont, server);
             f.Add(formulario);
+            ////pasa(f);
+            ////this.Dispose();
+            //Form1 formprincipal = Owner as Form1;
+            //formprincipal.formSeñor[cont] = formulario;
             formulario.ShowDialog();
-            Form1 formprincipal = Owner as Form1;
-            formprincipal.formSeñor[cont] = formulario; 
+
+        }
+
+        public void PasaCarta(int numero, string personaje, string carta)
+        {
+            if (personaje == "SO")
+            {
+                f[numero].PonCarta(carta);
+            }
+            else
+            {
+                formulario[numero].PasaCarta(carta);
+            }
+        }
+
+        public void CambioTurno(int numero, string respuesta)
+        {
+            if (respuesta == "SO")
+            {
+                f[numero].MostrarCambioTurno();
+            }
+            else
+            {
+                formulario[numero].MostrarCambioTurno();
+            }
         }
 
 
+        public void AcabaPartida(int numero, string respuesta)
+        {
+            if (respuesta == "SO")
+            {
+                f[numero].FinalizaPartida();
+            }
+            else
+            {
+                formulario[numero].FinalizarPartida();
+            }
+        }
 
+        public void PonMiradas(int numero, string respuesta)
+        {
+            formulario[numero].PonMiradas(respuesta);
+        }
     }
 }

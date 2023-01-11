@@ -21,6 +21,7 @@ namespace Graficos_juego_OYSL
         Socket server;
         string nombreuser;
         int miradas=0;
+        delegate void DelegadoVerBaraja(bool ver);
 
         public Señor_Oscuro(int nForm, Socket server)
         {
@@ -38,8 +39,8 @@ namespace Graficos_juego_OYSL
             new Cartas() {Nombre = "Antorcha", Image = "antorcha.png", ID =2},
             new Cartas() {Nombre = "Arbol_Milenario", Image = "arbol_milenario.png", ID=3},
             new Cartas() {Nombre = "Artefacto_imposible", Image = "artefacto_imposible.png", ID=4},
-            new Cartas() {Nombre = "Barco_Volador", Image = "barco_volador", ID=5},
-            new Cartas() {Nombre = "Bella_exotica", Image = "bella_exotica", ID=6},
+            new Cartas() {Nombre = "Barco_Volador", Image = "barco_volador.png", ID=5},
+            new Cartas() {Nombre = "Bella_exotica", Image = "bella_exotica.png", ID=6},
             new Cartas() {Nombre = "Bola_de_Cristal", Image="bola_de_cristal.png", ID=7},
             new Cartas() {Nombre="Bosque_oscuro", Image="bosque_oscuro.png", ID=8},
             new Cartas() {Nombre = "Caballero_negro", Image="caballero_negro.png", ID=9},
@@ -225,14 +226,24 @@ namespace Graficos_juego_OYSL
                 server.Send(msg);
             }
         }
+
         public void FinalizaPartida()
         {
             MessageBox.Show("Se ha acabado la partida");
             Close();
         }
 
+        public void VerBaraja(bool ver)
+        {
+            Monton.Visible = ver;
+        }
         public void PonCarta(string Imagen)
         {
+            DelegadoVerBaraja del = new DelegadoVerBaraja(VerBaraja);
+            if (Monton.Visible == false)
+            {
+                Monton.Invoke(del, new object[] { true });
+            }
             MuestraImagen(Monton, Imagen);
         }
     }
