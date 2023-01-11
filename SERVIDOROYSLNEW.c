@@ -26,6 +26,7 @@ typedef struct{
 	char username[20];
 	int socket;
 	char rol[20];
+	/*int nform;*/
 } OnlineUser;
 
 typedef struct{
@@ -503,6 +504,7 @@ void *AtenderCliente (void *socket)
 	char email[25];
 	char notificacion[512];
 	char rol[20];
+	char picture[512];
 	
 	
 	int ret; // parametro que almaecena la informacion de los datos enviados por el usuario.
@@ -713,6 +715,7 @@ void *AtenderCliente (void *socket)
 
 			strcpy(mensaje, p);
 			sprintf(notificacion, "9/%d/%s", numform, mensaje);
+			printf("Num Form chat: %d\n", numform);
 
 			for (int u = 0; u < 3; u++) {
 				write(Table[idp].user[u].socket, notificacion, strlen(notificacion));
@@ -729,7 +732,7 @@ void *AtenderCliente (void *socket)
 			strcpy(lacayo,p);
 			int socket = GivemeSocket(&List, lacayo);
 			
-			sprintf(Answer,"10/%d/%s",numform,lacayo);
+			sprintf(Answer,"10/0/%d/%s",numform,lacayo);
 			write(socket,Answer,strlen(Answer));
 			
 /*			if(num>=3){*/
@@ -744,38 +747,51 @@ void *AtenderCliente (void *socket)
 			//CAMBIAR TURNO Recibe: 10/?
 			//				Envia: 11/?
 			p=strtok(Request, "/");
-			int numform = atoi(p);
-			sprintf(notificacion, "11/%d", numform); //Mensaje que enviaremos al cliente por si quiere aceptar la invitacion
-			printf("Notificacion: %s\n", notificacion);
-			
-			for(int i = 0;i<3; i++){
-				sprintf(notificacion, "%s/%s", notificacion, Table[idp].user[i].rol);
+			numform = atoi(p);
+			for (int i=0; i<3; i++){
+				sprintf(notificacion, "11/0/%d/%s", numform, Table[idp].user[i].rol);
+				printf("Notificacion: %s\n", notificacion);
 				write(Table[idp].user[i].socket, notificacion, strlen(notificacion));
+				strcpy(notificacion, "");
 			}
 		}
 		
-	
+		//Finalizar partida
+		else if (code==11){
+			p=strtok(Request, "/");
+			numform=atoi(p);
+			for (int i=0; i<3; i++){
+				sprintf(notificacion, "12/0/%d/%s", numform, Table[idp].user[i].rol);
+				printf("Notificacion: %s\n", notificacion);
+				write(Table[idp].user[i].socket, notificacion, strlen(notificacion));
+				strcpy(notificacion, "");
+			}
+		}
 		
 		else if (code == 12) //ROL DE CADA JUGADOR Recibe: 12/numform/rol/username
 		{
-			printf("He entrado\n");
-/*			p = strtok(NULL, "/");*/
-/*			numform = atoi(p);*/
-/*			printf("%d", numform);*/
-/*			p = strtok(NULL,"/");*/
-/*			printf("%s \n", p);*/
-/*			char *rol[20];*/
 			strcpy(rol,strtok(Request, "/"));
 			printf("%s\n", rol);
-/*			p = strtok(NULL,"/");*/
-/*			printf("%s\n", p);*/
-/*			char *name[20];*/
 			strcpy(username,strtok(NULL, "/"));
 			printf("%s\n", username);
 			
 			int posicion = GivemePositionTabla(Table, username, idp);
-			Table[idp].user[posicion].rol == rol;
+			strcpy(Table[idp].user[posicion].rol,rol);
 			printf("Rol del usuario: %s\n", Table[idp].user[posicion].rol);
+		}
+		
+		else if (code==13){
+			p=strtok(Request, "/");
+			numform = atoi(p);
+			printf("Num form %d\n", numform);
+			strcpy(picture, strtok(NULL, "/"));
+			for (int i=0; i<3; i++){
+				sprintf(notificacion, "13/0/%d/%s/%s", numform, Table[idp].user[i].rol, picture);
+				printf("Notificacion: %s\n", notificacion);
+				write(Table[idp].user[i].socket, notificacion, strlen(notificacion));
+				strcpy(notificacion, "");
+			}
+			
 		}
 		
 	
@@ -843,7 +859,7 @@ int main(int argc, char *argv[]){
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	
 	// establecemos el puerto de escucha
-	serv_adr.sin_port = htons(9070);
+	serv_adr.sin_port = htons(9075);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		
 		printf ("Error al bind");
