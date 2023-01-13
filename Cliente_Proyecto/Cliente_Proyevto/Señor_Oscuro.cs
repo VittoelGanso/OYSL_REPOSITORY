@@ -192,13 +192,13 @@ namespace Graficos_juego_OYSL
         //Qué pasa al darle a una mirada
         private void Mirada_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
+            var confirmResult = MessageBox.Show("Estás seguro que quieres lanzar miradas fulmiantes ??",
                                      "Confirma!!",
                                      MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
             {
                 miradas = miradas + 1;
-                string input = Interaction.InputBox("Prompt", "Escriba el username del  Locayo que desea enviar las miradas", "Default", 0, 0);
+                string input = Interaction.InputBox("Prompt", "Escriba el nombre de usuario del Lacayo que deseas enviar las miradas", "Default", 0, 0);
                 string mens = "9/" + Convert.ToString(nForm)  + "/" + input;
                 byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mens);
                 server.Send(msg2);

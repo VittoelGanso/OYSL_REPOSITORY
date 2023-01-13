@@ -41,17 +41,21 @@ namespace Graficos_juego_OYSL
             this.informacion = new System.Windows.Forms.TextBox();
             this.chat = new System.Windows.Forms.ListBox();
             this.Envio = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.instruccionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(5, 17);
+            this.label1.Location = new System.Drawing.Point(7, 21);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(228, 25);
+            this.label1.Size = new System.Drawing.Size(280, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Escoge tu personaje";
             // 
@@ -59,9 +63,10 @@ namespace Graficos_juego_OYSL
             // 
             this.Señor_oscuro.AutoSize = true;
             this.Señor_oscuro.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Señor_oscuro.Location = new System.Drawing.Point(42, 69);
+            this.Señor_oscuro.Location = new System.Drawing.Point(56, 85);
+            this.Señor_oscuro.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Señor_oscuro.Name = "Señor_oscuro";
-            this.Señor_oscuro.Size = new System.Drawing.Size(133, 22);
+            this.Señor_oscuro.Size = new System.Drawing.Size(162, 28);
             this.Señor_oscuro.TabIndex = 1;
             this.Señor_oscuro.Text = "Señor Oscuro";
             this.Señor_oscuro.UseVisualStyleBackColor = true;
@@ -70,9 +75,10 @@ namespace Graficos_juego_OYSL
             // 
             this.Lacayo_1.AutoSize = true;
             this.Lacayo_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lacayo_1.Location = new System.Drawing.Point(42, 114);
+            this.Lacayo_1.Location = new System.Drawing.Point(56, 140);
+            this.Lacayo_1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Lacayo_1.Name = "Lacayo_1";
-            this.Lacayo_1.Size = new System.Drawing.Size(95, 22);
+            this.Lacayo_1.Size = new System.Drawing.Size(115, 28);
             this.Lacayo_1.TabIndex = 1;
             this.Lacayo_1.Text = "Lacayo 1";
             this.Lacayo_1.UseVisualStyleBackColor = true;
@@ -81,9 +87,10 @@ namespace Graficos_juego_OYSL
             // 
             this.Lacayo_2.AutoSize = true;
             this.Lacayo_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lacayo_2.Location = new System.Drawing.Point(42, 158);
+            this.Lacayo_2.Location = new System.Drawing.Point(56, 194);
+            this.Lacayo_2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Lacayo_2.Name = "Lacayo_2";
-            this.Lacayo_2.Size = new System.Drawing.Size(95, 22);
+            this.Lacayo_2.Size = new System.Drawing.Size(115, 28);
             this.Lacayo_2.TabIndex = 1;
             this.Lacayo_2.Text = "Lacayo 2";
             this.Lacayo_2.UseVisualStyleBackColor = true;
@@ -95,17 +102,19 @@ namespace Graficos_juego_OYSL
             this.panel1.Controls.Add(this.Lacayo_1);
             this.panel1.Controls.Add(this.Señor_oscuro);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(24, 76);
+            this.panel1.Location = new System.Drawing.Point(32, 94);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(239, 231);
+            this.panel1.Size = new System.Drawing.Size(319, 284);
             this.panel1.TabIndex = 0;
             // 
             // jugar
             // 
             this.jugar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.jugar.Location = new System.Drawing.Point(62, 186);
+            this.jugar.Location = new System.Drawing.Point(83, 229);
+            this.jugar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.jugar.Name = "jugar";
-            this.jugar.Size = new System.Drawing.Size(75, 35);
+            this.jugar.Size = new System.Drawing.Size(100, 43);
             this.jugar.TabIndex = 1;
             this.jugar.Text = "Jugar";
             this.jugar.UseVisualStyleBackColor = true;
@@ -114,9 +123,10 @@ namespace Graficos_juego_OYSL
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 9);
+            this.label2.Location = new System.Drawing.Point(16, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 13);
+            this.label2.Size = new System.Drawing.Size(0, 17);
             this.label2.TabIndex = 1;
             this.label2.Visible = false;
             // 
@@ -124,46 +134,72 @@ namespace Graficos_juego_OYSL
             // 
             this.panel2.Controls.Add(this.informacion);
             this.panel2.Controls.Add(this.chat);
-            this.panel2.Location = new System.Drawing.Point(337, 76);
+            this.panel2.Location = new System.Drawing.Point(449, 94);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(196, 241);
+            this.panel2.Size = new System.Drawing.Size(261, 297);
             this.panel2.TabIndex = 2;
             // 
             // informacion
             // 
-            this.informacion.Location = new System.Drawing.Point(0, 221);
+            this.informacion.Location = new System.Drawing.Point(0, 272);
+            this.informacion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.informacion.Name = "informacion";
-            this.informacion.Size = new System.Drawing.Size(196, 20);
+            this.informacion.Size = new System.Drawing.Size(260, 22);
             this.informacion.TabIndex = 3;
             // 
             // chat
             // 
             this.chat.FormattingEnabled = true;
+            this.chat.ItemHeight = 16;
             this.chat.Location = new System.Drawing.Point(0, 0);
+            this.chat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chat.Name = "chat";
-            this.chat.Size = new System.Drawing.Size(196, 225);
+            this.chat.Size = new System.Drawing.Size(260, 276);
             this.chat.TabIndex = 0;
             // 
             // Envio
             // 
-            this.Envio.Location = new System.Drawing.Point(539, 278);
+            this.Envio.Location = new System.Drawing.Point(719, 342);
+            this.Envio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Envio.Name = "Envio";
-            this.Envio.Size = new System.Drawing.Size(104, 39);
+            this.Envio.Size = new System.Drawing.Size(139, 48);
             this.Envio.TabIndex = 3;
             this.Envio.Text = "Enviar";
             this.Envio.UseVisualStyleBackColor = true;
             this.Envio.Click += new System.EventHandler(this.Envio_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.instruccionesToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1353, 28);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // instruccionesToolStripMenuItem
+            // 
+            this.instruccionesToolStripMenuItem.Name = "instruccionesToolStripMenuItem";
+            this.instruccionesToolStripMenuItem.Size = new System.Drawing.Size(111, 24);
+            this.instruccionesToolStripMenuItem.Text = "Instrucciones:";
+            this.instruccionesToolStripMenuItem.Click += new System.EventHandler(this.instruccionesToolStripMenuItem_Click);
+            // 
             // GraficoOYSL
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1015, 419);
+            this.ClientSize = new System.Drawing.Size(1353, 516);
             this.Controls.Add(this.Envio);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "GraficoOYSL";
             this.Text = "Grafico_Juego";
             this.Load += new System.EventHandler(this.GraficoOYSL_Load);
@@ -171,6 +207,8 @@ namespace Graficos_juego_OYSL
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,6 +227,8 @@ namespace Graficos_juego_OYSL
         private System.Windows.Forms.TextBox informacion;
         private System.Windows.Forms.ListBox chat;
         private System.Windows.Forms.Button Envio;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem instruccionesToolStripMenuItem;
     }
 }
 

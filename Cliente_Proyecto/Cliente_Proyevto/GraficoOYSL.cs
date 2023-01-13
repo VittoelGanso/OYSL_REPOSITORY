@@ -180,5 +180,10 @@ namespace Graficos_juego_OYSL
         {
             formulario[numero].PonMiradas(respuesta);
         }
+
+        private void instruccionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
