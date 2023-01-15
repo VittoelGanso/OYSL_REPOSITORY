@@ -28,7 +28,7 @@ namespace Cliente_Proyevto
         Socket server;
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
-        string address = "192.168.56.102";
+        string address = "192.168.56.101";
         int gate = 9075;
         Thread atender;
         int numForm;
@@ -229,11 +229,12 @@ namespace Cliente_Proyevto
                         {
                             respuesta = trozos[i].Split('\0')[0];
                             //Debemos ir aumentando la lista
-
-                            ListaConectados.Invoke(tamaño, new object[] { (trozos.Length - 1), "r", ListaConectados });
-                            ListaConectados.Invoke(añadir, new object[] { respuesta, j, 0, ListaConectados});  //Invocamos al thread que creó el objeto
-                            j = j + 1;
-
+                            if (respuesta != nombreuser)
+                            {
+                                ListaConectados.Invoke(tamaño, new object[] { (trozos.Length -2), "r", ListaConectados });
+                                ListaConectados.Invoke(añadir, new object[] { respuesta, j, 0, ListaConectados });  //Invocamos al thread que creó el objeto
+                                j = j + 1;
+                            }
                         }
 
                         break;
@@ -300,7 +301,8 @@ namespace Cliente_Proyevto
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
                         respuesta = trozos[3].Split('\0')[0];
-                        formulario[numForm].CambioTurno(numero, respuesta);
+                        string winner = trozos[4].Split('\0')[0];
+                        formulario[numForm].AcabaPartida(numero, respuesta, winner);
                         break;
                     case 13: //Para poner las cartas en los picturebox de todos los clientes
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
@@ -309,6 +311,11 @@ namespace Cliente_Proyevto
                         respuesta = trozos[3].Split('\0')[0];
                         string carta = trozos[4].Split('\0')[0];
                         formulario[numForm].PasaCarta(numero, respuesta, carta);
+                        break;
+                    case 14: //Bloquear elección de personajes
+                        numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
+                        respuesta = trozos[2].Split('\0')[0];
+                        formulario[numForm].BloquearPersonaje(respuesta);
                         break;
 
 

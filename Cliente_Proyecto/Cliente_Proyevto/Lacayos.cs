@@ -371,9 +371,9 @@ namespace Graficos_juego_OYSL
             MessageBox.Show("Se ha cambiado el turno");
         }
 
-        public void FinalizarPartida()
+        public void FinalizarPartida(string winner)
         {
-            MessageBox.Show("Se ha acabado la partida");
+            MessageBox.Show("Se ha acabado la partida \n" + "Ha ganado: "+ winner);
             Close();
         }
         

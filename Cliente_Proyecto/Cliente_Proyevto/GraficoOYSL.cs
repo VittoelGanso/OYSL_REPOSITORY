@@ -21,7 +21,7 @@ namespace Graficos_juego_OYSL
         string nombreuser;
         public List<Lacayos> formulario = new List<Lacayos>();
         public List<Señor_Oscuro> f = new List<Señor_Oscuro>();
-
+        delegate void DelegadoCheck(bool ver, CheckBox box);
         //public delegate void pasarlacayo(List<Lacayos> lacayos);
         //public delegate void pasarSO(List<Señor_Oscuro> señor);
         //public event pasarlacayo pasado;
@@ -56,7 +56,7 @@ namespace Graficos_juego_OYSL
                 ThreadStart ts = delegate { PonerEnMarchaSeñor(); };
                 Thread T = new Thread(ts);
                 T.Start();
-                string mensaje = "12/" +  "SO/" + nombreuser;
+                string mensaje = "12/" + Convert.ToString(nForm) +  "/SO/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
                 MessageBox.Show(mensaje);
@@ -66,7 +66,7 @@ namespace Graficos_juego_OYSL
                 ThreadStart ts = delegate { PonerEnMarchaLacayos(1); };
                 Thread T = new Thread(ts);
                 T.Start();
-                string mensaje = "12/"  + "lacayo/" + nombreuser;
+                string mensaje = "12/"  + Convert.ToString(nForm) + "/lacayo1/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
             }
@@ -75,7 +75,7 @@ namespace Graficos_juego_OYSL
                 ThreadStart ts = delegate { PonerEnMarchaLacayos(2); };
                 Thread T = new Thread(ts);
                 T.Start();
-                string mensaje = "12/" + "lacayo/" + nombreuser;
+                string mensaje = "12/" + Convert.ToString(nForm) + "/lacayo2/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
             }
@@ -97,7 +97,8 @@ namespace Graficos_juego_OYSL
 
         private void GraficoOYSL_Load(object sender, EventArgs e)
         {
-            
+            Boton_Instrucciones.Visible = true;
+            Salir.Visible = false;
         }
 
         delegate void MensajeChat(string mensaje);
@@ -164,15 +165,15 @@ namespace Graficos_juego_OYSL
         }
 
 
-        public void AcabaPartida(int numero, string respuesta)
+        public void AcabaPartida(int numero, string respuesta, string winner)
         {
             if (respuesta == "SO")
             {
-                f[numero].FinalizaPartida();
+                f[numero].FinalizaPartida(winner);
             }
             else
             {
-                formulario[numero].FinalizarPartida();
+                formulario[numero].FinalizarPartida(winner);
             }
         }
 
@@ -181,9 +182,40 @@ namespace Graficos_juego_OYSL
             formulario[numero].PonMiradas(respuesta);
         }
 
-        private void instruccionesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Boton_Instrucciones_Click(object sender, EventArgs e)
         {
-
+            Instrucciones.Visible = true;
+            Boton_Instrucciones.Visible = false;
+            Salir.Visible = true;
         }
+
+        private void Salir_Click(object sender, EventArgs e)
+        {
+            Instrucciones.Visible = false;
+            Boton_Instrucciones.Visible = true;
+            Salir.Visible = false;
+        }
+
+        //public void CheckearPersonaje(bool check, CheckBox box)
+        //{
+        //    box.Checked = check;
+        //}
+        ////Bloqueamos el personaje elegido
+        //public void BloquearPersonaje(string rol)
+        //{
+        //    DelegadoCheck del = new DelegadoCheck(CheckearPersonaje);
+        //    if (rol == "lacayo1")
+        //    {
+        //        Lacayo_1.Invoke(del, new object[] { true, Lacayo_1 });
+        //    }
+        //    else if (rol == "lacayo2")
+        //    {
+        //        Lacayo_2.Invoke(del, new object[] { true , Lacayo_2});
+        //    }
+        //    else
+        //    {
+        //        Lacayo_2.Invoke(del, new object[] { true , Señor_oscuro});
+        //    }
+        //}
     }
 }

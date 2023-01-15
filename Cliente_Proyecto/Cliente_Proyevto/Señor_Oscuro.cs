@@ -192,17 +192,18 @@ namespace Graficos_juego_OYSL
         //Qué pasa al darle a una mirada
         private void Mirada_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show("Estás seguro que quieres lanzar miradas fulmiantes ??",
+            var confirmResult = MessageBox.Show("Esta seguro de lanzar miradas fulmiantes ??",
                                      "Confirma!!",
                                      MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
             {
                 miradas = miradas + 1;
-                string input = Interaction.InputBox("Prompt", "Escriba el nombre de usuario del Lacayo que deseas enviar las miradas", "Default", 0, 0);
+                string input = Interaction.InputBox("Prompt", "Escriba el username del  Lacayo que desea enviar las miradas", "Default", 0, 0);
                 string mens = "9/" + Convert.ToString(nForm)  + "/" + input;
+                Console.WriteLine("Mensaje: " + mens);
                 byte[] msg2 = System.Text.Encoding.ASCII.GetBytes(mens);
                 server.Send(msg2);
-                EnviaFin(miradas);
+                
             }
             else
             {
@@ -217,19 +218,10 @@ namespace Graficos_juego_OYSL
             MessageBox.Show("Se ha cambiado el turno");
         }
 
-        private void EnviaFin(int miradas)
-        {
-            if (miradas == 3)
-            {
-                string mensaje = "11/" + Convert.ToString(nForm);
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-            }
-        }
 
-        public void FinalizaPartida()
+        public void FinalizaPartida(string winner)
         {
-            MessageBox.Show("Se ha acabado la partida");
+            MessageBox.Show("Se ha acabado la partida \n" + "Ha ganado: " + winner);
             Close();
         }
 
