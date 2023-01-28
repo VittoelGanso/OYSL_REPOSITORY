@@ -22,13 +22,15 @@ namespace Graficos_juego_OYSL
         string nombreuser;
         int miradas=0;
         delegate void DelegadoVerBaraja(bool ver);
+        delegate void PonNombre(string nombre, Label l);
 
-        public Señor_Oscuro(int nForm, Socket server)
+        public Señor_Oscuro(int nForm, Socket server, string nombreuser)
         {
 
             InitializeComponent();
             this.nForm = nForm;
             this.server = server;
+            this.nombreuser = nombreuser;
         }
         #region cartasExcusa
 
@@ -169,6 +171,9 @@ namespace Graficos_juego_OYSL
         //Se cargan las imagenes de las cartas que tendrá el jugador
         private void Señor_Oscuro_Load(object sender, EventArgs e)
         {
+            //PonNombre name = new PonNombre(Pon_Nombre);
+            //Name.Invoke(name, new object[] { nombreuser, Name });
+            Name.Text = nombreuser;
             MuestraImagen(Mirada1, "señor_1.png");
             MuestraImagen(Mirada2, "señor_2.png");
             MuestraImagen(Mirada3, "señor_3.png");
@@ -213,15 +218,25 @@ namespace Graficos_juego_OYSL
 
         }
 
-        public void MostrarCambioTurno()
+        public void MostrarCambioTurno(int l)
         {
             MessageBox.Show("Se ha cambiado el turno");
+            PonNombre name = new PonNombre(Pon_Nombre);
+            if (l == 1)
+            {
+                Turno.Invoke(name, new object[] { "Es el turno de lacayo 1", Turno });
+            }
+            else
+            {
+                Turno.Invoke(name, new object[] { "Es el turno de lacayo 2", Turno });
+            }
+            
         }
 
 
-        public void FinalizaPartida(string winner)
+        public void FinalizaPartida(string loser)
         {
-            MessageBox.Show("Se ha acabado la partida \n" + "Ha ganado: " + winner);
+            MessageBox.Show("Se ha acabado la partida \n" + "Ha perdido: " + loser);
             Close();
         }
 
@@ -229,6 +244,7 @@ namespace Graficos_juego_OYSL
         {
             Monton.Visible = ver;
         }
+
         public void PonCarta(string Imagen)
         {
             DelegadoVerBaraja del = new DelegadoVerBaraja(VerBaraja);
@@ -237,6 +253,12 @@ namespace Graficos_juego_OYSL
                 Monton.Invoke(del, new object[] { true });
             }
             MuestraImagen(Monton, Imagen);
+        }
+
+        //Poner el nombre del usuario
+        public void Pon_Nombre(string nombre, Label l)
+        {
+            l.Text = nombre;
         }
     }
 }

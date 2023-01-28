@@ -16,11 +16,14 @@ namespace Graficos_juego_OYSL
 {
     public partial class Lacayos : Form
     {
-        private int lacayo;
+        int lacayo1;
         int nForm;
         Socket server;
         int excusa;
+        string nombreuser;
         delegate void VisualizaBaraja(bool ver);
+        delegate void PonNombre(string nombre, Label l);
+        delegate void DelegadoParaCerrar();
 
         #region cartasExcusa
 
@@ -36,7 +39,7 @@ namespace Graficos_juego_OYSL
             new Cartas() {Nombre = "Bola_de_Cristal", Image="bola_de_cristal.png", ID=7},
             new Cartas() {Nombre="Bosque_oscuro", Image="bosque_oscuro.png", ID=8},
             new Cartas() {Nombre = "Caballero_negro", Image="caballero_negro.png", ID=9},
-            new Cartas() {Nombre = "Cachorrito", Image="cahorrito.png", ID=10},
+            new Cartas() {Nombre = "Cachorrito", Image="cachorrito.png", ID=10},
             new Cartas() {Nombre="Cadena_pesada", Image = "cadena_pesada.png", ID=11},
             new Cartas() {Nombre = "Calavera", Image = "calavera.png", ID=12},
             new Cartas() {Nombre = "Camino", Image = "camino.png", ID=13},
@@ -150,12 +153,14 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
-        public Lacayos(int nForm, Socket server, int lacayo)
+        //Constructor del formulario
+        public Lacayos(int nForm, Socket server, int lacayo1, string nombreuser)
         {
             InitializeComponent();
             this.nForm = nForm;
             this.server = server;
-            this.lacayo = lacayo;
+            this.lacayo1 = lacayo1;
+            this.nombreuser = nombreuser;
         }
         #region cartasMiradas
         List<Cartas> barajaMiradas = new List<Cartas>()
@@ -166,6 +171,7 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
+        //Función para mostrar las imagenes en los paneles
         private void MuestraImagen(PictureBox picturebox, string imagen)
         {
             picturebox.Image = Image.FromFile(imagen);
@@ -174,10 +180,12 @@ namespace Graficos_juego_OYSL
         }
       
 
-
+        //Se abre el formulario con las distintas barajas que hay y con unas cartas determinadas repartidas para cada lacayo
         private void Lacayos_Load(object sender, EventArgs e)
         {
-            info.Text = "lacayo " + lacayo;
+            Name.Text = nombreuser;
+            info.Text = "Lacayo " + Convert.ToString(lacayo1);
+            Turno.Text = "Es el turno del Lacayo 1";
 
             Baraja.Visible = false; //Al principio no hay cartas en la baraja de descarte
 
@@ -212,6 +220,7 @@ namespace Graficos_juego_OYSL
 
         }
 
+        //Al darle a una carta de excusa que aparezca en la baraja central de todos los jugadores
         private void TirarAlMedio_Excusas(PictureBox picturebox)
         {
 
@@ -221,6 +230,7 @@ namespace Graficos_juego_OYSL
 
         }
 
+        //Al darle a una carta de accion que aparezca en la baraja central de todos los jugadores
         private void TirarAlMedio_Accion(PictureBox picturebox)
         {
             string mensaje = "13/" + Convert.ToString(nForm)  + "/" + picturebox.ImageLocation; //Enviamos el numero de la carta
@@ -228,6 +238,7 @@ namespace Graficos_juego_OYSL
             server.Send(msg);
         }
 
+        //Para tirar una carta de acción eal centro
         private void Accion3_Click(object sender, EventArgs e)
         {
             TirarAlMedio_Accion(Accion3);
@@ -264,6 +275,7 @@ namespace Graficos_juego_OYSL
             CambiarTurno(excusa);
         }
 
+        //Para tirar una carta de excusa al medio
         private void Excusa3_Click(object sender, EventArgs e)
         {
             TirarAlMedio_Excusas(Excusa3);
@@ -288,6 +300,8 @@ namespace Graficos_juego_OYSL
             CambiarTurno(excusa);
         }
 
+        //Para robar cartas de acción del montón.
+        //Vemos si hay algun sitio vacio para robar cartas, ya que sino no podrás robar
         private void Accion_Click(object sender, EventArgs e)
         {
             var random = new Random();
@@ -314,6 +328,8 @@ namespace Graficos_juego_OYSL
             }
         }
 
+        //Para robar cartas de excusas del montón.
+        //Vemos si hay algun sitio vacio para robar cartas, ya que sino no podrás robar
         private void Excusas_Click(object sender, EventArgs e)
         {
             var random = new Random();
@@ -340,11 +356,12 @@ namespace Graficos_juego_OYSL
             }
         }
 
+        //Para pasar el turno al otro lacayo
         private void CambiarTurno(int excusa)
         {
             if(excusa == 3) //Se cambiará el turno
             {
-                string mensaje = "10/" + Convert.ToString(nForm); //Enviamos al servidor el cambio de turno
+                string mensaje = "10/" + Convert.ToString(nForm) + "/" + lacayo1; //Enviamos al servidor el cambio de turno
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
                 excusa = 0; //Volvemos a empezar
@@ -354,11 +371,13 @@ namespace Graficos_juego_OYSL
 
         delegate void MiradasLabel(string numero);
 
+        //Función para el delegado de las miradas
         public void Miradas_Label(string numero)
         {
             miradas.Text = numero;
         }
 
+        //Cada vez que el señor oscuro tira una mirada, se notifica al clinte y se le apunta en un contador
         public void PonMiradas(string numero)
         {
             MiradasLabel label = new MiradasLabel(Miradas_Label);
@@ -366,24 +385,35 @@ namespace Graficos_juego_OYSL
             MessageBox.Show("Te han enviado una mirada fulminante");
         }
 
-        public void MostrarCambioTurno()
+        //Avisamos de que se ha cambiado el turno y de quien es ahora
+        public void MostrarCambioTurno(int l)
         {
             MessageBox.Show("Se ha cambiado el turno");
+            PonNombre name = new PonNombre(Pon_Nombre);
+            if (l == 1)
+            {
+                Turno.Invoke(name, new object[] { "Es el turno del lacayo 1", Turno });
+            }
+            else
+            {
+                Turno.Invoke(name, new object[] { "Es el turno del lacayo 2", Turno });
+            }
         }
-
-        public void FinalizarPartida(string winner)
+        //Anunciamos que se ha acabado la partida y se cerrará el formulario devolviendolos al de escoger personajes
+        public void FinalizarPartida(string loser)
         {
-            MessageBox.Show("Se ha acabado la partida \n" + "Ha ganado: "+ winner);
-            Close();
+            MessageBox.Show("Se ha acabado la partida \n" + "Ha perdido: "+ loser);
+            Lacayos lacayo = new Lacayos(nForm, server, lacayo1, nombreuser);
+            lacayo.Invoke((MethodInvoker)delegate { Close(); });
         }
         
-        
+        //Función para el delegado de ver la baraja de cartas
         public void VerBaraja(bool ver)
         {
             Baraja.Visible = ver;
         }
 
-
+        //Funcion para ver la carta que se ha tirado
         public void PasaCarta(string Imagen)
         {
             VisualizaBaraja vista = new VisualizaBaraja(VerBaraja);
@@ -393,6 +423,17 @@ namespace Graficos_juego_OYSL
                 Baraja.Invoke(vista, new object[] { true });
             }
             MuestraImagen(Baraja, Imagen);
+        }
+
+        //Poner nombre de usuario arriba
+        public void Pon_Nombre(string nombre, Label l)
+        {
+            l.Text = nombre;
+        }
+
+        public void Cerrar_Formulario()
+        {
+            Close();
         }
     }
 }

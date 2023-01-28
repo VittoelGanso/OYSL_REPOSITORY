@@ -42,6 +42,7 @@ namespace Cliente_Proyevto
             this.label1 = new System.Windows.Forms.Label();
             this.Usuario = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.Baja = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.Invitacion = new System.Windows.Forms.Button();
@@ -171,6 +172,7 @@ namespace Cliente_Proyevto
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.Baja);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.Invitacion);
@@ -191,6 +193,16 @@ namespace Cliente_Proyevto
             this.panel2.Size = new System.Drawing.Size(198, 439);
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
+            // 
+            // Baja
+            // 
+            this.Baja.Location = new System.Drawing.Point(103, 397);
+            this.Baja.Name = "Baja";
+            this.Baja.Size = new System.Drawing.Size(91, 38);
+            this.Baja.TabIndex = 15;
+            this.Baja.Text = "Darse de baja";
+            this.Baja.UseVisualStyleBackColor = true;
+            this.Baja.Click += new System.EventHandler(this.Baja_Click);
             // 
             // label10
             // 
@@ -255,7 +267,7 @@ namespace Cliente_Proyevto
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(48, 397);
+            this.button4.Location = new System.Drawing.Point(3, 397);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(97, 39);
             this.button4.TabIndex = 7;
@@ -395,6 +407,7 @@ namespace Cliente_Proyevto
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox jugador1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button Baja;
     }
 }
 

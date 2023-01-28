@@ -22,10 +22,7 @@ namespace Graficos_juego_OYSL
         public List<Lacayos> formulario = new List<Lacayos>();
         public List<Señor_Oscuro> f = new List<Señor_Oscuro>();
         delegate void DelegadoCheck(bool ver, CheckBox box);
-        //public delegate void pasarlacayo(List<Lacayos> lacayos);
-        //public delegate void pasarSO(List<Señor_Oscuro> señor);
-        //public event pasarlacayo pasado;
-        //public event pasarSO pasa;
+
 
         public GraficoOYSL(int nForm, Socket server, string nombreuser)
         {
@@ -59,7 +56,6 @@ namespace Graficos_juego_OYSL
                 string mensaje = "12/" + Convert.ToString(nForm) +  "/SO/" + nombreuser;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
-                MessageBox.Show(mensaje);
             }
             else if (Lacayo_1.Checked)
             {
@@ -117,12 +113,8 @@ namespace Graficos_juego_OYSL
         private void PonerEnMarchaLacayos(int num)
         {
             int cont = formulario.Count;
-            Lacayos f = new Lacayos(cont, server, num);
+            Lacayos f = new Lacayos(cont, server, num, nombreuser);
             formulario.Add(f);
-            ////pasado(formulario);
-            ////this.Dispose();
-            //Form1 formprincipal = Owner as Form1;
-            //formprincipal.formlacayo[cont] = f;
             f.ShowDialog();
 
         }
@@ -130,12 +122,8 @@ namespace Graficos_juego_OYSL
         private void PonerEnMarchaSeñor()
         {
             int cont = f.Count;
-            Señor_Oscuro formulario = new Señor_Oscuro(cont, server);
+            Señor_Oscuro formulario = new Señor_Oscuro(cont, server, nombreuser);
             f.Add(formulario);
-            ////pasa(f);
-            ////this.Dispose();
-            //Form1 formprincipal = Owner as Form1;
-            //formprincipal.formSeñor[cont] = formulario;
             formulario.ShowDialog();
 
         }
@@ -152,28 +140,28 @@ namespace Graficos_juego_OYSL
             }
         }
 
-        public void CambioTurno(int numero, string respuesta)
+        public void CambioTurno(int numero, int l, string respuesta)
         {
             if (respuesta == "SO")
             {
-                f[numero].MostrarCambioTurno();
+                f[numero].MostrarCambioTurno(l);
             }
             else
             {
-                formulario[numero].MostrarCambioTurno();
+                formulario[numero].MostrarCambioTurno(l);
             }
         }
 
 
-        public void AcabaPartida(int numero, string respuesta, string winner)
+        public void AcabaPartida(int numero, string respuesta, string loser)
         {
             if (respuesta == "SO")
             {
-                f[numero].FinalizaPartida(winner);
+                f[numero].FinalizaPartida(loser);
             }
             else
             {
-                formulario[numero].FinalizarPartida(winner);
+                formulario[numero].FinalizarPartida(loser);
             }
         }
 
@@ -196,26 +184,26 @@ namespace Graficos_juego_OYSL
             Salir.Visible = false;
         }
 
-        //public void CheckearPersonaje(bool check, CheckBox box)
-        //{
-        //    box.Checked = check;
-        //}
-        ////Bloqueamos el personaje elegido
-        //public void BloquearPersonaje(string rol)
-        //{
-        //    DelegadoCheck del = new DelegadoCheck(CheckearPersonaje);
-        //    if (rol == "lacayo1")
-        //    {
-        //        Lacayo_1.Invoke(del, new object[] { true, Lacayo_1 });
-        //    }
-        //    else if (rol == "lacayo2")
-        //    {
-        //        Lacayo_2.Invoke(del, new object[] { true , Lacayo_2});
-        //    }
-        //    else
-        //    {
-        //        Lacayo_2.Invoke(del, new object[] { true , Señor_oscuro});
-        //    }
-        //}
+        public void CheckearPersonaje(bool check, CheckBox box)
+        {
+            box.Enabled = check;
+        }
+        //Bloqueamos el personaje elegido
+        public void BloquearPersonaje(string rol)
+        {
+            DelegadoCheck del = new DelegadoCheck(CheckearPersonaje);
+            if (rol == "lacayo1")
+            {
+                Lacayo_1.Invoke(del, new object[] { false, Lacayo_1 });
+            }
+            else if (rol == "lacayo2")
+            {
+                Lacayo_2.Invoke(del, new object[] { false, Lacayo_2 });
+            }
+            else
+            {
+                Lacayo_2.Invoke(del, new object[] { false, Señor_oscuro });
+            }
+        }
     }
 }

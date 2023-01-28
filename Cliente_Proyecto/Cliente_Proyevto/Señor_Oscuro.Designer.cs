@@ -44,6 +44,8 @@ namespace Graficos_juego_OYSL
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.Mirada = new System.Windows.Forms.Button();
+            this.Name = new System.Windows.Forms.Label();
+            this.Turno = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Excusas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Jugador_1)).BeginInit();
@@ -174,12 +176,30 @@ namespace Graficos_juego_OYSL
             this.Mirada.UseVisualStyleBackColor = true;
             this.Mirada.Click += new System.EventHandler(this.Mirada_Click);
             // 
+            // Name
+            // 
+            this.Name.AutoSize = true;
+            this.Name.Location = new System.Drawing.Point(738, 18);
+            this.Name.Name = "Name";
+            this.Name.Size = new System.Drawing.Size(0, 13);
+            this.Name.TabIndex = 17;
+            // 
+            // Turno
+            // 
+            this.Turno.AutoSize = true;
+            this.Turno.Location = new System.Drawing.Point(290, 18);
+            this.Turno.Name = "Turno";
+            this.Turno.Size = new System.Drawing.Size(0, 13);
+            this.Turno.TabIndex = 18;
+            // 
             // Señor_Oscuro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Turno);
+            this.Controls.Add(this.Name);
             this.Controls.Add(this.Mirada);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -194,7 +214,6 @@ namespace Graficos_juego_OYSL
             this.Controls.Add(this.Jugador_1);
             this.Controls.Add(this.Accion);
             this.Controls.Add(this.Excusas);
-            this.Name = "Señor_Oscuro";
             this.Text = "Señor Oscuro";
             this.Load += new System.EventHandler(this.Señor_Oscuro_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Excusas)).EndInit();
@@ -226,5 +245,7 @@ namespace Graficos_juego_OYSL
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button Mirada;
+        private System.Windows.Forms.Label Name;
+        private System.Windows.Forms.Label Turno;
     }
 }

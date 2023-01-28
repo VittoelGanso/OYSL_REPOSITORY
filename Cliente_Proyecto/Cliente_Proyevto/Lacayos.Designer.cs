@@ -47,6 +47,8 @@ namespace Graficos_juego_OYSL
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.miradas = new System.Windows.Forms.Label();
+            this.Name = new System.Windows.Forms.Label();
+            this.Turno = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Accion3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Accion1)).BeginInit();
@@ -208,12 +210,30 @@ namespace Graficos_juego_OYSL
             this.miradas.Size = new System.Drawing.Size(0, 13);
             this.miradas.TabIndex = 26;
             // 
+            // Name
+            // 
+            this.Name.AutoSize = true;
+            this.Name.Location = new System.Drawing.Point(704, 9);
+            this.Name.Name = "Name";
+            this.Name.Size = new System.Drawing.Size(0, 13);
+            this.Name.TabIndex = 27;
+            // 
+            // Turno
+            // 
+            this.Turno.AutoSize = true;
+            this.Turno.Location = new System.Drawing.Point(364, 17);
+            this.Turno.Name = "Turno";
+            this.Turno.Size = new System.Drawing.Size(0, 13);
+            this.Turno.TabIndex = 28;
+            // 
             // Lacayos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Turno);
+            this.Controls.Add(this.Name);
             this.Controls.Add(this.miradas);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -231,7 +251,6 @@ namespace Graficos_juego_OYSL
             this.Controls.Add(this.Jugador_1);
             this.Controls.Add(this.Accion);
             this.Controls.Add(this.Excusas);
-            this.Name = "Lacayos";
             this.Text = "Lacayos";
             this.Load += new System.EventHandler(this.Lacayos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Accion3)).EndInit();
@@ -269,5 +288,7 @@ namespace Graficos_juego_OYSL
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label miradas;
+        private System.Windows.Forms.Label Name;
+        private System.Windows.Forms.Label Turno;
     }
 }

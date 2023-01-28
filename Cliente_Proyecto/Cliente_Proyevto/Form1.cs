@@ -29,19 +29,19 @@ namespace Cliente_Proyevto
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
         string address = "192.168.56.101";
-        int gate = 9075;
+        int gate = 9055;
         Thread atender;
         int numForm;
 
         List<GraficoOYSL> formulario = new List<GraficoOYSL>();
-        public List<Lacayos> formlacayo = new List<Lacayos>();
-        public List<Señor_Oscuro> formSeñor = new List<Señor_Oscuro>();
+
 
         delegate void DelegadoParaEscribir(string mensaje, int pos1, int pos2, DataGridView datagrid);
         delegate void DelegadoParaVisualizar(bool visible, Panel p);
         delegate void GridVisible(bool visible, DataGridView datagrid);
         delegate void TamañoDataGrid(int num, string lugar, DataGridView datagrid);
         delegate void Titulo(string titulo, int pos, DataGridView datagrid);
+        delegate void BloquearBoton(bool bloq);
 
 
         //Intentar hacer las funciones globales, que sirvan para todos los paneles o datagrids
@@ -90,26 +90,15 @@ namespace Cliente_Proyevto
             int cont = formulario.Count;
             GraficoOYSL f = new GraficoOYSL(cont, server, nombreuser);
             formulario.Add(f);
-            //f.pasado += new Graficos_juego_OYSL.pasarlacayo(ejecutarlacayo);
-            //f.pasa += new Graficos_juego_OYSL.pasarSeñor(ejecutarseñor);
-            //AddOwnedForm(f);
             f.ShowDialog();
             
         }
 
-        public void ejecutarlacayo(List<Lacayos> lacayo)
+        //Función para bloquear el boton de invitar, ya que solo se puede crear una partida
+        private void Bloquear_Boton(bool bloq)
         {
-            formlacayo = lacayo;
+            Invitacion.Enabled = bloq;
         }
-
-        public void ejecutarseñor(List<Señor_Oscuro> señor)
-        {
-            formSeñor = señor;
-        }
-
-
-
-
 
         //
         //COMPLEJO DE FUNCIONES PARA ATENDER LAS PETICIONES QUE LLEGAN DEL SERVIDOR.
@@ -126,7 +115,7 @@ namespace Cliente_Proyevto
 
                 //Partimos por la barra para saber que servicio es
                 string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
-                Console.WriteLine("Numero de trozos: " + Convert.ToString(trozos.Length));
+                Console.WriteLine("Numero de trozos: " + Convert.ToString(trozos.Length) + "el trozo es" + Convert.ToString(trozos[0]));
                 string mensaje = trozos[0].Split('\0')[0]; //Declaramos el mensaje recibido por el servidor
                 Console.WriteLine(mensaje);
                 int codigo = Convert.ToInt32(mensaje); //Donde tenemos el codigo del mensaje
@@ -199,17 +188,22 @@ namespace Cliente_Proyevto
                     case 5: //Tabla de jugadores con sus partidas ganadas
 
                         Puntuaciones.Invoke(listacon, new object[] { true, Puntuaciones }); //Se hace visible
-                        Puntuaciones.Invoke(autosize, new object[] { true, Puntuaciones}); //Ponemos el AutoSize
-                        Puntuaciones.Invoke(tamaño, new object[] { (trozos.Length)/2, "r", Puntuaciones }); //Número de filas
+                        Puntuaciones.Invoke(autosize, new object[] { true, Puntuaciones }); //Ponemos el AutoSize
+                        Puntuaciones.Invoke(tamaño, new object[] { (trozos.Length) / 2, "r", Puntuaciones }); //Número de filas
                         Puntuaciones.Invoke(tamaño, new object[] { 2, "c", Puntuaciones }); //Número de columnas
                         Puntuaciones.Invoke(titulo, new object[] { "Nombre del jugador", 0, Puntuaciones }); //Título de la columna
                         Puntuaciones.Invoke(titulo, new object[] { "Partidas ganadas", 1, Puntuaciones }); //Título de la segunda columna
 
                         j = 1;
-                        for (i = 0; i < (trozos.Length)/2 ; i++)
+                        for (i = 0; i < (trozos.Length) / 2; i++)
                         {
                             //Nombre:
                             respuesta = trozos[j].Split('\0')[0];
+                            if (respuesta == "-1")
+                            {
+                                MessageBox.Show("Hubo un error al conectar con la base de datos");
+                                break;
+                            }
                             Console.WriteLine(respuesta);
                             Puntuaciones.Invoke(añadir, new object[] { respuesta, i, 0, Puntuaciones });
 
@@ -228,6 +222,7 @@ namespace Cliente_Proyevto
                         for (i = 1; i < trozos.Length; i++)
                         {
                             respuesta = trozos[i].Split('\0')[0];
+                            Console.WriteLine("Nombre lista: " + respuesta);
                             //Debemos ir aumentando la lista
                             if (respuesta != nombreuser)
                             {
@@ -239,6 +234,8 @@ namespace Cliente_Proyevto
 
                         break;
                     case 7: //Nos llega la notificacion del cliente para que podamos aceptar la partida
+                        BloquearBoton bot = new BloquearBoton(Bloquear_Boton);
+                        Invitacion.Invoke(bot, new object[] { false });
                         respuesta = trozos[1].Split('\0')[0];
                         if(respuesta=="No estan conectados")
                         {
@@ -294,15 +291,16 @@ namespace Cliente_Proyevto
                     case 11:  //Cambio de turno
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
-                        respuesta = trozos[3].Split('\0')[0];
-                        formulario[numForm].CambioTurno(numero, respuesta);
+                        int l = Convert.ToInt32(trozos[3].Split('\0')[0]);
+                        respuesta = trozos[4].Split('\0')[0];
+                        formulario[numForm].CambioTurno(numero, l, respuesta);
                         break;
                     case 12: //Acaba la partida
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
                         numero = Convert.ToInt32(trozos[2].Split('\0')[0]);
                         respuesta = trozos[3].Split('\0')[0];
-                        string winner = trozos[4].Split('\0')[0];
-                        formulario[numForm].AcabaPartida(numero, respuesta, winner);
+                        string loser = trozos[4].Split('\0')[0];
+                        formulario[numForm].AcabaPartida(numero, respuesta, loser);
                         break;
                     case 13: //Para poner las cartas en los picturebox de todos los clientes
                         numForm = Convert.ToInt32(trozos[1].Split('\0')[0]);
@@ -317,6 +315,22 @@ namespace Cliente_Proyevto
                         respuesta = trozos[2].Split('\0')[0];
                         formulario[numForm].BloquearPersonaje(respuesta);
                         break;
+                    case 15: //Eliminar un usuario de la base de datos
+                        numero= Convert.ToInt32(trozos[1].Split('\0')[0]);
+                        if (numero == 0)
+                        {
+                            MessageBox.Show("Tu usuario se ha eliminado con éxito");
+                            conectado = 0; //Nos desconectamos
+                            panel1.Invoke(delegado, new object[] { true, panel1 }); //Vemos el panel 1
+                            panel2.Invoke(delegado, new object[] { false, panel2 }); //Dejamos de ver el panel 2
+                            ListaConectados.Invoke(listacon, new object[] { false, ListaConectados }); //Dejamos de ver la lista
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se ha podido eliminar");
+                            panel2.Invoke(delegado, new object[] { true, panel2 });
+                        }
+                       break;
 
 
                 }
@@ -483,6 +497,8 @@ namespace Cliente_Proyevto
             string mensaje = "6/" + jugador1.Text + "/" + jugador2.Text;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+            BloquearBoton bot = new BloquearBoton(Bloquear_Boton);
+            Invitacion.Invoke(bot, new object[] { false });
         }
 
         public void Invitar(string respuesta, string nombre)
@@ -523,6 +539,18 @@ namespace Cliente_Proyevto
             conectado = 0;
         }
 
+        private void Baja_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Esta seguro de que quiere eliminar su usuario ??",
+                                    "Confirma!!",
+                                    MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                string mensaje = "11/" + nombreuser;
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+            }
+        }
 
     }
 }
