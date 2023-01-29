@@ -28,8 +28,8 @@ namespace Cliente_Proyevto
         Socket server;
         string nombreuser;
         int conectado = 0;  //Estamos desconectados
-        string address = "192.168.56.101";
-        int gate = 9055;
+        string address = "147.83.117.22";
+        int gate = 50004;
         Thread atender;
         int numForm;
 
@@ -42,6 +42,9 @@ namespace Cliente_Proyevto
         delegate void TamañoDataGrid(int num, string lugar, DataGridView datagrid);
         delegate void Titulo(string titulo, int pos, DataGridView datagrid);
         delegate void BloquearBoton(bool bloq);
+        delegate void EscribirLabel(string texto);
+        delegate void DejarVerLabel(bool ver);
+        delegate void VerBoton(bool ver);
 
 
         //Intentar hacer las funciones globales, que sirvan para todos los paneles o datagrids
@@ -57,7 +60,7 @@ namespace Cliente_Proyevto
 
         public void ListaConectadosVisible(bool visible, DataGridView datagrid)
         {
-            ListaConectados.Visible = visible;
+            datagrid.Visible = visible;
         }
 
         public void ListaConectadosAutoSize(bool visible, DataGridView datagrid)
@@ -100,6 +103,24 @@ namespace Cliente_Proyevto
             Invitacion.Enabled = bloq;
         }
 
+        //Funcion para escribir en una label
+        private void Escribir_Label(string texto)
+        {
+            Partidas.Text = texto;
+        }
+
+        //Funcion para ver o dejar de ver una label
+        private void Ver_Label(bool ver)
+        {
+            Partidas.Visible = ver;
+        }
+
+        //Funcion para ver o dejar de ver un boton
+        private void Ver_Boton(bool ver)
+        {
+            Cerrar.Visible = ver;
+        }
+
         //
         //COMPLEJO DE FUNCIONES PARA ATENDER LAS PETICIONES QUE LLEGAN DEL SERVIDOR.
         //
@@ -130,16 +151,19 @@ namespace Cliente_Proyevto
                 TamañoDataGrid tamaño = new TamañoDataGrid(ListaConectadosRow);
                 Titulo titulo = new Titulo(ListaHeader);
                 DelegadoParaEscribir añadir = new DelegadoParaEscribir(AñadirFila);
+                EscribirLabel escribir = new EscribirLabel(Escribir_Label);
+                DejarVerLabel ver = new DejarVerLabel(Ver_Label);
+                VerBoton boton = new VerBoton(Ver_Boton);
+                BloquearBoton bloq = new BloquearBoton(Bloquear_Boton);
 
 
                 switch (codigo)
                 {
                     case 0:
-                        
+                        conectado = 0;
                         atender.Abort();
                         server.Shutdown(SocketShutdown.Both);
                         server.Close();
-
                         terminar = 1;
                         break;
                     case 1: //Inicio de sesión
@@ -183,18 +207,18 @@ namespace Cliente_Proyevto
                         break;
                     case 4: //Partidas ganadas por un jugador
                         respuesta = trozos[1].Split('\0')[0];
-                        MessageBox.Show(respuesta);
+                        MessageBox.Show("Ha ganado " + respuesta + " partidas");
                         break;
-                    case 5: //Tabla de jugadores con sus partidas ganadas
-
+                    case 5: //Tabla de jugadores que han ganado menos partidas
+                        Console.WriteLine("He entrado en el codigo 5");
                         Puntuaciones.Invoke(listacon, new object[] { true, Puntuaciones }); //Se hace visible
                         Puntuaciones.Invoke(autosize, new object[] { true, Puntuaciones }); //Ponemos el AutoSize
                         Puntuaciones.Invoke(tamaño, new object[] { (trozos.Length) / 2, "r", Puntuaciones }); //Número de filas
-                        Puntuaciones.Invoke(tamaño, new object[] { 2, "c", Puntuaciones }); //Número de columnas
+                        Puntuaciones.Invoke(tamaño, new object[] { 1, "c", Puntuaciones }); //Número de columnas
                         Puntuaciones.Invoke(titulo, new object[] { "Nombre del jugador", 0, Puntuaciones }); //Título de la columna
-                        Puntuaciones.Invoke(titulo, new object[] { "Partidas ganadas", 1, Puntuaciones }); //Título de la segunda columna
-
-                        j = 1;
+                        respuesta = trozos[1].Split('\0')[0];
+                        Partidas.Invoke(escribir, new object[] {"Los jugadores han ganado: " + respuesta + " partidas" });
+                        j = 2;
                         for (i = 0; i < (trozos.Length) / 2; i++)
                         {
                             //Nombre:
@@ -204,16 +228,11 @@ namespace Cliente_Proyevto
                                 MessageBox.Show("Hubo un error al conectar con la base de datos");
                                 break;
                             }
-                            Console.WriteLine(respuesta);
+                            Console.WriteLine("Nombre: "+ respuesta);
                             Puntuaciones.Invoke(añadir, new object[] { respuesta, i, 0, Puntuaciones });
-
-                            j = j + 1;
-                            //Partidas ganadas:
-                            respuesta = trozos[j].Split('\0')[0];
-                            Console.WriteLine(respuesta);
-                            Puntuaciones.Invoke(añadir, new object[] { respuesta, i, 1, Puntuaciones });
                             j = j + 1;
                         }
+                        Cerrar.Invoke(boton, new object[] { true });
                         break;
                     case 6: //La notificación. Siempre que hay un cambio se nos enviará la notificación
 
@@ -234,8 +253,8 @@ namespace Cliente_Proyevto
 
                         break;
                     case 7: //Nos llega la notificacion del cliente para que podamos aceptar la partida
-                        BloquearBoton bot = new BloquearBoton(Bloquear_Boton);
-                        Invitacion.Invoke(bot, new object[] { false });
+                        
+                        Invitacion.Invoke(bloq, new object[] { false });
                         respuesta = trozos[1].Split('\0')[0];
                         if(respuesta=="No estan conectados")
                         {
@@ -274,6 +293,7 @@ namespace Cliente_Proyevto
                         else
                         {
                             MessageBox.Show(respuesta);
+                            Invitacion.Invoke(bloq, new object[] { true });
                         }
                         break;
                     case 9: //Se envia el mensaje del chat
@@ -324,11 +344,13 @@ namespace Cliente_Proyevto
                             panel1.Invoke(delegado, new object[] { true, panel1 }); //Vemos el panel 1
                             panel2.Invoke(delegado, new object[] { false, panel2 }); //Dejamos de ver el panel 2
                             ListaConectados.Invoke(listacon, new object[] { false, ListaConectados }); //Dejamos de ver la lista
+                            Puntuaciones.Invoke(listacon, new object[] { false, Puntuaciones }); //Dejamos de ver la tabla de los jugadores que menos partidas han ganado
+                            Partidas.Invoke(ver, new object[] { false }); //Dejamos de ver la label que nos indica las partidas ganadas
+                            Cerrar.Invoke(boton, new object[] { false }); //Dejamos de ver el boton para cerrar las tablas, ya que se cierran solas
                         }
                         else
                         {
                             MessageBox.Show("No se ha podido eliminar");
-                            panel2.Invoke(delegado, new object[] { true, panel2 });
                         }
                        break;
 
@@ -337,6 +359,7 @@ namespace Cliente_Proyevto
             }
         }
 
+        //Boton para iniciar sesion
         private void IniciarSesion_Click(object sender, EventArgs e)
         {
             if (conectado == 0)
@@ -389,6 +412,7 @@ namespace Cliente_Proyevto
             }
         }
 
+        //Boton para registrarnos
         private void Registrarse_Click(object sender, EventArgs e)
         {
             if (conectado == 0)
@@ -424,6 +448,9 @@ namespace Cliente_Proyevto
                 string mensaje = "2/" + Usuario.Text + "/" + Password.Text + "/" + Correo.Text;
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
+                Usuario.Text = "";
+                Password.Text = "";
+                Correo.Text = "";
 
             }
             catch (FormatException)
@@ -437,6 +464,7 @@ namespace Cliente_Proyevto
             }
         }
 
+        //Boton para enviar las tres consultas a la base de datos
         private void button3_Click(object sender, EventArgs e)
         {
             try
@@ -462,7 +490,9 @@ namespace Cliente_Proyevto
                 }
                 else
                 {
-                    //Finalmente queremos que nos aparezca la tabla con el nombre del jugador y las partidas ganadas
+                    //Queremos conocer los jugadores que van perdiendo, así que nos aparecerá una label que nos indicará
+                    //las partidas canadas por todos los jugadores que nos apareceran en la tabla
+                    //En la tabla tendremos todos los jugadores que habrán ganado X partidas, que será el número más bajo de partidas ganadas
                     string mensaje = "5/";
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                     server.Send(msg);
@@ -477,19 +507,25 @@ namespace Cliente_Proyevto
             }
         }
 
+        //Boton para desconectarnos del servidor
         private void button4_Click(object sender, EventArgs e)
         {
             string mensaje = "0/" + nombreuser;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
-            conectado= 0;
             DelegadoParaVisualizar delegado = new DelegadoParaVisualizar(PanelVisible);
             GridVisible listacon = new GridVisible(ListaConectadosVisible);
+            DejarVerLabel ver = new DejarVerLabel(Ver_Label);
+            VerBoton boton = new VerBoton(Ver_Boton);
             panel1.Invoke(delegado, new object[] { true, panel1 }); //Vemos el panel 1
             panel2.Invoke(delegado, new object[] { false, panel2 }); //Dejamos de ver las 
             ListaConectados.Invoke(listacon, new object[] { false, ListaConectados }); //Dejamos de ver la lista
+            Puntuaciones.Invoke(listacon, new object[] { false, Puntuaciones }); //Dejamos de ver la tabla de los jugadores que menos partidas han ganado
+            Partidas.Invoke(ver, new object[] { false }); //Dejamos de ver la label que nos indica las partidas ganadas
+            Cerrar.Invoke(boton, new object[] { false });
         }
 
+        //Para invitar a los demás jugadores a jugar una partida
         private void Invitacion_Click(object sender, EventArgs e)
         {
             //Mensaje que envia el cliente si es el el que está invitando
@@ -499,8 +535,11 @@ namespace Cliente_Proyevto
             server.Send(msg);
             BloquearBoton bot = new BloquearBoton(Bloquear_Boton);
             Invitacion.Invoke(bot, new object[] { false });
+            jugador1.Text = "";
+            jugador2.Text = "";
         }
 
+        //Cuando nos llega la notificacion de la invitación y tenemos que aceptar o denegarla
         public void Invitar(string respuesta, string nombre)
         {
             if(respuesta == "Si")
@@ -518,27 +557,24 @@ namespace Cliente_Proyevto
         }
 
 
-
+        //Al cargar el formulario hay objetos que queremos que esten ocultos
         private void Form1_Load(object sender, EventArgs e)
         {
-            
             GridVisible gr = new GridVisible(ListaConectadosVisible);
+            VerBoton boton = new VerBoton(Ver_Boton);
             Puntuaciones.Invoke(gr, new object[] { false, Puntuaciones });
+            Cerrar.Invoke(boton, new object[] { false });
         }
 
-        public string GetUser (string nombreuser)
-        {
-            return nombreuser;
-        }
-
+        //Cuando cerramos el formulario por la cruz también nos desconectaremos
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             string mensaje = "0/" + nombreuser;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
-            conectado = 0;
         }
 
+        //Para dar de baja a un usuario
         private void Baja_Click(object sender, EventArgs e)
         {
             var confirmResult = MessageBox.Show("Esta seguro de que quiere eliminar su usuario ??",
@@ -552,5 +588,15 @@ namespace Cliente_Proyevto
             }
         }
 
+        //Cerramos la tabla de los que más partidas han perdido
+        private void Cerrar_Click(object sender, EventArgs e)
+        {
+            DejarVerLabel ver = new DejarVerLabel(Ver_Label);
+            GridVisible listacon = new GridVisible(ListaConectadosVisible);
+            Puntuaciones.Invoke(listacon, new object[] { false, Puntuaciones }); //Dejamos de ver la tabla de los jugadores que menos partidas han ganado
+            Partidas.Invoke(ver, new object[] { false }); //Dejamos de ver la label que nos indica las partidas ganadas
+            VerBoton boton = new VerBoton(Ver_Boton);
+            Cerrar.Invoke(boton, new object[] { false });
+        }
     }
 }

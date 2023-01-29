@@ -23,7 +23,7 @@ namespace Graficos_juego_OYSL
         public List<Señor_Oscuro> f = new List<Señor_Oscuro>();
         delegate void DelegadoCheck(bool ver, CheckBox box);
 
-
+        //Constructor del formulario
         public GraficoOYSL(int nForm, Socket server, string nombreuser)
         {
             InitializeComponent();
@@ -32,16 +32,6 @@ namespace Graficos_juego_OYSL
             this.nombreuser = nombreuser;
             
         }
-
-        public GraficoOYSL(int nForm, Socket server, string nombreuser, Form1 parent)
-        {
-            InitializeComponent();
-            this.nForm = nForm;
-            this.server = server;
-            this.nombreuser = nombreuser;
-
-        }
-
 
         //En el mazo para robar las cartas deben estar boca a bajo
 
@@ -78,7 +68,7 @@ namespace Graficos_juego_OYSL
 
         }
 
-
+        //Para enviar mensajes con el chat al servidor
         private void Envio_Click(object sender, EventArgs e)
         {
 
@@ -89,8 +79,10 @@ namespace Graficos_juego_OYSL
             //Enviamos el nombre al servidor 
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+            informacion.Text = "";
         }
 
+        //Que vemos al cargar el formulario
         private void GraficoOYSL_Load(object sender, EventArgs e)
         {
             Boton_Instrucciones.Visible = true;
@@ -98,18 +90,20 @@ namespace Graficos_juego_OYSL
         }
 
         delegate void MensajeChat(string mensaje);
-
+        //Escribimos la respuesta que nos llega del servidor en el chat
         public void TomaRespuesta(string mensaje)
         {
             MensajeChat p = new MensajeChat(PonMensaje);
             chat.Invoke(p, new object[] { mensaje }); //Escribimos el mensaje en el chat
         }
 
+        //Escribimos el mensaje que nos llega en el chat
         public void PonMensaje(string mensaje)
         {
             chat.Items.Add(mensaje);
         }
 
+        //Abrimos el formulario de los lacayos
         private void PonerEnMarchaLacayos(int num)
         {
             int cont = formulario.Count;
@@ -119,6 +113,7 @@ namespace Graficos_juego_OYSL
 
         }
 
+        //Para abrir el formulario del Señor Oscuro
         private void PonerEnMarchaSeñor()
         {
             int cont = f.Count;
@@ -128,6 +123,7 @@ namespace Graficos_juego_OYSL
 
         }
 
+        //Pasamos la carta a los jugadores para que puedan ver que carta se ha jugado
         public void PasaCarta(int numero, string personaje, string carta)
         {
             if (personaje == "SO")
@@ -140,6 +136,7 @@ namespace Graficos_juego_OYSL
             }
         }
 
+        //Enviamos el cambio de turno a los jugadores
         public void CambioTurno(int numero, int l, string respuesta)
         {
             if (respuesta == "SO")
@@ -152,7 +149,7 @@ namespace Graficos_juego_OYSL
             }
         }
 
-
+        //Al finalizar la partida, para enviarlo a los otros formularios
         public void AcabaPartida(int numero, string respuesta, string loser)
         {
             if (respuesta == "SO")
@@ -165,11 +162,13 @@ namespace Graficos_juego_OYSL
             }
         }
 
+        //Enviamos al lacayo correspondiente la mirada fulminante
         public void PonMiradas(int numero, string respuesta)
         {
             formulario[numero].PonMiradas(respuesta);
         }
 
+        //Para abrir las instrucciones del juego antes de empezar a jugar
         private void Boton_Instrucciones_Click(object sender, EventArgs e)
         {
             Instrucciones.Visible = true;
@@ -177,6 +176,7 @@ namespace Graficos_juego_OYSL
             Salir.Visible = true;
         }
 
+        //Una vez hemos leido las instrucciones las podemos esconder
         private void Salir_Click(object sender, EventArgs e)
         {
             Instrucciones.Visible = false;
@@ -184,10 +184,12 @@ namespace Graficos_juego_OYSL
             Salir.Visible = false;
         }
 
+        //Para el delegado de bloquear el personaje escogido
         public void CheckearPersonaje(bool check, CheckBox box)
         {
             box.Enabled = check;
         }
+
         //Bloqueamos el personaje elegido
         public void BloquearPersonaje(string rol)
         {

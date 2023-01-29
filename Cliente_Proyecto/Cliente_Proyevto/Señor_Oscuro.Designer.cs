@@ -79,7 +79,6 @@ namespace Graficos_juego_OYSL
             this.Jugador_1.Size = new System.Drawing.Size(132, 77);
             this.Jugador_1.TabIndex = 2;
             this.Jugador_1.TabStop = false;
-            this.Jugador_1.Click += new System.EventHandler(this.Jugador_1_Click);
             // 
             // Jugador_2
             // 
@@ -88,7 +87,6 @@ namespace Graficos_juego_OYSL
             this.Jugador_2.Size = new System.Drawing.Size(152, 77);
             this.Jugador_2.TabIndex = 3;
             this.Jugador_2.TabStop = false;
-            this.Jugador_2.Click += new System.EventHandler(this.Jugador_2_Click);
             // 
             // Mirada3
             // 

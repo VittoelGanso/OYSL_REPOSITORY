@@ -24,6 +24,7 @@ namespace Graficos_juego_OYSL
         delegate void DelegadoVerBaraja(bool ver);
         delegate void PonNombre(string nombre, Label l);
 
+        //Constructor del formulario
         public Señor_Oscuro(int nForm, Socket server, string nombreuser)
         {
 
@@ -160,7 +161,7 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
-
+        //Para mostrar la imagen de las cartas
         private void MuestraImagen(PictureBox picturebox, string imagen)
         {
             picturebox.Image = Image.FromFile(imagen);
@@ -184,15 +185,6 @@ namespace Graficos_juego_OYSL
             
         }
 
-        private void Jugador_2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Jugador_1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         //Qué pasa al darle a una mirada
         private void Mirada_Click(object sender, EventArgs e)
@@ -202,6 +194,7 @@ namespace Graficos_juego_OYSL
                                      MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
             {
+
                 miradas = miradas + 1;
                 string input = Interaction.InputBox("Prompt", "Escriba el username del  Lacayo que desea enviar las miradas", "Default", 0, 0);
                 string mens = "9/" + Convert.ToString(nForm)  + "/" + input;
@@ -218,6 +211,7 @@ namespace Graficos_juego_OYSL
 
         }
 
+        //Se cambia el turno de los lacayos y se indica a quien le toca
         public void MostrarCambioTurno(int l)
         {
             MessageBox.Show("Se ha cambiado el turno");
@@ -233,18 +227,20 @@ namespace Graficos_juego_OYSL
             
         }
 
-
+        //Cuando acaba la partida se nos indica quien ha ganado
         public void FinalizaPartida(string loser)
         {
             MessageBox.Show("Se ha acabado la partida \n" + "Ha perdido: " + loser);
-            Close();
+
         }
 
+        //Para ver las barajas de cartas
         public void VerBaraja(bool ver)
         {
             Monton.Visible = ver;
         }
 
+        //Ponemos la carta en el centro 
         public void PonCarta(string Imagen)
         {
             DelegadoVerBaraja del = new DelegadoVerBaraja(VerBaraja);

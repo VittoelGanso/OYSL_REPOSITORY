@@ -23,8 +23,8 @@ namespace Graficos_juego_OYSL
         string nombreuser;
         delegate void VisualizaBaraja(bool ver);
         delegate void PonNombre(string nombre, Label l);
-        delegate void DelegadoParaCerrar();
 
+        //Lista de todas las cartas de excusa que se usaran
         #region cartasExcusa
 
         List<Cartas> barajaexcusa = new List<Cartas>()
@@ -111,6 +111,7 @@ namespace Graficos_juego_OYSL
         };
         #endregion
 
+        //Lista de todas las cartas de acción
         #region cartasAccion
         List<Cartas> barajaAccion = new List<Cartas>()
         {
@@ -162,6 +163,8 @@ namespace Graficos_juego_OYSL
             this.lacayo1 = lacayo1;
             this.nombreuser = nombreuser;
         }
+
+        //Lista de las miradas fulminantes
         #region cartasMiradas
         List<Cartas> barajaMiradas = new List<Cartas>()
         {
@@ -403,8 +406,7 @@ namespace Graficos_juego_OYSL
         public void FinalizarPartida(string loser)
         {
             MessageBox.Show("Se ha acabado la partida \n" + "Ha perdido: "+ loser);
-            Lacayos lacayo = new Lacayos(nForm, server, lacayo1, nombreuser);
-            lacayo.Invoke((MethodInvoker)delegate { Close(); });
+
         }
         
         //Función para el delegado de ver la baraja de cartas
@@ -431,9 +433,5 @@ namespace Graficos_juego_OYSL
             l.Text = nombre;
         }
 
-        public void Cerrar_Formulario()
-        {
-            Close();
-        }
     }
 }
