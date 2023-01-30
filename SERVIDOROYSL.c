@@ -12,6 +12,7 @@
 
 
 
+
 //ESTRUCTURAS USUARIOS Y LISTA DE LOS MISMOS
 
 //Estructura necesaria para acceso excluyente
@@ -131,10 +132,10 @@ void AddtoGame(TGames Table, char username[20], int id){
 }
 
 //FUNCION QUE ELIMINA UNA PARTIDA DE LA TABLA DE PARTIDAS Y ACTUALIZA EL RESULTADO.
-void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn) {
+void FinishGame(TGames Table, int idp, char loser[20], MYSQL *conn, int sock_conn) {
 
 	MYSQL_ROW row;
-	MYSQL_RES* result;
+	MYSQL_RES *result;
 	char query[200];
 	char answer[100];
 	char winner[20];
@@ -143,7 +144,8 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 	int err;
 	strcpy(rol, "lacayo");
 	char rol2[20];
-	strcpy(rol, "SO");
+	strcpy(rol2, "SO");
+	int ganados;
 
 
 	for (int i = 0; i < 3; i++) {
@@ -154,12 +156,14 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 
 		}
 	}
-
+	printf("The winner is: %s \n", winner);
 	//Actualizamos las partidas ganadas del jugador que ha ganado la partida.
 	int GamesWon1 = GamesWon(winner, answer, conn) + 1;
 	//Hacemos la consulta y comprovamos que la conexion sea correcta.
 	sprintf(query, "INSERT INTO userDB(wins) VALUES ('%d');", GamesWon1);
+	printf("Query: %s \n", query);
 	err = mysql_query(conn, query);
+	printf("Error: %d \n", err);
 	//control de errores.
 	if (err != 0)
 	{
@@ -167,27 +171,9 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 		return 1;
 	}
 	else {
-		//Recogemos el resultado para comprovar si es correcto
-		result = mysql_store_result(conn);
-		row = mysql_fetch_row(result);
-
-		if (row == NULL) {
-
-			sprintf(answer, "11/%s", "No");
-			return 1;
-		}
-		else {//comprovamos que el resultado insertado és el mismo que hemos recogido de la base de datos.
-
-			if (GamesWon1 == result) {
-				printf(result);
-				sprintf(answer, "11/%s", "Se ha actualizado la informacion de usuario");
-				
-			}
-			else {
-				sprintf(answer, "11/%s", "No se ha actualizado la informacion de usuario");
-				return 1;
-			}
-		}
+		strcpy(answer, "11/Se ha actualizado la informacion de usuario");
+		printf("Answer %s \n", answer);
+	
 	}
 	//Actualizamos las partidas jugadas tanto del ganador como del perdedor.
 	int GamesPlayed1 = GamesPlayed(loser, answer, conn, sock_conn) + 1;
@@ -195,7 +181,9 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 
 	//Actualizamos la informacion del perdedor.
 	sprintf(query, "INSERT INTO userDB(played) WHERE userDB.username = '%s' VALUES ('%d')", loser, GamesPlayed1);
+	printf("Query: %s \n", query);
 	err = mysql_query(conn, query);
+	printf("Error: %d \n", err);
 	//control de errores.
 	if (err != 0)
 	{
@@ -203,32 +191,15 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 		return 1;
 	}
 	else{
-		//Recogemos el resultado para comprovar si es correcto
-		result = mysql_store_result(conn);
-		row = mysql_fetch_row(result);
-
-		if (row == NULL) {
-
-			sprintf(answer, "11/%s", "No");
-			return 1;
-		}
-		else {//comprovamos que el resultado insertado és el mismo que hemos recogido de la base de datos.
-
-			if (GamesPlayed1 == result) {
-				printf(result);
-				sprintf(answer, "11/%s", "Se ha actualizado la informacion de usuario");
-
-			}
-			else {
-				sprintf(answer, "11/%s", "No se ha actualizado la informacion de usuario");
-				return 1;
-			}
-		}
+		strcpy(answer, "11/Se ha actualizado la informacion de usuario");
+		printf("Answer: %s\n", answer);
 	}
 
 	//Actualizamos la informacion del ganador.
 	sprintf(query, "INSERT INTO userDB(played) WHERE userDB.username = '%s' VALUES ('%d')", winner, GamesPlayed2);
+	printf("Query: %s \n", query);
 	err = mysql_query(conn, query);
+	printf("Error: %d \n",err);
 	//control de errores.
 	if (err != 0)
 	{
@@ -236,27 +207,9 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 		return 1;
 	}
 	else {
-		//Recogemos el resultado para comprovar si es correcto
-		result = mysql_store_result(conn);
-		row = mysql_fetch_row(result);
-
-		if (row == NULL) {
-
-			sprintf(answer, "11/%s", "No");
-			return 1;
-		}
-		else {//comprovamos que el resultado insertado és el mismo que hemos recogido de la base de datos.
-
-			if (GamesPlayed2 == result) {
-				printf(result);
-				sprintf(answer, "11/%s", "Se ha actualizado la informacion de usuario");
-
-			}
-			else {
-				sprintf(answer, "11/%s", "No se ha actualizado la informacion de usuario");
-				return 1;
-			}
-		}
+		strcpy(answer, "11/Se ha actualizado la informacion de usuario");
+		printf("Answer: %s\n", answer);
+		
 	}
 
 
@@ -281,26 +234,9 @@ void FinishGame(TGames Table, int idp, char loser[20], MYSQL* conn,int sock_conn
 		return 1;
 	}
 	else {
-		//Recogemos el resultado para comprovar si es correcto
-		result = mysql_store_result(conn);
-		row = mysql_fetch_row(result);
-
-		if (row == NULL) {
-
-			sprintf(answer, "11/%s", "No");
-			return 1;
-		}
-		else {//comprovamos que el resultado insertado és el mismo que hemos recogido de la base de datos.
-
-			if (GamesPlayed3 == result){
-				printf(result);
-				sprintf(answer, "11/%s", "Se ha actualizado la informacion de usuario");
-			}
-			else {
-				sprintf(answer, "11/%s", "No se ha actualizado la informacion de usuario");
-				return 1;
-			}
-		}
+		strcpy(answer, "11/Se ha actualizado la informacion de usuario");
+		printf("Answer: %s\n", answer);
+		
 	}
 	DeleteGame(Table, idp);
 
@@ -561,16 +497,19 @@ int GamesPlayed(char name[25], char answer[100], MYSQL *conn, int sock_conn){
 	if (err != 0)
 	{
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
+		return -1;
 	}
 	else{ //Recogemos el resultado de la consulta 
 		result = mysql_store_result(conn);
 		row = mysql_fetch_row(result);
 		if ( row == NULL ){
 			sprintf(answer,"3/this username is not registered yet");
+			return -1;
 		}
 		else {
 			printf("Ha jugado %s partidas.", row[0]);
 			sprintf(answer,"3/%s",row[0]);
+			return 0;
 		}
 	}	
 }
@@ -583,11 +522,15 @@ int GamesWon(char name[25],char answer[100],MYSQL *conn){
 	MYSQL_ROW row;
 	int GW;
 	char Query[500];
+	
 	sprintf(Query,"SELECT wins FROM userDB WHERE userDB.username = '%s'",name);
+	printf("La query: %s \n", Query);
 	int err = mysql_query(conn,Query);
+	printf("Error: %d \n", err);
 	if (err!= 0)
 	{
 		printf("Failure trying to connect to DataBase %u %s\n",mysql_errno(conn),mysql_error(conn));
+		return -1;
 	}
 	else{ //Recogemos el resultado de la consulta 
 			result = mysql_store_result(conn);
@@ -595,10 +538,15 @@ int GamesWon(char name[25],char answer[100],MYSQL *conn){
 		if ( row == NULL ){
 			printf(" hasta aqu  funciona\n");
 			sprintf(answer,"4/ this username is not registered yet");
+			return -1;
 		}
 		else {
 			printf("The winner is %s.\n",row[0]);
 			sprintf(answer,"4/%s",row[0]);
+			printf("Respuesta: %s \n", answer);
+			GW = atoi(row[0]);
+			printf("Juegos ganados: %d \n", GW);
+			return GW;
 		}
 	}	
 }
@@ -971,7 +919,9 @@ void *AtenderCliente (void *socket)
 					printf("Notificacion %s \n", notificacion);
 					write(Table[idp].user[j].socket, notificacion, strlen(notificacion));
 				}
+				pthread_mutex_lock(&mutex);
 				FinishGame(Table, idp, loser, conn, sock_conn);
+				pthread_mutex_unlock(&mutex);
 			}
 		}
 		//CODIGO 10

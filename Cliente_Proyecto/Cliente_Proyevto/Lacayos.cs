@@ -82,7 +82,7 @@ namespace Graficos_juego_OYSL
             new Cartas() {Nombre="Nieve", Image="nieve_caia.png", ID=50},
             new Cartas() {Nombre="Objetos", Image="objetos_sorprendentes.png", ID=51},
             new Cartas() {Nombre="Oro", Image="oro.png", ID=52},
-            new Cartas() {Nombre="Otro_Señor_Oscuro", Image="otro_señor_oscuro.png", ID=53},
+            new Cartas() {Nombre="Otro_Señor_Oscuro", Image="otro_senyor_oscuro.png", ID=53},
             new Cartas() {Nombre="Pantano", Image="pantano.png", ID=54},
             new Cartas() {Nombre="Pergamino", Image="pergamino_indescifrable.png", ID=55},
             new Cartas() {Nombre="Perversos", Image="perversos_sucubos.png", ID=56},

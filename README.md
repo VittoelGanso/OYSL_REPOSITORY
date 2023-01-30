@@ -26,3 +26,9 @@ Versión 5 verificada por Víctor
 Versión 5 comunicada por Júlia
 Versión 5 generada nuevamente por Mario
 URL Versión 5: https://drive.google.com/file/d/1GtrBBwXbwA_iHoFqoKTNsxhu8d2llzVs/view?usp=sharing
+
+Versión final generada por Victor
+Versión final verificada por Mario
+Versión final comunicada por Júlia
+Versión final generada nuevamente por Judit
+URL Versión final: https://drive.google.com/file/d/16aKSJfk8Q5JfdFDUWTRwqZnVYqhzVxIc/view?usp=share_link
